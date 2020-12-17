@@ -1,0 +1,20 @@
+# IDEs
+.idea
+.vscode
+
+# dependencies
+node_modules
+package-lock.json
+
+# config
+.env
+.env.staging
+src/options.js
+
+# docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# misc
+build
