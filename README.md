@@ -1,2 +1,2 @@
-# deleter-v2
-Deleter. Open source.
+# Deleter open source
+Open source version of DeleterBot.
