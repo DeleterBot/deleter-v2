@@ -18,3 +18,4 @@ docker-compose.yml
 
 # misc
 build
+dist
