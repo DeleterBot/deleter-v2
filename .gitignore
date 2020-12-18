@@ -10,6 +10,7 @@ package-lock.json
 .env
 .env.staging
 src/options.js
+src/options.ts
 
 # docker
 Dockerfile
@@ -19,3 +20,4 @@ docker-compose.yml
 # misc
 build
 dist
+nottsconfig.json
