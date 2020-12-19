@@ -1,7 +1,7 @@
 import 'module-alias/register'
 
 import Discord from 'discord.js'
-import ProcessEnv from "@/types/ProcessEnv";
+import ProcessEnv from './src/types/ProcessEnv'
 
 import DotEnv from 'dotenv'
 DotEnv.config()
