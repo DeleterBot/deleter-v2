@@ -1,4 +1,4 @@
-import Base from '../base/Base'
+import Base from './Base'
 import EventConfig from '../types/EventConfig'
 
 export default abstract class AbstractEvent extends Base implements EventConfig {

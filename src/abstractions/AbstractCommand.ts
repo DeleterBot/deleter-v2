@@ -1,4 +1,4 @@
-import Base from '../base/Base'
+import Base from './Base'
 import CommandConfig from '../types/CommandConfig'
 
 export default abstract class AbstractCommand extends Base implements CommandConfig {

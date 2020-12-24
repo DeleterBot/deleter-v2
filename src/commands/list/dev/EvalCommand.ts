@@ -1,5 +1,5 @@
 import 'module-alias/register'
-import BaseCommand from '@/base/BaseCommand'
+import BaseCommand from '@/abstractions/BaseCommand'
 import Discord from 'discord.js'
 import Axios from 'axios'
 

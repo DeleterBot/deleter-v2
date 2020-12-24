@@ -1,8 +1,8 @@
 import Discord from 'discord.js'
 import fs from 'fs'
 import { parse } from 'dot-properties'
-import BaseEvent from '../base/BaseEvent'
-import BaseCommand from '@/base/BaseCommand'
+import BaseEvent from '../abstractions/BaseEvent'
+import BaseCommand from '@/abstractions/BaseCommand'
 
 class Gatherer {
   constructor() {

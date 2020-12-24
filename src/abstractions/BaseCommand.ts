@@ -1,4 +1,4 @@
-import AbstractCommand from '../abstractions/AbstractCommand'
+import AbstractCommand from './AbstractCommand'
 import CommandConfig from '../types/CommandConfig'
 import Discord from 'discord.js'
 

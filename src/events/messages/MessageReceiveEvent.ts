@@ -1,5 +1,5 @@
 import Discord from 'discord.js'
-import BaseEvent from '@/base/BaseEvent'
+import BaseEvent from '@/abstractions/BaseEvent'
 
 export default class MessageReceiveEvent extends BaseEvent {
   constructor() {
