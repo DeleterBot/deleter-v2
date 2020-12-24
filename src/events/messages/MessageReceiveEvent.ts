@@ -1,5 +1,6 @@
 import Discord from 'discord.js'
 import BaseEvent from '@/abstractions/BaseEvent'
+import CommandsExecutionService from '@/services/CommandsExecutionService'
 
 export default class MessageReceiveEvent extends BaseEvent {
   constructor() {
@@ -9,7 +10,8 @@ export default class MessageReceiveEvent extends BaseEvent {
   }
 
   execute(msg: Discord.Message): any {
-    if (this.client.owner.includes(msg.author.id) && msg.content.startsWith('!lol'))
-      this.client.cache.commands.get('eval')?.execute(msg)
+    const commandsExecutionService = new CommandsExecutionService(msg)
+
+    commandsExecutionService.processCommand()
   }
 }

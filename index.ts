@@ -1,12 +1,12 @@
 import 'module-alias/register'
 
 import Discord from 'discord.js'
-import ProcessEnv from './src/types/ProcessEnv'
+import DeleterProcessEnv from '@/types/DeleterProcessEnv'
 
 import DotEnv from 'dotenv'
 DotEnv.config()
 
-const { TOTAL_SHARDS } = process.env as unknown as ProcessEnv
+const { TOTAL_SHARDS } = process.env as DeleterProcessEnv
 
 const ShardingManager = new Discord.ShardingManager('./dist/src/shard.js', {
   totalShards: parseInt(TOTAL_SHARDS) || 'auto'
