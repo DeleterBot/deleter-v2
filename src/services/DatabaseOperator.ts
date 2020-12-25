@@ -8,13 +8,17 @@ class DatabaseOperator extends BaseService {
   constructor() {
     super()
 
-    const { DB_CONNECTION_POINT } = process.env as DeleterProcessEnv
+    const { DB } = process.env as DeleterProcessEnv
 
     this.connection = new Cassandra.Client({
-      contactPoints: [ DB_CONNECTION_POINT ]
+      contactPoints: [ DB ],
+      localDataCenter: 'datacenter1',
+      keyspace: 'grocery'
     })
+  }
 
-    this.connection.connect()
+  public connect() {
+    return this.connection.connect()
   }
 
   public execute(query: string, params: Array<string>) {

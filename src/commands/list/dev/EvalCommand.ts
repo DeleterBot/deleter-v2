@@ -2,9 +2,6 @@ import 'module-alias/register'
 import BaseCommand from '@/abstractions/BaseCommand'
 import Discord from 'discord.js'
 import Axios from 'axios'
-import DatabaseOperator from '@/services/DatabaseOperator'
-
-const db = new DatabaseOperator()
 
 export default class EvalCommand extends BaseCommand {
   constructor() {
@@ -140,7 +137,7 @@ export default class EvalCommand extends BaseCommand {
           'g'
         ),
         wbTokenRegExp = new RegExp(
-          `${process.env.WBTOKEN}`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+          `${process.env.WBTOKEN ?? '__wbToken.D'}`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
           'g'
         )
 

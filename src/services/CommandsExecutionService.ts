@@ -15,6 +15,9 @@ export default class CommandsExecutionService extends BaseService {
     if (this.msg.author.bot) return
     if (this.msg.channel.type === 'dm') return
 
-
+    if (this.client.owner.includes(this.msg.author.id)) {
+      if (this.msg.content.startsWith('%e'))
+        this.client.cache.commands.get('eval')?.execute(this.msg)
+    }
   }
 }
