@@ -1,7 +1,7 @@
 {
   "name": "deleter-v2",
-  "version": "0.0.3",
-  "index": "./dist/index.js",
+  "version": "0.0.4",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "tsc --build tsconfig.json && echo \"success.\"",
     "start": "node ./dist/index.js"
