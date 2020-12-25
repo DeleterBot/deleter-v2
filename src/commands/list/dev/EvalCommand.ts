@@ -2,6 +2,9 @@ import 'module-alias/register'
 import BaseCommand from '@/abstractions/BaseCommand'
 import Discord from 'discord.js'
 import Axios from 'axios'
+import DatabaseOperator from '@/services/DatabaseOperator'
+
+const db = new DatabaseOperator()
 
 export default class EvalCommand extends BaseCommand {
   constructor() {

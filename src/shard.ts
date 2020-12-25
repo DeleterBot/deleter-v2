@@ -1,6 +1,6 @@
 import 'module-alias/register'
 
-import Deleter from '@/structures/Client'
+import DeleterClient from '@/structures/DeleterClient'
 import ProcessEnv from '@/types/DeleterProcessEnv'
 import DeleterClientOptions from '@/types/DeleterClientOptions'
 
@@ -11,7 +11,7 @@ try {
   options = require('@/options').default
 } catch (e) {} // eslint-disable-line no-empty
 
-const deleter = new Deleter(TOKEN, options)
+const deleter = new DeleterClient(TOKEN, options)
 deleter.load()
   .then(() => {
     console.log(`shard ${deleter.shard?.ids}: lol, work`)

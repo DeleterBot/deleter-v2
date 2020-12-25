@@ -1,7 +1,7 @@
-import Deleter from '@/structures/Client'
+import DeleterClient from '@/structures/DeleterClient'
 
 export default class Base {
-  public client: Deleter
+  public client: DeleterClient
 
   constructor() {
     // @ts-ignore

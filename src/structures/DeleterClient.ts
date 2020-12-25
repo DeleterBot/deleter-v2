@@ -5,7 +5,7 @@ import DeleterClientOptions from '@/types/DeleterClientOptions'
 import DeleterClientCache from '@/types/DeleterClientCache'
 import Gatherer from '@/services/GathererService'
 
-class Deleter extends Discord.Client {
+class DeleterClient extends Discord.Client {
   public token: string
   public owner: string | Array<string>
   // @ts-ignore
@@ -34,4 +34,4 @@ class Deleter extends Discord.Client {
   }
 }
 
-export default Deleter
+export default DeleterClient
