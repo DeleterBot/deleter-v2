@@ -1,5 +1,6 @@
 import Cassandra from 'cassandra-driver'
 import BaseService from '@/abstractions/BaseService'
+import DeleterProcessEnv from '@/types/DeleterProcessEnv'
 
 class DatabaseOperator extends BaseService {
   public connection: Cassandra.Client
@@ -7,8 +8,10 @@ class DatabaseOperator extends BaseService {
   constructor() {
     super()
 
+    const { DB_CONNECTION_POINT } = process.env as DeleterProcessEnv
+
     this.connection = new Cassandra.Client({
-      contactPoints: [ 'localhost' ]
+      contactPoints: [ DB_CONNECTION_POINT ]
     })
 
     this.connection.connect()
