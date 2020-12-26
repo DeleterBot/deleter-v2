@@ -1,5 +1,3 @@
-import 'module-alias/register'
-
 import BaseService from '@/abstractions/BaseService'
 import Discord from 'discord.js'
 

@@ -1,5 +1,3 @@
-import 'module-alias/register'
-
 import Discord from 'discord.js'
 import DeleterClientOptions from '@/types/DeleterClientOptions'
 import DeleterClientCache from '@/types/DeleterClientCache'

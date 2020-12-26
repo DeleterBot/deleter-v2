@@ -11,6 +11,7 @@ package-lock.json
 .env.staging
 src/options.js
 src/options.ts
+secure-connect-deleterdb.zip
 
 # docker
 Dockerfile

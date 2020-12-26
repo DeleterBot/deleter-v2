@@ -8,12 +8,16 @@ class DatabaseOperator extends BaseService {
   constructor() {
     super()
 
-    const { DB } = process.env as DeleterProcessEnv
+    const { DB_USRN, DB_PSWD } = process.env as DeleterProcessEnv
 
     this.connection = new Cassandra.Client({
-      contactPoints: [ DB ],
-      localDataCenter: 'datacenter1',
-      keyspace: 'grocery'
+      cloud: {
+        secureConnectBundle: './secure-connect-deleterdb.zip'
+      },
+      credentials: {
+        username: DB_USRN,
+        password: DB_PSWD
+      }
     })
   }
 

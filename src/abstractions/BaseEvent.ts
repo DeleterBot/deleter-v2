@@ -1,5 +1,3 @@
-import 'module-alias/register'
-
 import AbstractEvent from '@/abstractions/AbstractEvent'
 import EventConfig from '@/types/EventConfig'
 
