@@ -1,6 +1,6 @@
 import Cassandra from 'cassandra-driver'
 import BaseService from '@/abstractions/BaseService'
-import DeleterProcessEnv from '@/types/DeleterProcessEnv'
+import DeleterProcessEnv from '@/types/deleter/DeleterProcessEnv'
 
 class DatabaseOperator extends BaseService {
   public connection: Cassandra.Client

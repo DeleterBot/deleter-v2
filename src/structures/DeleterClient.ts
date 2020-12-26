@@ -1,6 +1,6 @@
 import Discord from 'discord.js'
-import DeleterClientOptions from '@/types/DeleterClientOptions'
-import DeleterClientCache from '@/types/DeleterClientCache'
+import DeleterClientOptions from '@/types/deleter/DeleterClientOptions'
+import DeleterClientCache from '@/types/deleter/DeleterClientCache'
 import Gatherer from '@/services/GathererService'
 import DatabaseOperator from '@/services/DatabaseOperator'
 

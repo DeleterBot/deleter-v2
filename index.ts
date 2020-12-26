@@ -1,7 +1,7 @@
 import 'module-alias/register'
 
 import Discord from 'discord.js'
-import DeleterProcessEnv from '@/types/DeleterProcessEnv'
+import DeleterProcessEnv from '@/types/deleter/DeleterProcessEnv'
 
 import DotEnv from 'dotenv'
 DotEnv.config()

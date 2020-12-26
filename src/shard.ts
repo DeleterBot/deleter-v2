@@ -1,8 +1,8 @@
 import 'module-alias/register'
 
 import DeleterClient from '@/structures/DeleterClient'
-import DeleterProcessEnv from '@/types/DeleterProcessEnv'
-import DeleterClientOptions from '@/types/DeleterClientOptions'
+import DeleterProcessEnv from '@/types/deleter/DeleterProcessEnv'
+import DeleterClientOptions from '@/types/deleter/DeleterClientOptions'
 
 const { TOKEN } = process.env as DeleterProcessEnv
 let options: DeleterClientOptions | undefined

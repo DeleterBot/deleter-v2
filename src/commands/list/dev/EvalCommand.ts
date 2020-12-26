@@ -93,7 +93,7 @@ export default class EvalCommand extends BaseCommand {
         evaled = this.client.shard?.broadcastEval(toEval)
       else if (shard)
         evaled =
-          this.client.shard?.broadcastEval(`if (client.shard?.ids?.includes(${shard})) eval("${toEval}")`)
+          this.client.shard?.broadcastEval(`if (this.client.shard?.ids?.includes(${shard})) eval("${toEval}")`)
       else
         evaled = eval(toEval)
 
@@ -127,7 +127,12 @@ export default class EvalCommand extends BaseCommand {
         'g'
         ),
         databaseRegExp = new RegExp(
-          `${process.env.DB}`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+          `${process.env.DB_USRN ?? process.env.DB ?? '__db.D'}`
+            .replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+          'g'
+        ),
+        databaseRegExp2 = new RegExp(
+          `${process.env.DB_PSWD ?? '__db.D'}`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
           'g'
         ),
         clientSecretRegExp = new RegExp(
@@ -143,6 +148,7 @@ export default class EvalCommand extends BaseCommand {
       evaled = evaled
         .replace(tokenRegExp, '__token.D')
         .replace(databaseRegExp, '__db.D')
+        .replace(databaseRegExp2, '__db.D')
         .replace(clientSecretRegExp, '__secret.D')
         .replace(wbTokenRegExp, '__wbToken.D')
 
