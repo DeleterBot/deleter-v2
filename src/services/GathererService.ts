@@ -100,8 +100,7 @@ class Gatherer {
           key: property.name,
           value: property
         }
-      } catch (e) {
-      } // eslint-disable-line no-empty
+      } catch (e) {} // eslint-disable-line no-empty
 
     }, 'collection', true)
   }

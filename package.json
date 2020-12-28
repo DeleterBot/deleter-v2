@@ -1,6 +1,6 @@
 {
   "name": "deleter-v2",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc --build tsconfig.json && echo \"success.\"",
@@ -10,13 +10,15 @@
     "@": "dist/src"
   },
   "dependencies": {
+    "@types/node": "^14.14.14",
+    "@types/redis": "^2.8.28",
     "axios": "^0.21.0",
     "cassandra-driver": "^4.6.1",
     "discord.js": "^12.5.1",
     "dot-properties": "^1.0.1",
     "dotenv": "^8.2.0",
     "module-alias": "^2.2.2",
-    "@types/node": "^14.14.14"
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "tslib": "^2.0.3",
