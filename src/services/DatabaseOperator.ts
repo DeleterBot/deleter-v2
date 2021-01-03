@@ -2,7 +2,10 @@ import Cassandra from 'cassandra-driver'
 import BaseService from '@/abstractions/BaseService'
 import DeleterProcessEnv from '@/types/deleter/DeleterProcessEnv'
 import CachingService from '@/services/CachingService'
-import DatabaseGetOptions from '@/types/DatabaseGetOptions'
+import DatabaseGetOptions from '@/types/database/DatabaseGetOptions'
+import DatabaseUpdateOptions from '@/types/database/DatabaseUpdateOptions'
+
+const { DB_KEYSPACE } = process.env as DeleterProcessEnv
 
 class DatabaseOperator extends BaseService {
   public connection: Cassandra.Client
@@ -37,11 +40,17 @@ class DatabaseOperator extends BaseService {
       if (cache) return cache
     }
 
-    const { DB_KEYSPACE } = process.env as DeleterProcessEnv
-
     return this.execute(
       `SELECT ${options.selector || '*'} FROM ${DB_KEYSPACE}.${table} WHERE id = '${id}'`
     )
+  }
+
+  public async update(table: string, id: string, data: Record<string, any>, options: DatabaseUpdateOptions = {}) {
+
+    let query: string = `UPDATE ${DB_KEYSPACE}.${table} `
+
+    if (!options.upsert) query += ` IF EXISTS`
+
   }
 
   public execute(query: string, params?: Array<string>) {

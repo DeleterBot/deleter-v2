@@ -8,10 +8,10 @@ DotEnv.config()
 
 const { TOTAL_SHARDS } = process.env as DeleterProcessEnv
 
-const ShardingManager = new Discord.ShardingManager('./dist/src/shard.js', {
+const shardingManager = new Discord.ShardingManager('./dist/src/shard.js', {
   totalShards: parseInt(TOTAL_SHARDS) || 'auto'
 })
 
-ShardingManager.spawn()
+shardingManager.spawn()
 
 process.on('unhandledRejection', (reason: string) => console.error(reason))

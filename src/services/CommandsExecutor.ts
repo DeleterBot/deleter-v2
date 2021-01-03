@@ -3,7 +3,7 @@ import Discord from 'discord.js'
 import Guild from '@/structures/Guild'
 
 export default class CommandsExecutor extends BaseService {
-  private readonly msg: Discord.Message
+  public readonly msg: Discord.Message
 
   constructor(msg: Discord.Message) {
     super()
@@ -13,10 +13,9 @@ export default class CommandsExecutor extends BaseService {
   async processCommand() {
     if (this.msg.author.bot) return
     if (this.msg.channel.type === 'dm') return
-    if (!this.msg.guild) return
 
-    const guildData = await this.client.db.get('guilds', this.msg.guild.id)
-    const guild = new Guild(this.msg.guild, guildData.rows[0])
+    const guildData = await this.client.db.get('guilds', this.msg.guild!.id)
+    const guild = new Guild(this.msg.guild!, guildData.rows[0])
 
     if (this.client.owner.includes(this.msg.author.id)) {
       if (this.msg.content.startsWith(guild.prefix + 'e'))
