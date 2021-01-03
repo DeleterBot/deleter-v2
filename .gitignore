@@ -12,6 +12,7 @@ package-lock.json
 src/options.js
 src/options.ts
 secure-connect-deleterdb.zip
+redis.conf
 
 # docker
 Dockerfile
