@@ -2,6 +2,7 @@ import Cassandra from 'cassandra-driver'
 import BaseService from '@/abstractions/BaseService'
 import DeleterProcessEnv from '@/types/deleter/DeleterProcessEnv'
 import CachingService from '@/services/CachingService'
+import DatabaseGetOptions from '@/types/DatabaseGetOptions'
 
 class DatabaseOperator extends BaseService {
   public connection: Cassandra.Client
@@ -29,15 +30,21 @@ class DatabaseOperator extends BaseService {
     return this.connection.connect()
   }
 
-  public async get(keyspace: string, id: string) {
+  public async get(table: string, id: string, options: DatabaseGetOptions = {}) {
 
-    const cache = await this.cache.get(id)
-    if (this.cache.get(id))
+    if (!options.escapeCache) {
+      const cache = await this.cache.get(id)
+      if (cache) return cache
+    }
 
-    return this.connection.execute(`SELECT * FROM ${keyspace} WHERE id = ${id}`)
+    const { DB_KEYSPACE } = process.env as DeleterProcessEnv
+
+    return this.execute(
+      `SELECT ${options.selector || '*'} FROM ${DB_KEYSPACE}.${table} WHERE id = '${id}'`
+    )
   }
 
-  public execute(query: string, params: Array<string>) {
+  public execute(query: string, params?: Array<string>) {
     return this.connection.execute(query, params)
   }
 }

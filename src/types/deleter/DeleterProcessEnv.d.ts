@@ -3,6 +3,7 @@ export default interface DeleterProcessEnv extends NodeJS.ProcessEnv {
   TOTAL_SHARDS: string,
   DB_USRN: string,
   DB_PSWD: string,
+  DB_KEYSPACE: string,
   REDIS_PORT: number,
   REDIS_HOST: string
 }

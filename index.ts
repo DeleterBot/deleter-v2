@@ -1,4 +1,4 @@
-import 'module-alias/register'
+import 'module-alias/register.js'
 
 import Discord from 'discord.js'
 import DeleterProcessEnv from '@/types/deleter/DeleterProcessEnv'
@@ -13,3 +13,5 @@ const ShardingManager = new Discord.ShardingManager('./dist/src/shard.js', {
 })
 
 ShardingManager.spawn()
+
+process.on('unhandledRejection', (reason: string) => console.error(reason))

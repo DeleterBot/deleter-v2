@@ -1,4 +1,4 @@
-import 'module-alias/register'
+import 'module-alias/register.js'
 
 import DeleterClient from '@/structures/DeleterClient'
 import DeleterProcessEnv from '@/types/deleter/DeleterProcessEnv'
@@ -16,3 +16,5 @@ deleter.load()
   .then(() => {
     console.log(`shard ${deleter.shard?.ids}: lol, work`)
   })
+
+process.on('unhandledRejection', (reason: string) => console.error(reason))

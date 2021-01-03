@@ -1,6 +1,6 @@
 import Discord from 'discord.js'
 import BaseEvent from '@/abstractions/BaseEvent'
-import CommandsExecutionService from '@/services/CommandsExecutionService'
+import CommandsExecutor from '@/services/CommandsExecutor'
 
 export default class MessageReceiveEvent extends BaseEvent {
   constructor() {
@@ -10,8 +10,8 @@ export default class MessageReceiveEvent extends BaseEvent {
   }
 
   execute(msg: Discord.Message): any {
-    const commandsExecutionService = new CommandsExecutionService(msg)
+    const commandsExecutor = new CommandsExecutor(msg)
 
-    commandsExecutionService.processCommand()
+    commandsExecutor.processCommand()
   }
 }
