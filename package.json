@@ -8,7 +8,8 @@
     "start": "node ./dist/index.js"
   },
   "_moduleAliases": {
-    "@": "dist/src"
+    "@": "dist/src",
+    "@deleter": "dist/src"
   },
   "dependencies": {
     "@types/node": "^14.14.14",

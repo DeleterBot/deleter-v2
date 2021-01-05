@@ -1,5 +1,5 @@
 import AbstractCommand from './AbstractCommand'
-import CommandConfig from '../types/CommandConfig'
+import CommandConfig from '../types/commands/CommandConfig'
 import Discord from 'discord.js'
 
 export default abstract class BaseCommand extends AbstractCommand {

@@ -6,7 +6,6 @@ export default class Base {
   public errFn = (err: any) => console.error(err)
 
   constructor() {
-    // @ts-ignore
     this.client = global.client
   }
 }

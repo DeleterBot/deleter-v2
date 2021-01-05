@@ -5,7 +5,19 @@ import Axios from 'axios'
 export default class EvalCommand extends BaseCommand {
   constructor() {
     super('@deleter.commands.list.dev.EvalCommand', {
-      name: 'eval'
+      name: 'eval',
+      ru: {
+        name: 'eval',
+        aliases: [ 'e', 'э' ]
+      },
+      en: {
+        name: 'eval',
+        aliases: [ 'e' ]
+      },
+      gg: {
+        name: 'eval',
+        aliases: [ 'e' ]
+      },
     })
   }
 

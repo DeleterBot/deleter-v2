@@ -61,9 +61,12 @@ class Gatherer {
         delete require.cache[commandPath]
         const comm = require(commandPath)?.default
         const newCommand = new comm()
-        if (newCommand.name) return {
-          key: newCommand.name,
-          value: newCommand
+        if (newCommand.name) {
+          delete newCommand.execute
+          return {
+            key: newCommand.name,
+            value: newCommand
+          }
         }
       }
 
