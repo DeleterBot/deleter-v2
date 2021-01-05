@@ -1,3 +1,4 @@
 export default interface AbstractDatabaseOperationOptions {
-  escapeCache?: boolean
+  escapeCache?: boolean,
+  params?: Array<string>
 }

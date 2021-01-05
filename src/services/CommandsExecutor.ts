@@ -15,7 +15,7 @@ export default class CommandsExecutor extends BaseService {
     if (this.msg.channel.type === 'dm') return
 
     const guildData = await this.client.db.get('guilds', this.msg.guild!.id)
-    const guild = new Guild(this.msg.guild!, guildData.rows[0])
+    const guild = new Guild(this.msg.guild!, typeof guildData !== 'string' ? guildData : undefined)
 
     if (this.client.owner.includes(this.msg.author.id)) {
       if (this.msg.content.startsWith(guild.prefix + 'e'))
