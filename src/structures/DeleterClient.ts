@@ -19,7 +19,6 @@ class DeleterClient extends Discord.Client {
   }
 
   load() {
-    // @ts-ignore
     global.client = this
 
     this.cache = {

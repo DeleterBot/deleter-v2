@@ -1,6 +1,5 @@
 import Redis from 'redis'
 import BaseService from '@/abstractions/BaseService'
-import DeleterProcessEnv from '@/types/deleter/DeleterProcessEnv'
 import { promisify } from 'util'
 import DeleterDatabaseCache from '@/types/deleter/DeleterDatabaseCache'
 
@@ -14,7 +13,7 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
   constructor() {
     super()
 
-    const { REDIS_HOST, REDIS_PORT } = process.env as DeleterProcessEnv
+    const { REDIS_HOST, REDIS_PORT } = process.env
 
     this.connection = Redis.createClient({
       host: REDIS_HOST,

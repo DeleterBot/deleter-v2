@@ -1,13 +1,12 @@
 import Cassandra from 'cassandra-driver'
 import BaseService from '@/abstractions/BaseService'
-import DeleterProcessEnv from '@/types/deleter/DeleterProcessEnv'
 import CachingService from '@/services/CachingService'
 import DatabaseGetOptions from '@/types/database/DatabaseGetOptions'
 import DatabaseUpdateOptions from '@/types/database/DatabaseUpdateOptions'
 import DatabaseDeleteOptions from '@/types/database/DatabaseDeleteOptions'
 import { inspect } from 'util'
 
-const { DB_KEYSPACE } = process.env as DeleterProcessEnv
+const { DB_KEYSPACE } = process.env
 
 class DatabaseOperator extends BaseService {
   public connection: Cassandra.Client
@@ -16,7 +15,7 @@ class DatabaseOperator extends BaseService {
   constructor() {
     super()
 
-    const { DB_USRN, DB_PSWD } = process.env as DeleterProcessEnv
+    const { DB_USRN, DB_PSWD } = process.env
 
     this.connection = new Cassandra.Client({
       cloud: {

@@ -1,10 +1,12 @@
 import 'module-alias/register.js'
 
 import DeleterClient from '@/structures/DeleterClient'
-import DeleterProcessEnv from '@/types/deleter/DeleterProcessEnv'
 import DeleterClientOptions from '@/types/deleter/DeleterClientOptions'
+import Discord from 'discord.js'
 
-const { TOKEN } = process.env as DeleterProcessEnv
+global.Discord = Discord
+
+const { TOKEN } = process.env
 let options: DeleterClientOptions | undefined
 
 try {
