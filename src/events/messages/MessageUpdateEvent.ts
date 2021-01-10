@@ -9,8 +9,11 @@ export default class MessageUpdateEventEvent extends BaseEvent {
     })
   }
 
-  execute(_: any, msg: Discord.Message): any {
-    const commandsExecutor = new CommandsExecutor(msg)
+  execute(oldM: Discord.Message, newM: Discord.Message): any {
+    // @ts-ignore
+    if (oldM.replyedTo) newM.replyedTo = oldM.replyedTo
+
+    const commandsExecutor = new CommandsExecutor(newM)
 
     commandsExecutor.processCommand()
   }

@@ -56,7 +56,7 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
     return this.delAsync(key)
   }
 
-  public exist(key: string): Promise<boolean> {
+  public exists(key: string): Promise<boolean> {
     return this.xstAsync(key)
   }
 }

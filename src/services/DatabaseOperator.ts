@@ -5,6 +5,7 @@ import DatabaseGetOptions from '@/types/database/DatabaseGetOptions'
 import DatabaseUpdateOptions from '@/types/database/DatabaseUpdateOptions'
 import DatabaseDeleteOptions from '@/types/database/DatabaseDeleteOptions'
 import { inspect } from 'util'
+import DatabaseFindOptions from '@/types/database/DatabaseFindOptions'
 
 const { DB_KEYSPACE } = process.env
 
@@ -34,8 +35,10 @@ class DatabaseOperator extends BaseService {
 
   public async get(table: string, id: string, options: DatabaseGetOptions = {}) {
 
+    const cacheKey = `${table}:${id}`
+
     if (!options.escapeCache) {
-      const cache = await this.cache.get(id)
+      const cache = await this.cache.get(cacheKey)
       if (cache) return cache
     }
 
@@ -48,11 +51,14 @@ class DatabaseOperator extends BaseService {
     if (options.array) return data.rows
 
     if (!options.escapeCache && !options.selector)
-      this.cache.set(id, data.rows[0] ?? '')
+      this.cache.set(cacheKey, data.rows[0] ?? '')
         .catch(e => console.error(e))
 
     return data.rows[0]
   }
+
+  // TODO: database find method
+  public async find(table: string, what: string, id: string, options: DatabaseFindOptions = {}) {}
 
   public async update(table: string, id: string, data: Record<string, any>, options: DatabaseUpdateOptions = {}) {
 
@@ -70,12 +76,13 @@ class DatabaseOperator extends BaseService {
     if (!options.upsert && options.condition) query += ` ${options.condition}`
 
     const result = await this.execute(query, options.params)
+    const cacheKey = `${table}:${id}`
 
     if (!options.escapeCache) {
-      const isCached: boolean = await this.cache.exist(id)
+      const isCached: boolean = await this.cache.exists(cacheKey)
         .catch((e) => { console.error(e); return false })
 
-      if (isCached) await this.cache.del(id)
+      if (isCached) await this.cache.del(cacheKey)
         .catch(this.errFn)
     }
 
@@ -101,7 +108,7 @@ class DatabaseOperator extends BaseService {
     const data = await this.execute(query, options.params)
 
     if (!options.escapeCache)
-      await this.cache.del(id)
+      await this.cache.del(`${table}:${id}`)
         .catch(this.errFn)
 
     return data

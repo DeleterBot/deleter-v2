@@ -1,6 +1,8 @@
 import AbstractCommand from './AbstractCommand'
-import CommandConfig from '../types/commands/CommandConfig'
+import CommandConfig from '@/types/commands/CommandConfig'
 import Discord from 'discord.js'
+import Info from '@/types/Info'
+import CommandExecutionResult from '@/structures/CommandExecutionResult'
 
 export default abstract class BaseCommand extends AbstractCommand {
   public readonly path: string
@@ -11,5 +13,5 @@ export default abstract class BaseCommand extends AbstractCommand {
     this.path = path
   }
 
-  abstract execute(msg: Discord.Message): any
+  abstract execute(msg: Discord.Message, info: Info): CommandExecutionResult | Promise<CommandExecutionResult>
 }

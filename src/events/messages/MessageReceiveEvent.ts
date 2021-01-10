@@ -12,6 +12,8 @@ export default class MessageReceiveEvent extends BaseEvent {
   execute(msg: Discord.Message): any {
     const commandsExecutor = new CommandsExecutor(msg)
 
+    msg.guild?.me?.user.toString()
+
     commandsExecutor.processCommand()
   }
 }

@@ -1,6 +1,8 @@
 import BaseCommand from '@/abstractions/BaseCommand'
 import Discord from 'discord.js'
 import Axios from 'axios'
+import Info from '@/types/Info'
+import CommandExecutionResult from '@/structures/CommandExecutionResult'
 
 export default class EvalCommand extends BaseCommand {
   constructor() {
@@ -8,7 +10,7 @@ export default class EvalCommand extends BaseCommand {
       name: 'eval',
       ru: {
         name: 'eval',
-        aliases: [ 'e', 'э' ]
+        aliases: [ 'e' ]
       },
       en: {
         name: 'eval',
@@ -18,15 +20,12 @@ export default class EvalCommand extends BaseCommand {
         name: 'eval',
         aliases: [ 'e' ]
       },
+      customPermissions: [ 'OWNER' ]
     })
   }
 
-// @ts-ignore
-  async execute(msg: Discord.Message, info: Record<string, any> = {}): any {
+  async execute(msg: Discord.Message, info: Info): Promise<CommandExecutionResult> {
 
-    if (!this.client.owner?.includes(msg.author.id)) return
-    // const ResultsHandler = require('../../../util/ResultsHandler')
-    info.args = msg.content.split(/ +/g).slice(1)
     try {
 
       let toEval = info.args.join(' '),
@@ -34,7 +33,7 @@ export default class EvalCommand extends BaseCommand {
         shell = false, everywhere = false, shard: string | boolean = false, api = false,
         more = false
 
-      if (!toEval) return msg.reply('bruh')
+      if (!toEval) return new CommandExecutionResult('bruh').setReply(true)
 
       toEval = toEval
         .replace(/(```(.+)?)?/g, '')
@@ -62,7 +61,7 @@ export default class EvalCommand extends BaseCommand {
           shell = true
           return ''
         })
-        .replace(/(--more)|(--m)/g, () => {
+        .replace(/(--more)/g, () => {
           more = true
           return ''
         })
@@ -70,8 +69,8 @@ export default class EvalCommand extends BaseCommand {
           everywhere = true
           return ''
         })
-        .replace(/(--shard=[0-9]+)/g, (match: string) => {
-          shard = match.replace(/[^0-9]/g, '')
+        .replace(/(--shard=([0-9]+|any))/g, (match: string) => {
+          shard = match.replace(/([^0-9]+|^any)/g, '')
           return ''
         })
 
@@ -82,43 +81,54 @@ export default class EvalCommand extends BaseCommand {
       let before = process.hrtime.bigint()
 
       let evaled
-      if (shell)
+      if (shell) {
         evaled = require('child_process').execSync(toEval, { encoding: 'utf-8' })
-      else if (api) {
+
+      } else if (api) {
+
         const port = process.env.API_PORT ?? 8379
         const address = process.env.API_ADDRESS ?? 'localhost'
         const path = process.env.API_PATH ?? ''
         const endpoint = `${address}:${port}${path}/private/eval`
-        evaled = Axios.post(endpoint, {
-          toEval: toEval
-        }, {
-          headers: {
-            'Authorization': this.client.token
-          }
-        })
-          .then((r: any) => r.text)
-          .catch((e: any) => {
+
+        evaled = Axios.post(
+          endpoint,
+          { toEval: toEval },
+          { headers: { 'Authorization': this.client.token } }
+          )
+          .then((r) => r.data.toString())
+          .catch((e) => {
             if (e.response?.text) throw new Error(e.response.text)
             else throw e
           })
-      } else if (everywhere)
-        evaled = this.client.shard?.broadcastEval(toEval)
-      else if (shard)
-        evaled =
-          this.client.shard?.broadcastEval(`if (this.client.shard?.ids?.includes(${shard})) eval("${toEval}")`)
-      else
-        evaled = eval(toEval)
 
-      if (noReply) return msg.react('😎')
+      } else if (everywhere) {
+        evaled = this.client.shard?.broadcastEval(toEval)
+
+      } else if (shard) {
+
+        if (shard !== 'any')
+          evaled =
+            this.client.shard?.broadcastEval(`if (this.shard?.ids?.includes(${shard})) eval("${toEval}")`)
+        else
+          evaled = this.client.shard?.broadcastEval(`if (true) eval("${toEval}")`)
+
+      } else evaled = eval(toEval)
+
+      if (noReply) return new CommandExecutionResult('😎').setReact(true)
 
       if (require('util').types.isPromise(evaled)) evaled = await evaled
 
       let after = process.hrtime.bigint()
 
-      if (shard) evaled = evaled[shard]
+      if (shard) {
+        if (shard === 'any') {
+          evaled = evaled.filter((e: any) => e)
+        } else evaled = evaled[shard]
+      }
 
       if (typeof evaled !== 'string') evaled = require('util').inspect(evaled, {
-        depth: more ? undefined : 0
+        depth: more ? 2 : 0
       })
 
       if (evaled === 'undefined' || evaled === 'null' || evaled === '') evaled = '\nEmpty Response'
@@ -165,17 +175,21 @@ export default class EvalCommand extends BaseCommand {
         .replace(wbTokenRegExp, '__wbToken.D')
 
       const code = shell ? 'xl' : 'js'
+      const result = new CommandExecutionResult(evaled).setOptions({ code: code })
 
-      if (all) { // @ts-ignore
-        msg.channel.send(evaled, { code: code, split: '\n' })
-      } else msg.channel.send(evaled, { code: code })
+      if (all) {
+        return result.amendOptions({
+          split: {
+            char: '\n'
+          }
+        })
+      } else return result
 
     } catch (e) {
       let err = `${e.name}\n${e.message}`
       if (err.length >= 1980) err = err.slice(0, 1980) + '...'
-      msg.reply(err)
+      return new CommandExecutionResult(err).setReply(true)
     }
-
 
   }
 }
