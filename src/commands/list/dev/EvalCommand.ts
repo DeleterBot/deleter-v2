@@ -10,15 +10,29 @@ export default class EvalCommand extends BaseCommand {
       name: 'eval',
       ru: {
         name: 'eval',
-        aliases: [ 'e' ]
+        aliases: [ 'e' ],
       },
       en: {
         name: 'eval',
-        aliases: [ 'e' ]
+        aliases: [ 'e' ],
       },
       gg: {
         name: 'eval',
-        aliases: [ 'e' ]
+        aliases: [ 'e' ],
+      },
+      flags: {
+        'n': 'noReply',
+        'nr': 'noReply',
+        'noreply': 'noReply',
+        'e': 'everywhere',
+        'everywhere': 'everywhere',
+        'l': 'last',
+        'last': 'last',
+        'api': 'api',
+        'all': 'all',
+        'more': 'more',
+        'shell': 'shell',
+        'async': 'isAsync'
       },
       customPermissions: [ 'OWNER' ]
     })
@@ -28,47 +42,13 @@ export default class EvalCommand extends BaseCommand {
 
     try {
 
-      let toEval = info.args.join(' '),
-        isAsync = false, noReply = false, last = false, all = false,
-        shell = false, everywhere = false, shard: string | boolean = false, api = false,
-        more = false
+      let toEval = info.args.join(' '), shard: string | boolean = false
+      let { isAsync, noReply, last, all, shell, everywhere, api, more } = info.flags
 
       if (!toEval) return new CommandExecutionResult('bruh').setReply(true)
 
       toEval = toEval
         .replace(/(```(.+)?)?/g, '')
-        .replace('+async', () => {
-          isAsync = true
-          return ''
-        })
-        .replace(/(--noreply)|(--n)/g, () => {
-          noReply = true
-          return ''
-        })
-        .replace(/(--last)|(--l)/g, () => {
-          last = true
-          return ''
-        })
-        .replace(/(--all)/g, () => {
-          all = true
-          return ''
-        })
-        .replace(/(--api)/g, () => {
-          api = true
-          return ''
-        })
-        .replace(/(--shell)/g, () => {
-          shell = true
-          return ''
-        })
-        .replace(/(--more)/g, () => {
-          more = true
-          return ''
-        })
-        .replace(/(--everywhere)|(--e)/g, () => {
-          everywhere = true
-          return ''
-        })
         .replace(/(--shard=([0-9]+|any))/g, (match: string) => {
           shard = match.replace(/([^0-9]+|^any)/g, '')
           return ''

@@ -39,16 +39,15 @@ export default class CommandsHandlerLevel1 extends BaseService {
       prefix === nowPrefix.trim() ?
         mentionPrefix.slice(prefix.length + 1) :
         this.msg.content.slice(prefix.length)
-    const args = content.split(/ +/)
+    let args = content.split(/ +/)
     const maybeCommand = args.shift()?.toLowerCase()
 
-    const Command = commandsFinder.find(maybeCommand as string, this.guild.lang.commands)
-    if (Command) {
-      // @ts-ignore
-      const command = new Command()
+    let command = commandsFinder.find(maybeCommand as string, this.guild.lang.commands)
+    if (command) {
 
       this.info.guild = this.guild
       this.info.args = args
+      this.info.flags = {}
 
       const commandsHandler = new CommandsHandlerLevel2(
         this.msg as DeleterCommandMessage,

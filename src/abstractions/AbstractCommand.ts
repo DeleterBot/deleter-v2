@@ -6,6 +6,7 @@ import DeleterCustomPermissions from '@/types/deleter/DeleterCustomPermissions'
 
 export default abstract class AbstractCommand extends Base implements CommandConfig {
   public name: string
+  public flags: Record<string, string> | undefined
 
   public clientPermissions: Discord.BitFieldResolvable<any> | undefined
   public memberPermissions: Discord.BitFieldResolvable<any> | undefined
@@ -18,6 +19,7 @@ export default abstract class AbstractCommand extends Base implements CommandCon
   protected constructor(config: CommandConfig) {
     super()
     this.name = config?.name
+    this.flags = config?.flags
 
     this.clientPermissions = config?.clientPermissions
     this.memberPermissions = config?.memberPermissions

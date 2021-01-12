@@ -27,7 +27,8 @@ export default class CommandsFinder {
 
     if (!command) command = this.findUsingAlias(nameOrAlias, lang)
 
-    if (command) return command
+    // @ts-ignore
+    if (command) return new command()
     return null
   }
 }

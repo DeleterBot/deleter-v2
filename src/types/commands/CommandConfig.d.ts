@@ -4,7 +4,8 @@ import DeleterCustomPermissions from '@/types/deleter/DeleterCustomPermissions'
 
 export default interface CommandConfig {
   name: string,
-  memberPermissions?: Discord.BitFieldResolvable<any>,
+  flags?: Record<string, string>
+  memberPermissions?: Discord.BitFieldResolvable<any>
   clientPermissions?: Discord.BitFieldResolvable<any>
   customPermissions?: DeleterCustomPermissions
   ru: CommandDetails,

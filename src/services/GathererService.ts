@@ -62,10 +62,16 @@ class Gatherer {
         const comm = require(commandPath)?.default
         const newCommand = new comm()
         if (newCommand.name) {
-          delete newCommand.execute
+          const result = {
+            name: newCommand.name,
+            ru: newCommand.ru,
+            en: newCommand.en,
+            gg: newCommand.gg,
+            path: newCommand.path
+          }
           return {
-            key: newCommand.name,
-            value: newCommand
+            key: result.name,
+            value: result
           }
         }
       }
@@ -83,9 +89,19 @@ class Gatherer {
         delete require.cache[subCommandPath]
         const subComm = require(subCommandPath)?.default
         const newSubCommand = new subComm()
-        if (newSubCommand.name && newSubCommand.path) return {
-          key: newSubCommand.path,
-          value: newSubCommand
+        if (newSubCommand.name && newSubCommand.path && newSubCommand.slaveOf) {
+          const result = {
+            name: newSubCommand.name,
+            slaveOf: newSubCommand.slaveOf,
+            ru: newSubCommand.ru,
+            en: newSubCommand.en,
+            gg: newSubCommand.gg,
+            path: newSubCommand.path
+          }
+          return {
+            key: result.path,
+            value: result
+          }
         }
       }
 

@@ -23,7 +23,8 @@ class DeleterClient extends Discord.Client {
 
     this.cache = {
       commands: Gatherer.loadCommands(),
-      events: Gatherer.loadEvents()
+      events: Gatherer.loadEvents(),
+      subCommands: Gatherer.loadSubCommands()
     }
 
     this.cache.events.forEach(e => {
