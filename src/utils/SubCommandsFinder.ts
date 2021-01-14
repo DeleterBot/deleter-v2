@@ -1,6 +1,8 @@
 import Discord from 'discord.js'
 import BaseSubCommand from '@/abstractions/BaseSubCommand'
 
+const req = require
+
 export default class SubCommandsFinder {
   public subCommands: Discord.Collection<string, BaseSubCommand>
 
@@ -8,22 +10,22 @@ export default class SubCommandsFinder {
     this.subCommands = commands
   }
 
-  findUsingName(name: string, slaveOf: string, lang: string = 'ru'): BaseSubCommand | null {
+  findUsingName(name: string, slaveOf: string, lang = 'ru'): BaseSubCommand | null {
     const command = this.subCommands.find((c: any) => c?.[lang]?.name === name && c?.slaveOf === slaveOf)
 
-    if (command) return require(command.path.replace(/\./g, '/'))?.default
+    if (command) return req(command.path.replace(/\./g, '/'))?.default
     return null
   }
 
-  findUsingAlias(alias: string, slaveOf: string, lang: string = 'ru'): BaseSubCommand | null {
+  findUsingAlias(alias: string, slaveOf: string, lang = 'ru'): BaseSubCommand | null {
     const command =
       this.subCommands.find((c: any) => c?.[lang]?.aliases?.includes(alias) && c?.slaveOf === slaveOf)
 
-    if (command) return require(command.path.replace(/\./g, '/'))?.default
+    if (command) return req(command.path.replace(/\./g, '/'))?.default
     return null
   }
 
-  find(nameOrAlias: string, slaveOf: string, lang: string = 'ru'): BaseSubCommand | null {
+  find(nameOrAlias: string, slaveOf: string, lang = 'ru'): BaseSubCommand | null {
     let command = this.findUsingName(nameOrAlias, slaveOf, lang)
 
     if (!command) command = this.findUsingAlias(nameOrAlias, slaveOf, lang)

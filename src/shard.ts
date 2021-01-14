@@ -10,6 +10,7 @@ const { TOKEN } = process.env
 let options: DeleterClientOptions | undefined
 
 try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   options = require('@/options').default
 } catch (e) {} // eslint-disable-line no-empty
 

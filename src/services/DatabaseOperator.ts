@@ -62,7 +62,7 @@ class DatabaseOperator extends BaseService {
 
   public async update(table: string, id: string, data: Record<string, any>, options: DatabaseUpdateOptions = {}) {
 
-    let query: string = `UPDATE ${DB_KEYSPACE}.${table} SET `
+    let query = `UPDATE ${DB_KEYSPACE}.${table} SET `
 
     const entries: Array<[string, any]> = Object.entries(data)
 
@@ -98,7 +98,7 @@ class DatabaseOperator extends BaseService {
 
     if (Array.isArray(selector)) selector = selector.join(', ')
 
-    let query: string = `DELETE ${selector} FROM ${DB_KEYSPACE}.${table} `
+    let query = `DELETE ${selector} FROM ${DB_KEYSPACE}.${table} `
 
     if (options.timestamp) query += `USING TIMESTAMP ${options.timestamp} `
     query += `WHERE id = ${inspect(id)}`

@@ -18,12 +18,12 @@ export default class CommandExecutionResult extends Base implements CommandExecu
     return this
   }
 
-  public setReact(condition: boolean = true) {
+  public setReact(condition = true) {
     this.react = condition
     return this
   }
 
-  public setReply(condition: boolean = true) {
+  public setReply(condition = true) {
     this.reply = condition
     return this
   }

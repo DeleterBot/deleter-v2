@@ -1,6 +1,4 @@
 import BaseSubCommand from '@/abstractions/BaseSubCommand'
-import Discord from 'discord.js'
-import Info from '@/types/Info'
 import CommandExecutionResult from '@/structures/CommandExecutionResult'
 import GathererService from '@/services/GathererService'
 
@@ -23,7 +21,7 @@ export default class RefreshCommandsSubCommand extends BaseSubCommand {
     })
   }
 
-  execute(msg: Discord.Message, info: Info): CommandExecutionResult | Promise<CommandExecutionResult> {
+  execute(): CommandExecutionResult | Promise<CommandExecutionResult> {
     this.client.cache.commands = GathererService.loadCommands()
 
     return new CommandExecutionResult('😎').setReact()

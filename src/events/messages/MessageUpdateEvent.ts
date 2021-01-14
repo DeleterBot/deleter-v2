@@ -15,6 +15,6 @@ export default class MessageUpdateEventEvent extends BaseEvent {
 
     const commandsExecutor = new CommandsExecutor(newM)
 
-    commandsExecutor.processCommand()
+    return commandsExecutor.processCommand()
   }
 }

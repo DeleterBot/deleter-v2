@@ -3,6 +3,8 @@ import Discord from 'discord.js'
 import Axios from 'axios'
 import Info from '@/types/Info'
 import CommandExecutionResult from '@/structures/CommandExecutionResult'
+import { execSync } from 'child_process'
+import { types, inspect } from 'util'
 
 export default class EvalCommand extends BaseCommand {
   constructor() {
@@ -42,8 +44,10 @@ export default class EvalCommand extends BaseCommand {
 
     try {
 
-      let toEval = info.args.join(' '), shard: string | boolean = false
-      let { isAsync, noReply, last, all, shell, everywhere, api, more } = info.flags
+      let toEval = info.args.join(' '), shard: string | boolean = false,
+        { isAsync } = info.flags
+
+      const { noReply, last, all, shell, everywhere, api, more } = info.flags
 
       if (!toEval) return new CommandExecutionResult('bruh').setReply(true)
 
@@ -58,11 +62,11 @@ export default class EvalCommand extends BaseCommand {
 
       if (isAsync) toEval = '(async() => {' + toEval + '})()'
 
-      let before = process.hrtime.bigint()
+      const before = process.hrtime.bigint()
 
       let evaled
       if (shell) {
-        evaled = require('child_process').execSync(toEval, { encoding: 'utf-8' })
+        evaled = execSync(toEval, { encoding: 'utf-8' })
 
       } else if (api) {
 
@@ -97,9 +101,9 @@ export default class EvalCommand extends BaseCommand {
 
       if (noReply) return new CommandExecutionResult('😎').setReact(true)
 
-      if (require('util').types.isPromise(evaled)) evaled = await evaled
+      if (types.isPromise(evaled)) evaled = await evaled
 
-      let after = process.hrtime.bigint()
+      const after = process.hrtime.bigint()
 
       if (shard) {
         if (shard === 'any') {
@@ -107,7 +111,7 @@ export default class EvalCommand extends BaseCommand {
         } else evaled = evaled[shard]
       }
 
-      if (typeof evaled !== 'string') evaled = require('util').inspect(evaled, {
+      if (typeof evaled !== 'string') evaled = inspect(evaled, {
         depth: more ? 2 : 0
       })
 

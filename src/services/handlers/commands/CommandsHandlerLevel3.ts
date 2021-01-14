@@ -24,20 +24,20 @@ export default class CommandsHandlerLevel3 extends BaseService {
     this.info = info
   }
 
-  public handle(mode: string = 'process'): any {
+  public handle(mode = 'process'): any {
 
     const subCommandsFinder = new SubCommandsFinder(this.client.cache.subCommands)
 
     const commandFlags =
       this.command[this.guild.lang.commands as CommandLanguage].flags && this.command.flags
         ? Object.assign(
-        Object.create(this.command[this.guild.lang.commands as CommandLanguage].flags as object),
+        Object.create(this.command[this.guild.lang.commands as CommandLanguage].flags as Record<any, any>),
         Object.create(this.command.flags)
         )
         : this.command[this.guild.lang.commands as CommandLanguage].flags || this.command.flags
 
     if (commandFlags) {
-      let newlyArgs: string[] = []
+      const newlyArgs: string[] = []
       const commandsFlagsKeys = Object.keys(commandFlags)
 
       const parsedFlags = parseFlags(this.info.args, {

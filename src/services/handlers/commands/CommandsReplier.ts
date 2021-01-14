@@ -1,7 +1,7 @@
 import Discord from 'discord.js'
 
 export default class CommandsReplier {
-  static isService: boolean = true
+  static isService = true
 
   static processReply(to: Discord.Message, content: any, options?: any) {
     // @ts-ignore

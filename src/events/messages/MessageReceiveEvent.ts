@@ -14,6 +14,6 @@ export default class MessageReceiveEvent extends BaseEvent {
 
     msg.guild?.me?.user.toString()
 
-    commandsExecutor.processCommand()
+    return commandsExecutor.processCommand()
   }
 }

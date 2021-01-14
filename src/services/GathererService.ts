@@ -3,17 +3,20 @@ import fs from 'fs'
 import { parse } from 'dot-properties'
 import BaseEvent from '../abstractions/BaseEvent'
 import BaseCommand from '@/abstractions/BaseCommand'
+import { resolve } from 'path'
+
+const req = require
 
 class Gatherer {
   constructor() {
     throw new Error(`The ${this.constructor.name} class may not be installed.`)
   }
 
-  static loadFiles(fn: Function, savingType?: string, isProperties?: boolean) {
+  static loadFiles(fn: any, savingType?: string, isProperties?: boolean) {
     const result: any = savingType === 'collection' ? new Discord.Collection() : []
     loadFiles()
 
-    function loadFiles(dir = require('path').resolve('./dist/src') + '/') {
+    function loadFiles(dir = resolve('./dist/src') + '/') {
       const files = fs.readdirSync(dir)
       files.forEach((file) => {
 
@@ -28,20 +31,19 @@ class Gatherer {
             || file.endsWith('.properties')
           ) && !file.endsWith('.d.ts')
         ) {
-
-          function end() {
-            const res = fn(file, dir)
-            if (res) {
-              if (Array.isArray(result)) {
-                result.push(res)
-              } else result.set(res.key, res.value)
-            }
-          }
-
           if (file.endsWith('.properties') && isProperties)
             end()
           else if (!file.endsWith('.properties'))
             end()
+        }
+
+        function end() {
+          const res = fn(file, dir)
+          if (res) {
+            if (Array.isArray(result)) {
+              result.push(res)
+            } else result.set(res.key, res.value)
+          }
         }
 
       })
@@ -55,11 +57,11 @@ class Gatherer {
     return this.loadFiles((file: string, dir: string) => {
 
       const commandPath = `${dir}${file}`
-      const command = require(commandPath)?.default
+      const command = req(commandPath)?.default
 
       if (command?.isCommand) {
         delete require.cache[commandPath]
-        const comm = require(commandPath)?.default
+        const comm = req(commandPath)?.default
         const newCommand = new comm()
         if (newCommand.name) {
           const result = {
@@ -83,11 +85,11 @@ class Gatherer {
     return this.loadFiles((file: string, dir: string) => {
 
       const subCommandPath = `${dir}${file}`
-      const subCommand = require(subCommandPath)?.default
+      const subCommand = req(subCommandPath)?.default
 
       if (subCommand?.isSubCommand) {
         delete require.cache[subCommandPath]
-        const subComm = require(subCommandPath)?.default
+        const subComm = req(subCommandPath)?.default
         const newSubCommand = new subComm()
         if (newSubCommand.name && newSubCommand.path && newSubCommand.slaveOf) {
           const result = {
@@ -128,11 +130,11 @@ class Gatherer {
     return this.loadFiles((file: string, dir: string) => {
 
       const eventPath = `${dir}${file}`
-      const event = require(eventPath)?.default
+      const event = req(eventPath)?.default
 
       if (event?.isEvent) {
         delete require.cache[eventPath]
-        const ev = require(eventPath)?.default
+        const ev = req(eventPath)?.default
         const newEvent = new ev()
         if (newEvent.name) return newEvent
       }

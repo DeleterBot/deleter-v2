@@ -1,7 +1,6 @@
 import BaseService from '@/abstractions/BaseService'
 import Discord from 'discord.js'
 import Guild from '@/structures/Guild'
-import CommandsFinder from '@/utils/CommandsFinder'
 import CommandsHandlerLevel1 from '@/services/handlers/commands/CommandsHandlerLevel1'
 
 export default class CommandsExecutor extends BaseService {
