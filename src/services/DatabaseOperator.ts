@@ -8,10 +8,14 @@ import { inspect } from 'util'
 import DatabaseFindOptions from '@/types/database/DatabaseFindOptions'
 
 const { DB_KEYSPACE } = process.env
+let { ENABLE_CACHE } = process.env
+
+// @ts-ignore
+ENABLE_CACHE = ENABLE_CACHE === 'true'
 
 class DatabaseOperator extends BaseService {
   public connection: Cassandra.Client
-  private cache: CachingService
+  private cache: CachingService | undefined
 
   constructor() {
     super()
@@ -26,7 +30,7 @@ class DatabaseOperator extends BaseService {
       }
     })
 
-    this.cache = new CachingService()
+    if (ENABLE_CACHE) this.cache = new CachingService()
   }
 
   public connect() {
@@ -37,8 +41,8 @@ class DatabaseOperator extends BaseService {
 
     const cacheKey = `${table}:${id}`
 
-    if (!options.escapeCache) {
-      const cache = await this.cache.get(cacheKey)
+    if (!options.escapeCache && ENABLE_CACHE) {
+      const cache = await this.cache!.get(cacheKey)
       if (cache) return cache
     }
 
@@ -50,15 +54,15 @@ class DatabaseOperator extends BaseService {
     if (options.raw) return data
     if (options.array) return data.rows
 
-    if (!options.escapeCache && !options.selector)
-      this.cache.set(cacheKey, data.rows[0] ?? '')
+    if (!options.escapeCache && !options.selector && ENABLE_CACHE)
+      this.cache!.set(cacheKey, data.rows[0] ?? '')
         .catch(e => console.error(e))
 
     return data.rows[0]
   }
 
   // TODO: database find method
-  public async find(table: string, what: string, id: string, options: DatabaseFindOptions = {}) {}
+  // public async find(table: string, what: string, id: string, options: DatabaseFindOptions = {}) {}
 
   public async update(table: string, id: string, data: Record<string, any>, options: DatabaseUpdateOptions = {}) {
 
@@ -78,11 +82,11 @@ class DatabaseOperator extends BaseService {
     const result = await this.execute(query, options.params)
     const cacheKey = `${table}:${id}`
 
-    if (!options.escapeCache) {
-      const isCached: boolean = await this.cache.exists(cacheKey)
+    if (!options.escapeCache && ENABLE_CACHE) {
+      const isCached: boolean = await this.cache!.exists(cacheKey)
         .catch((e) => { console.error(e); return false })
 
-      if (isCached) await this.cache.del(cacheKey)
+      if (isCached) await this.cache!.del(cacheKey)
         .catch(this.errFn)
     }
 
@@ -107,8 +111,8 @@ class DatabaseOperator extends BaseService {
 
     const data = await this.execute(query, options.params)
 
-    if (!options.escapeCache)
-      await this.cache.del(`${table}:${id}`)
+    if (!options.escapeCache && ENABLE_CACHE)
+      await this.cache!.del(`${table}:${id}`)
         .catch(this.errFn)
 
     return data

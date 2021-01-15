@@ -10,6 +10,7 @@ declare namespace NodeJS {
     DB_USRN: string,
     DB_PSWD: string,
     DB_KEYSPACE: string,
+    ENABLE_CACHE: string,
     REDIS_PORT: number,
     REDIS_HOST: string
   }

@@ -1,5 +1,4 @@
 import Base from '@/abstractions/Base'
-import DeleterClientOptions from '@/types/deleter/DeleterClientOptions'
 import Discord from 'discord.js'
 import GuildLanguage from '@/types/guild/GuildLanguage'
 

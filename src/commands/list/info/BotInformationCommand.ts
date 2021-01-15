@@ -3,6 +3,7 @@ import Discord from 'discord.js'
 import CommandExecutionResult from '@/structures/CommandExecutionResult'
 import Info from '@/types/Info'
 import StringPropertiesParser from '@/utils/StringPropertiesParser'
+import Constants from '@/utils/Constants'
 
 export default class BotInformationCommand extends BaseCommand {
   constructor() {
@@ -32,11 +33,7 @@ export default class BotInformationCommand extends BaseCommand {
       dev: Discord.User | Record<any, any>
         = await this.client.users.fetch(this.client.owner!).catch(() => { return {} }),
 
-      site = this.client.user!.id === '535501696454098947'
-        ? 'https://deleter.xyz/'
-        : this.client.user!.id === '530818177144324121'
-          ? 'https://canary.deleter.xyz/'
-          : 'http://localhost:8080/'
+      site = Constants.site
 
     const
       description = parser.parse(
@@ -77,7 +74,6 @@ export default class BotInformationCommand extends BaseCommand {
           dev: dev.tag ?? 'nobody#0000'
         }
       )
-
 
     const embed = new Discord.MessageEmbed()
       .setColor(info.guild.color)
