@@ -6,11 +6,13 @@ import DatabaseOperator from '@/services/DatabaseOperator'
 
 class DeleterClient extends Discord.Client {
   public token: string
-  public owner: string | Array<string> | undefined
+  public owner: string | undefined
   // @ts-ignore
   public cache: DeleterClientCache
   // @ts-ignore
   public db: DatabaseOperator
+  // @ts-ignore
+  public options: DeleterClientOptions
 
   constructor(token: string, options?: DeleterClientOptions) {
     super(options)
@@ -24,7 +26,11 @@ class DeleterClient extends Discord.Client {
     this.cache = {
       commands: Gatherer.loadCommands(),
       events: Gatherer.loadEvents(),
-      subCommands: Gatherer.loadSubCommands()
+      subCommands: Gatherer.loadSubCommands(),
+      props: {
+        keywords: Gatherer.loadProps('keywords'),
+        phrases: Gatherer.loadProps('phrases')
+      }
     }
 
     this.cache.events.forEach(e => {

@@ -8,15 +8,15 @@ export default class RefreshCommandsSubCommand extends BaseSubCommand {
       name: 'commands', slaveOf: 'refresh',
       en: {
         name: 'commands',
-        aliases: [ 'cmds' ]
+        aliases: [ 'cmds', 'c' ]
       },
       ru: {
         name: 'commands',
-        aliases: [ 'cmds' ]
+        aliases: [ 'cmds', 'c' ]
       },
       gg: {
         name: 'commands',
-        aliases: [ 'cmds' ]
+        aliases: [ 'cmds', 'c' ]
       }
     })
   }

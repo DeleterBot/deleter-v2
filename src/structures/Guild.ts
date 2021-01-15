@@ -6,11 +6,12 @@ import GuildLanguage from '@/types/guild/GuildLanguage'
 export default class Guild extends Base {
   public readonly prefix: string
   public readonly lang: GuildLanguage
+  public readonly color: string
 
   constructor(guild: Discord.Guild, data: Record<string, any> = {}) {
     super()
 
-    this.prefix = data.prefix ?? (this.client.options as DeleterClientOptions).prefix
+    this.prefix = data.prefix ?? this.client.options.prefix
     this.lang = data.lang ??
       (guild.region === 'russia'
         ? { interface: 'ru', commands: 'ru' }
@@ -23,5 +24,7 @@ export default class Guild extends Base {
         commands: data.lang
       }
     }
+
+    this.color = data.color ?? this.client.options.color
   }
 }

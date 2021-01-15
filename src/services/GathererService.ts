@@ -16,7 +16,7 @@ class Gatherer {
     const result: any = savingType === 'collection' ? new Discord.Collection() : []
     loadFiles()
 
-    function loadFiles(dir = resolve('./dist/src') + '/') {
+    function loadFiles(dir = resolve(isProperties ? './src' : './dist/src') + '/') {
       const files = fs.readdirSync(dir)
       files.forEach((file) => {
 
@@ -42,7 +42,13 @@ class Gatherer {
           if (res) {
             if (Array.isArray(result)) {
               result.push(res)
-            } else result.set(res.key, res.value)
+            } else {
+              if (Array.isArray(res)) {
+                res.forEach(r => {
+                  result.set(r.key, r.value)
+                })
+              } else result.set(res.key, res.value)
+            }
           }
         }
 
@@ -110,16 +116,31 @@ class Gatherer {
     }, 'collection')
   }
 
-  static loadProps(): Discord.Collection<string, any> {
+  static loadProps(mode: 'keywords' | 'phrases'): Discord.Collection<string, any> {
     return this.loadFiles((file: string, dir: string) => {
 
       const propertyPath = `${dir}${file}`
       try {
-        const file = fs.readFileSync(propertyPath, { encoding: 'utf-8' })
-        const property = parse(file)
-        if (property.name && property.isProperty) return {
-          key: property.name,
-          value: property
+
+        if (propertyPath.endsWith('.properties')) {
+          const file = fs.readFileSync(propertyPath, { encoding: 'utf-8' })
+          const property = parse(file)
+          const result: Record<string, any>[] = []
+
+          if (property.mode === mode) {
+            const root = property.root ? property.root : ''
+
+            if (root) delete property.root
+            delete property.mode
+
+            const entries = Object.entries(property)
+
+            entries.forEach(e => {
+              result.push({ key: root + e[0], value: e[1] })
+            })
+          }
+
+          return result
         }
       } catch (e) {} // eslint-disable-line no-empty
 
