@@ -43,7 +43,7 @@ export default class CommandsHandlerLevel3 extends BaseService {
       const parsedFlags = parseFlags(this.info.args, {
         boolean: commandsFlagsKeys,
         unknown: (str) => {
-          if (commandsFlagsKeys.includes(str)) return true
+          if (commandsFlagsKeys.includes(str) && str.length > 1) return true
           else {
             newlyArgs.push(str)
             return false

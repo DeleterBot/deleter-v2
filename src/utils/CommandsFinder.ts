@@ -5,6 +5,7 @@ const req = require
 
 export default class CommandsFinder {
   public commands: Discord.Collection<string, BaseCommand>
+  public static readonly isUtils: boolean = true
 
   constructor(commands: Discord.Collection<string, BaseCommand>) {
     this.commands = commands

@@ -1,4 +1,5 @@
 export default class Constants {
+  public static readonly isUtils: boolean = true
 
   static get site() {
     return global.client.user!.id === '535501696454098947'

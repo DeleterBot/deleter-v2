@@ -4,6 +4,7 @@ import Info from '@/types/Info'
 import CommandExecutionResult from '@/structures/CommandExecutionResult'
 import SubCommandsFinder from '@/utils/SubCommandsFinder'
 import { execSync } from 'child_process'
+import { inspect } from 'util'
 
 export default class RefreshApplicationComponentsCommand extends BaseCommand {
   constructor() {
@@ -25,7 +26,9 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
         'compile': 'compile',
         'c': 'compile',
         'pull': 'pull',
-        'p': 'pull'
+        'p': 'pull',
+        'everywhere': 'everywhere',
+        'e': 'everywhere'
       },
       customPermissions: [ 'OWNER' ]
     })
@@ -38,9 +41,49 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
     }
 
     if (info.flags.compile) {
-      await msg.react('637956323958587392')
+      await msg.react('10:637956323958587392')
       await execSync('npm run build')
       await msg.reactions.cache.get('637956323958587392')?.users.remove(this.client.user!.id)
+    }
+
+    if (info.flags.everywhere && this.client.shard) {
+      delete info.flags.complile
+      delete info.flags.pull
+      delete info.flags.everywhere
+
+      const script = `
+        delete require.cache[require.resolve('${this.path.replace(/\./g, '/')}')]
+        
+        const Command = require('${this.path.replace(/\./g, '/')}').default
+        const command = new Command()
+        
+        const SubCommandsFinder = require('@/utils/SubCommandsFinder').default
+        const subCommandsFinder = new SubCommandsFinder(this.cache.subCommands)
+        
+        const info = {
+          args: ${inspect(info.args)},
+          flags: ${inspect(info.flags)},
+          guild: {
+            lang: ${inspect(info.guild.lang)}
+          }
+        }
+        
+        info.subCommand 
+          = subCommandsFinder.find(${inspect(info.subCommand?.name)}, '${this.name}', '${info.guild.lang.commands}')
+        
+        command.execute({}, info)
+      `
+
+      const before = process.hrtime.bigint()
+      const result = await this.client.shard.broadcastEval(script)
+      const after = process.hrtime.bigint()
+
+      const resultStr = 'Completed in '
+      + (after - before) +
+      ' nanoseconds or ' + (parseInt(String(after - before)) / 1000000).toFixed(3) + 'ms\n'
+      + result.map((s, i) => `shard ${i}: ${s.result ?? s.name + ': ' + s.message}`).join('\n')
+
+      return new CommandExecutionResult(resultStr).setOptions({ code: 'js' })
     }
 
     const subCommandsFinder = new SubCommandsFinder(this.client.cache.subCommands)
@@ -64,8 +107,8 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
 
     if (info.subCommand) {
       const result = info.subCommand.execute(msg, info)
-      if (info.args[0]) {
-        return (await execCommands(this.name, info.args)) || result
+      if (info.args[1]) {
+        return (await execCommands(this.name, info.args.slice(1))) || result
       } else return result
     } else {
       return new CommandExecutionResult('не угадал').setReply()

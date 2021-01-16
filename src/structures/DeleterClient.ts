@@ -34,7 +34,7 @@ class DeleterClient extends Discord.Client {
     }
 
     this.cache.events.forEach(e => {
-      this.on(e.name, e.execute.bind(e))
+      this.on(e.name, e.execute)
     })
 
     this.db = new DatabaseOperator()

@@ -4,6 +4,7 @@ import BaseSubCommand from '@/abstractions/BaseSubCommand'
 const req = require
 
 export default class SubCommandsFinder {
+  public static readonly isUtils: boolean = true
   public subCommands: Discord.Collection<string, BaseSubCommand>
 
   constructor(commands: Discord.Collection<string, BaseSubCommand>) {

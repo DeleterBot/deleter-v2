@@ -2,7 +2,6 @@ import BaseCommand from '@/abstractions/BaseCommand'
 import Discord from 'discord.js'
 import Info from '@/types/Info'
 import CommandExecutionResult from '@/structures/CommandExecutionResult'
-import SubCommandsFinder from '@/utils/SubCommandsFinder'
 
 export default class HelpCommand extends BaseCommand {
   constructor() {

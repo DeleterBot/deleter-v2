@@ -21,7 +21,7 @@ export default class RefreshCommandsSubCommand extends BaseSubCommand {
     })
   }
 
-  async execute(): Promise<CommandExecutionResult> {
+  execute(): CommandExecutionResult {
     this.client.cache.props = {
       keywords: Gatherer.loadProps('keywords'),
       phrases: Gatherer.loadProps('phrases')

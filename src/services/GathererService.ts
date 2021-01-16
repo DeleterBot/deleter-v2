@@ -8,6 +8,8 @@ import { resolve } from 'path'
 const req = require
 
 class Gatherer {
+  public static readonly isUtils: boolean = true
+
   constructor() {
     throw new Error(`The ${this.constructor.name} class may not be installed.`)
   }

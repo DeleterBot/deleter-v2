@@ -41,7 +41,9 @@ export default class BotInformationCommand extends BaseCommand {
         {
           username: this.client.user!.username,
           mention: this.client.user!.toString(),
-          prefix: info.guild.prefix
+          prefix: info.guild.prefix,
+          help: this.client.cache.commands
+            .find(c => c?.name === 'help')![info.guild.lang.commands]?.name
         }
       ),
       versionsTitle = parser.parse(

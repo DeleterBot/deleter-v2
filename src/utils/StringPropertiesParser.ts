@@ -8,6 +8,7 @@ const parsingRegExps: Record<string, RegExp> = {
 }
 
 export default class StringPropertiesParser extends Base {
+  public static readonly isUtils: boolean = true
   constructor() {
     super()
   }
