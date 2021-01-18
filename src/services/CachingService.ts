@@ -33,7 +33,7 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
   public set(key: string, value: Record<string, any> | string): Promise<boolean> {
 
     if (typeof value === 'object') value = JSON.stringify(value)
-    else if (typeof value !== 'string') throw new Error('cannot cache anything expect strings and objects')
+    else if (typeof value !== 'string') throw new Error('cannot cache anything except strings and objects')
 
     return this.setAsync(key, value)
   }
