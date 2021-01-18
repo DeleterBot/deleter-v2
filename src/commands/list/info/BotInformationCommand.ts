@@ -16,7 +16,8 @@ export default class BotInformationCommand extends BaseCommand {
         name: 'info'
       },
       gg: {
-        name: 'инфа'
+        name: 'инфа',
+        aliases: [ 'инфо' ]
       },
       clientPermissions: [ 'EMBED_LINKS' ]
     })

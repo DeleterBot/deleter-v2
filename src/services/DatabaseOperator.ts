@@ -72,6 +72,12 @@ class DatabaseOperator extends BaseService {
 
     entries.forEach((e, i) => {
       const key = e[0], value = e[1], comma = i === 0 ? '' : ', '
+
+      if (key.split(/ +/g).length > 1 || key.split(/;/g).length > 1 || key.toLowerCase() !== key)
+        throw new Error(
+          `CQL injection detected. Request denied. \nTable: ${table} \nID: ${id} \nData: ${inspect(data)}`
+        )
+
       query += comma + `${key} = ${inspect(value)}`
     })
     query += ` WHERE id = ${inspect(id)}`

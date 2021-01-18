@@ -1,7 +1,7 @@
 import BaseCommand from '@/abstractions/BaseCommand'
-import Discord from 'discord.js'
-import Info from '@/types/Info'
 import CommandExecutionResult from '@/structures/CommandExecutionResult'
+import Info from '@/types/Info'
+import Discord from 'discord.js'
 
 export default class HelpCommand extends BaseCommand {
   constructor() {
