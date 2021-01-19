@@ -25,7 +25,6 @@ export default class BotInformationCommand extends BaseCommand {
 
   async execute(msg: Discord.Message, info: Info): Promise<CommandExecutionResult> {
 
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const pckg: Record<string, any> = require('@root/package.json')
 
     const parser = new StringPropertiesParser(),

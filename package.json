@@ -1,6 +1,6 @@
 {
   "name": "deleter-v2",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "main": "./dist/index.js",
   "type": "commonjs",
   "scripts": {
@@ -24,6 +24,8 @@
     "dotenv": "^8.2.0",
     "minimist": "^1.2.5",
     "module-alias": "^2.2.2",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.32",
     "redis": "^3.0.2"
   },
   "devDependencies": {

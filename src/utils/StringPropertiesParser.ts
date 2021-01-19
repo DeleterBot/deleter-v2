@@ -13,7 +13,7 @@ export default class StringPropertiesParser extends Base {
     super()
   }
 
-  public parse(string: string, keys: Record<string, string> = {}) {
+  public parse(string: string, keys: Record<string, string | number> = {}) {
     let result: string
 
     result = this.circularParsing(string)
@@ -22,7 +22,7 @@ export default class StringPropertiesParser extends Base {
     return result
   }
 
-  public parseKeys(string: string, keys: Record<string, string>) {
+  public parseKeys(string: string, keys: Record<string, string | number>) {
 
     const match = string.match(parsingRegExps.keys)
 
@@ -31,7 +31,8 @@ export default class StringPropertiesParser extends Base {
         let matchID = m.slice(5)
         matchID = matchID.slice(0, matchID.length - 1)
 
-        if (keys[matchID]) string = string.replace(m, keys[matchID])
+        if (keys[matchID] !== undefined)
+          string = string.replace(m, keys[matchID].toString())
       })
     }
 
