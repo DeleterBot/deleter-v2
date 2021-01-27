@@ -8,12 +8,15 @@ export default class CommandExecutionResult extends Base implements CommandExecu
   public options: Discord.MessageOptions | undefined
   public react: boolean | undefined
   public reply: boolean | undefined
+  public success: boolean
 
   constructor(
     result: Discord.MessageEmbed | string | Discord.EmojiResolvable | Discord.EmojiResolvable[] | undefined | null
   ) {
     super()
+
     this.result = result
+    this.success = true
 
     return this
   }
@@ -28,13 +31,21 @@ export default class CommandExecutionResult extends Base implements CommandExecu
     return this
   }
 
+  public setSuccess(condition = true) {
+    this.success = condition
+    return this
+  }
+
   public setOptions(options: Discord.MessageOptions) {
     this.options = options
     return this
   }
 
   public amendOptions(options: Discord.MessageOptions) {
-    Object.assign(this.options || {}, options)
+
+    if (this.options) Object.assign(this.options, options)
+    else this.options = options
+
     return this
   }
 

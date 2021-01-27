@@ -20,3 +20,4 @@ deleter.load()
   })
 
 process.on('unhandledRejection', (reason: string) => console.error(reason))
+process.on('uncaughtException', (reason: any) => console.error(reason))

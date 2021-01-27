@@ -23,6 +23,10 @@ export default class HelpCommand extends BaseCommand {
 
   async execute(msg: Discord.Message, info: Info): Promise<CommandExecutionResult> {
 
+    this.client.cache.commands.forEach(c => {
+
+    })
+
     return new CommandExecutionResult(null)
 
   }

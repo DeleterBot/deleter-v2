@@ -73,7 +73,7 @@ export default class StringPropertiesParser extends Base {
       str.match(parsingRegExps.keywords)
       || str.match(parsingRegExps.phrases)
     ) {
-      let result = ''
+      let result: string
 
       result = this.universalParse(str, 'keywords')
       result = this.universalParse(result, 'phrases')

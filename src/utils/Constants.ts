@@ -9,4 +9,8 @@ export default class Constants {
       : 'http://localhost:8080/'
   }
 
+  static supportServer = 'https://discord.gg/GYYYN65f2J'
+  static docs = 'https://halp.deleter.xyz/'
+  static commandExecutionMaxTime = 15000
+
 }

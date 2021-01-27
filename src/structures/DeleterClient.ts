@@ -24,6 +24,7 @@ class DeleterClient extends Discord.Client {
     global.client = this
 
     this.cache = {
+      cd: new Discord.Collection<string, any>(),
       commands: Gatherer.loadCommands(),
       events: Gatherer.loadEvents(),
       subCommands: Gatherer.loadSubCommands(),

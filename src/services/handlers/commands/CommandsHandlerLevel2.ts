@@ -22,6 +22,8 @@ export default class CommandsHandlerLevel2 extends BaseService {
 
   public handle() {
 
+    if (this.command.disabled) return
+
     if (this.command.customPermissions) {
       if (this.command.customPermissions.includes('OWNER')) {
         if (!this.client.owner?.includes(this.msg.author.id)) return
