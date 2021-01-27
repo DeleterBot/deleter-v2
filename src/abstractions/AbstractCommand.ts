@@ -1,3 +1,4 @@
+import CoolDownConfig from '@/types/commands/CoolDownConfig'
 import Base from './Base'
 import CommandConfig from '@/types/commands/CommandConfig'
 import CommandDetails  from '@/types/commands/CommandDetails'
@@ -6,7 +7,9 @@ import DeleterCustomPermissions from '@/types/deleter/DeleterCustomPermissions'
 
 export default abstract class AbstractCommand extends Base implements CommandConfig {
   public name: string
-  public flags: Record<string, string> | undefined
+  public flags: Record<string, any> | undefined
+  public disabled: boolean | undefined
+  public cd: CoolDownConfig | undefined
 
   public clientPermissions: Discord.BitFieldResolvable<any> | undefined
   public memberPermissions: Discord.BitFieldResolvable<any> | undefined
@@ -20,6 +23,8 @@ export default abstract class AbstractCommand extends Base implements CommandCon
     super()
     this.name = config?.name
     this.flags = config?.flags
+    this.disabled = config?.disabled
+    this.cd = config?.cd
 
     this.clientPermissions = config?.clientPermissions
     this.memberPermissions = config?.memberPermissions

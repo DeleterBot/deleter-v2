@@ -23,13 +23,18 @@ export default class EvalCommand extends BaseCommand {
         aliases: [ 'e' ],
       },
       flags: {
-        'n': 'noReply',
-        'nr': 'noReply',
-        'noreply': 'noReply',
-        'e': 'everywhere',
-        'everywhere': 'everywhere',
-        'l': 'last',
-        'last': 'last',
+        'noreply': {
+          name: 'noReply',
+          alias: 'n'
+        },
+        'everywhere': {
+          name: 'everywhere',
+          alias: 'e'
+        },
+        'last': {
+          name: 'last',
+          alias: 'l'
+        },
         'api': 'api',
         'all': 'all',
         'more': 'more',

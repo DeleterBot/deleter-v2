@@ -4,9 +4,9 @@ import BaseCommand from '@/abstractions/BaseCommand'
 import DeleterCommandMessage from '@/types/deleter/DeleterCommandMessage'
 import CommandsHandlerLevel4 from '@/services/handlers/commands/CommandsHandlerLevel4'
 import Info from '@/types/Info'
+import commandLineArgs from 'command-line-args'
 import SubCommandsFinder from '@/utils/SubCommandsFinder'
 import CommandLanguage from '@/types/commands/CommandLanguage'
-import parseFlags from 'minimist'
 import CommandsHandlerLevel2 from '@/services/handlers/commands/CommandsHandlerLevel2'
 
 export default class CommandsHandlerLevel3 extends BaseService {
@@ -37,31 +37,59 @@ export default class CommandsHandlerLevel3 extends BaseService {
         : this.command[this.guild.lang.commands as CommandLanguage].flags || this.command.flags
 
     if (commandFlags) {
-      const newlyArgs: string[] = []
-      const commandsFlagsKeys = Object.keys(commandFlags)
+      this.info.flags = {}
 
-      const parsedFlags = parseFlags(this.info.args, {
-        boolean: commandsFlagsKeys,
-        unknown: (str) => {
-          if (commandsFlagsKeys.includes(str) && str.length > 1) return true
-          else {
-            newlyArgs.push(str)
-            return false
-          }
+      let args: commandLineArgs.OptionDefinition[] = []
+      const commandsFlagsEntries: Array<[string, Record<string, any> | string]> = Object.entries(commandFlags)
+
+      commandsFlagsEntries.forEach(flag => {
+        const flagKey = flag[0], flagValue: Record<string, any> | string = flag[1]
+
+        switch (typeof flagValue) {
+          case 'string':
+            args.push({
+              name: flagKey,
+              type: Boolean
+            })
+            break
+          case 'object':
+            args.push({
+              name: flagKey,
+              type: flagValue.type ?? Boolean,
+              alias: flagValue.alias,
+              defaultValue: flagValue.default ?? false
+            })
+            break
         }
       })
 
-      // @ts-ignore
-      delete parsedFlags._
-
-      const flagsArr = Object.entries(parsedFlags).filter(flag => flag[1])
-      const flags: Record<string, boolean> = {}
-
-      flagsArr.forEach(flag => {
-        flags[commandFlags[flag[0]]] = true
+      const parsedFlags = commandLineArgs(args, {
+        argv: this.info.args,
+        partial: true
       })
 
-      this.info.args = newlyArgs
+      let flags: Record<string, any> = {}
+
+      if (parsedFlags._unknown) {
+        this.info.args = parsedFlags._unknown
+        delete parsedFlags._unknown
+      }
+
+      Object.entries(parsedFlags).forEach(flag => {
+        const flagKey = flag[0]
+
+        const commandFlag = commandFlags[flagKey]
+
+        switch (typeof commandFlag) {
+          case 'object':
+            flags[commandFlag.name] = flag[1]
+            break
+          case 'string':
+            flags[commandFlag] = flag[1]
+            break
+        }
+      })
+
       Object.assign(this.info.flags, flags)
     }
 

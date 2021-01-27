@@ -23,12 +23,18 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
         aliases: [ 'r' ]
       },
       flags: {
-        'compile': 'compile',
-        'c': 'compile',
-        'pull': 'pull',
-        'p': 'pull',
-        'everywhere': 'everywhere',
-        'e': 'everywhere'
+        'compile': {
+          name: 'compile',
+          alias: 'c'
+        },
+        'pull': {
+          name: 'pull',
+          alias: 'p'
+        },
+        'everywhere': {
+          name: 'everywhere',
+          alias: 'e'
+        }
       },
       customPermissions: [ 'OWNER' ]
     })

@@ -33,7 +33,7 @@ export default class BotInformationCommand extends BaseCommand {
       dev: Discord.User | Record<any, any>
         = await this.client.users.fetch(this.client.owner!).catch(() => { return {} }),
 
-      site = Constants.site
+      { site, docs, supportServer } = Constants
 
     const
       description = parser.parse(
@@ -67,7 +67,9 @@ export default class BotInformationCommand extends BaseCommand {
         `$phrase[${root}.links.value]`,
         {
           site: site,
-          id: this.client.user!.id
+          id: this.client.user!.id,
+          server: supportServer,
+          docs: docs
         }
       ),
       footerValue = parser.parse(
