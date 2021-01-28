@@ -1,8 +1,8 @@
-import BaseCommand from '@/abstractions/BaseCommand'
+import BaseCommand from '@src/abstractions/BaseCommand'
 import Discord from 'discord.js'
 import Axios from 'axios'
-import Info from '@/types/Info'
-import CommandExecutionResult from '@/structures/CommandExecutionResult'
+import Info from '@src/types/Info'
+import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import { execSync } from 'child_process'
 import { types, inspect } from 'util'
 

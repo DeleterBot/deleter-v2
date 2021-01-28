@@ -1,10 +1,10 @@
 import Discord from 'discord.js'
-import Guild from '@/structures/Guild'
-import BaseService from '@/abstractions/BaseService'
-import CommandsFinder from '@/utils/CommandsFinder'
-import CommandsHandlerLevel2 from '@/services/handlers/commands/CommandsHandlerLevel2'
-import DeleterCommandMessage from '@/types/deleter/DeleterCommandMessage'
-import Info from '@/types/Info'
+import Guild from '@src/structures/Guild'
+import BaseService from '@src/abstractions/BaseService'
+import CommandsFinder from '@src/utils/CommandsFinder'
+import CommandsHandlerLevel2 from '@src/services/handlers/commands/CommandsHandlerLevel2'
+import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import Info from '@src/types/Info'
 
 export default class CommandsHandlerLevel1 extends BaseService {
   private readonly msg: Discord.Message

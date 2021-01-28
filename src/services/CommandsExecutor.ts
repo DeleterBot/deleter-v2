@@ -1,7 +1,7 @@
-import BaseService from '@/abstractions/BaseService'
+import BaseService from '@src/abstractions/BaseService'
 import Discord from 'discord.js'
-import Guild from '@/structures/Guild'
-import CommandsHandlerLevel1 from '@/services/handlers/commands/CommandsHandlerLevel1'
+import Guild from '@src/structures/Guild'
+import CommandsHandlerLevel1 from '@src/services/handlers/commands/CommandsHandlerLevel1'
 
 export default class CommandsExecutor extends BaseService {
   public readonly msg: Discord.Message

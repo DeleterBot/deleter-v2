@@ -1,4 +1,4 @@
-import DeleterClient from '@/structures/DeleterClient'
+import DeleterClient from '@src/structures/DeleterClient'
 
 export default class Base {
   public client: DeleterClient

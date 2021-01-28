@@ -1,6 +1,6 @@
 import Discord from 'discord.js'
-import BaseEvent from '@/abstractions/BaseEvent'
-import CommandsExecutor from '@/services/CommandsExecutor'
+import BaseEvent from '@src/abstractions/BaseEvent'
+import CommandsExecutor from '@src/services/CommandsExecutor'
 
 export default class MessageUpdateEventEvent extends BaseEvent {
   constructor() {

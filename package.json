@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js ."
   },
   "_moduleAliases": {
-    "@": "dist/src",
+    "@src": "dist/src",
     "@deleter": "dist/src",
     "@api": "dist/api",
     "@root": "./"

@@ -1,8 +1,8 @@
 import Discord from 'discord.js'
-import Info from '@/types/Info'
-import CommandExecutionResult from '@/structures/CommandExecutionResult'
-import AbstractSubCommand from '@/abstractions/AbstractSubCommand'
-import SubCommandConfig from '@/types/commands/SubCommandConfig'
+import Info from '@src/types/Info'
+import CommandExecutionResult from '@src/structures/CommandExecutionResult'
+import AbstractSubCommand from '@src/abstractions/AbstractSubCommand'
+import SubCommandConfig from '@src/types/commands/SubCommandConfig'
 
 export default abstract class BaseSubCommand extends AbstractSubCommand {
   public readonly path: string

@@ -1,7 +1,7 @@
-import CommandDetails  from '@/types/commands/CommandDetails'
-import CoolDownConfig from '@/types/commands/CoolDownConfig'
+import CommandDetails  from '@src/types/commands/CommandDetails'
+import CoolDownConfig from '@src/types/commands/CoolDownConfig'
 import Discord from 'discord.js'
-import DeleterCustomPermissions from '@/types/deleter/DeleterCustomPermissions'
+import DeleterCustomPermissions from '@src/types/deleter/DeleterCustomPermissions'
 
 export default interface CommandConfig {
   name: string

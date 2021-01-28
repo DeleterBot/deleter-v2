@@ -1,9 +1,9 @@
-import CoolDownConfig from '@/types/commands/CoolDownConfig'
+import CoolDownConfig from '@src/types/commands/CoolDownConfig'
 import Base from './Base'
-import CommandConfig from '@/types/commands/CommandConfig'
-import CommandDetails  from '@/types/commands/CommandDetails'
+import CommandConfig from '@src/types/commands/CommandConfig'
+import CommandDetails  from '@src/types/commands/CommandDetails'
 import Discord from 'discord.js'
-import DeleterCustomPermissions from '@/types/deleter/DeleterCustomPermissions'
+import DeleterCustomPermissions from '@src/types/deleter/DeleterCustomPermissions'
 
 export default abstract class AbstractCommand extends Base implements CommandConfig {
   public name: string

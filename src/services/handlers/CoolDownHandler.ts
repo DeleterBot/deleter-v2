@@ -1,6 +1,6 @@
-import BaseService from '@/abstractions/BaseService'
-import CoolDownConfig from '@/types/commands/CoolDownConfig'
-import Snowflake from '@/utils/Snowflake'
+import BaseService from '@src/abstractions/BaseService'
+import CoolDownConfig from '@src/types/commands/CoolDownConfig'
+//import Snowflake from '@src/utils/Snowflake'
 
 /**
  * @class CoolDown Handler.
@@ -25,7 +25,7 @@ export default class CoolDownHandler extends BaseService {
   public startCoolDown() {
 
     const expirationTimestamp = Date.now() + (this.coolDownConfig.time * 100)
-    const id = Snowflake.generate(expirationTimestamp)
+    //const id = Snowflake.generate(expirationTimestamp)
     let coolDownItem: Record<string, any> = this.client.cache.cd.get(this.coolDownFrom)
 
     if (coolDownItem) {
@@ -34,8 +34,8 @@ export default class CoolDownHandler extends BaseService {
 
   }
 
-  public findCoolDownedItem(coolDownFor: string, coolDownFrom: string) {
+  /*public findCoolDownedItem(coolDownFor: string, coolDownFrom: string) {
 
-  }
+  }*/
 
 }

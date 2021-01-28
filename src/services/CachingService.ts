@@ -1,7 +1,7 @@
 import Redis from 'redis'
-import BaseService from '@/abstractions/BaseService'
+import BaseService from '@src/abstractions/BaseService'
 import { promisify } from 'util'
-import DeleterDatabaseCache from '@/types/deleter/DeleterDatabaseCache'
+import DeleterDatabaseCache from '@src/types/deleter/DeleterDatabaseCache'
 
 class CachingService extends BaseService implements DeleterDatabaseCache {
   public connection: Redis.RedisClient

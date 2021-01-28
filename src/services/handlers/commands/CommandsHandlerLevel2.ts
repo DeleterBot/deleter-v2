@@ -1,9 +1,9 @@
-import BaseService from '@/abstractions/BaseService'
-import Guild from '@/structures/Guild'
-import BaseCommand from '@/abstractions/BaseCommand'
-import DeleterCommandMessage from '@/types/deleter/DeleterCommandMessage'
-import CommandsHandlerLevel3 from '@/services/handlers/commands/CommandsHandlerLevel3'
-import Info from '@/types/Info'
+import BaseService from '@src/abstractions/BaseService'
+import Guild from '@src/structures/Guild'
+import BaseCommand from '@src/abstractions/BaseCommand'
+import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import CommandsHandlerLevel3 from '@src/services/handlers/commands/CommandsHandlerLevel3'
+import Info from '@src/types/Info'
 
 export default class CommandsHandlerLevel2 extends BaseService {
   private readonly msg: DeleterCommandMessage

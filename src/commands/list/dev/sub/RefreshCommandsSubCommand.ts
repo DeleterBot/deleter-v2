@@ -1,6 +1,6 @@
-import BaseSubCommand from '@/abstractions/BaseSubCommand'
-import CommandExecutionResult from '@/structures/CommandExecutionResult'
-import GathererService from '@/services/GathererService'
+import BaseSubCommand from '@src/abstractions/BaseSubCommand'
+import CommandExecutionResult from '@src/structures/CommandExecutionResult'
+import GathererService from '@src/services/GathererService'
 
 export default class RefreshCommandsSubCommand extends BaseSubCommand {
   constructor() {

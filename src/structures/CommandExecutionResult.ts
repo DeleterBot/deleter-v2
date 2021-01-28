@@ -1,5 +1,5 @@
-import Base from '@/abstractions/Base'
-import CommandExecutionResultType from '@/types/commands/CommandExecutionResultType'
+import Base from '@src/abstractions/Base'
+import CommandExecutionResultType from '@src/types/commands/CommandExecutionResultType'
 import Discord from 'discord.js'
 
 export default class CommandExecutionResult extends Base implements CommandExecutionResultType {

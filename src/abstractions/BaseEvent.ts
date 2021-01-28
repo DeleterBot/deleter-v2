@@ -1,5 +1,5 @@
-import AbstractEvent from '@/abstractions/AbstractEvent'
-import EventConfig from '@/types/EventConfig'
+import AbstractEvent from '@src/abstractions/AbstractEvent'
+import EventConfig from '@src/types/EventConfig'
 
 export default abstract class BaseEvent extends AbstractEvent {
   public readonly path: string

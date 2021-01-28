@@ -1,5 +1,5 @@
-import Guild from '@/structures/Guild'
-import BaseSubCommand from '@/abstractions/BaseSubCommand'
+import Guild from '@src/structures/Guild'
+import BaseSubCommand from '@src/abstractions/BaseSubCommand'
 
 export default interface Info {
   args: Array<string>

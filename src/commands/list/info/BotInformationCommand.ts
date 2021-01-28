@@ -1,9 +1,9 @@
-import BaseCommand from '@/abstractions/BaseCommand'
+import BaseCommand from '@src/abstractions/BaseCommand'
 import Discord from 'discord.js'
-import CommandExecutionResult from '@/structures/CommandExecutionResult'
-import Info from '@/types/Info'
-import StringPropertiesParser from '@/utils/StringPropertiesParser'
-import Constants from '@/utils/Constants'
+import CommandExecutionResult from '@src/structures/CommandExecutionResult'
+import Info from '@src/types/Info'
+import StringPropertiesParser from '@src/utils/StringPropertiesParser'
+import Constants from '@src/utils/Constants'
 
 export default class BotInformationCommand extends BaseCommand {
   constructor() {

@@ -1,13 +1,13 @@
-import BaseService from '@/abstractions/BaseService'
-import Guild from '@/structures/Guild'
-import BaseCommand from '@/abstractions/BaseCommand'
-import DeleterCommandMessage from '@/types/deleter/DeleterCommandMessage'
-import CommandsHandlerLevel4 from '@/services/handlers/commands/CommandsHandlerLevel4'
-import Info from '@/types/Info'
+import BaseService from '@src/abstractions/BaseService'
+import Guild from '@src/structures/Guild'
+import BaseCommand from '@src/abstractions/BaseCommand'
+import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import CommandsHandlerLevel4 from '@src/services/handlers/commands/CommandsHandlerLevel4'
+import Info from '@src/types/Info'
 import commandLineArgs from 'command-line-args'
-import SubCommandsFinder from '@/utils/SubCommandsFinder'
-import CommandLanguage from '@/types/commands/CommandLanguage'
-import CommandsHandlerLevel2 from '@/services/handlers/commands/CommandsHandlerLevel2'
+import SubCommandsFinder from '@src/utils/SubCommandsFinder'
+import CommandLanguage from '@src/types/commands/CommandLanguage'
+import CommandsHandlerLevel2 from '@src/services/handlers/commands/CommandsHandlerLevel2'
 
 export default class CommandsHandlerLevel3 extends BaseService {
   private readonly msg: DeleterCommandMessage

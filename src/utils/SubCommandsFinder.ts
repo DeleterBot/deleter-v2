@@ -1,5 +1,5 @@
 import Discord from 'discord.js'
-import BaseSubCommand from '@/abstractions/BaseSubCommand'
+import BaseSubCommand from '@src/abstractions/BaseSubCommand'
 
 const req = require
 

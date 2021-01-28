@@ -1,4 +1,4 @@
-import Base from '@/abstractions/Base'
+import Base from '@src/abstractions/Base'
 import Discord from 'discord.js'
 
 const parsingRegExps: Record<string, RegExp> = {

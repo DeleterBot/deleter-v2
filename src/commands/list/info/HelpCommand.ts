@@ -1,7 +1,5 @@
-import BaseCommand from '@/abstractions/BaseCommand'
-import CommandExecutionResult from '@/structures/CommandExecutionResult'
-import Info from '@/types/Info'
-import Discord from 'discord.js'
+import BaseCommand from '@src/abstractions/BaseCommand'
+import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 
 export default class HelpCommand extends BaseCommand {
   constructor() {
@@ -21,11 +19,11 @@ export default class HelpCommand extends BaseCommand {
     })
   }
 
-  async execute(msg: Discord.Message, info: Info): Promise<CommandExecutionResult> {
+  async execute(/*msg: Discord.Message, info: Info*/): Promise<CommandExecutionResult> {
 
-    this.client.cache.commands.forEach(c => {
+    /*this.client.cache.commands.forEach(c => {
 
-    })
+    })*/
 
     return new CommandExecutionResult(null)
 

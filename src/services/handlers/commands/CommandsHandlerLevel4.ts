@@ -1,13 +1,12 @@
-import BaseService from '@/abstractions/BaseService'
-import Constants from '@/utils/Constants'
+import BaseService from '@src/abstractions/BaseService'
+import Constants from '@src/utils/Constants'
 import Discord from 'discord.js'
-import Guild from '@/structures/Guild'
-import BaseCommand from '@/abstractions/BaseCommand'
-import DeleterCommandMessage from '@/types/deleter/DeleterCommandMessage'
-import CommandsReplier from '@/services/handlers/commands/CommandsReplier'
-import CommandExecutionResult  from '@/types/commands/CommandExecutionResultType'
-import Info from '@/types/Info'
-import CoolDownHandler from '@/services/handlers/CoolDownHandler'
+import Guild from '@src/structures/Guild'
+import BaseCommand from '@src/abstractions/BaseCommand'
+import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import CommandsReplier from '@src/services/handlers/commands/CommandsReplier'
+import CommandExecutionResult  from '@src/types/commands/CommandExecutionResultType'
+import Info from '@src/types/Info'
 
 export default class CommandsHandlerLevel4 extends BaseService {
   private readonly msg: DeleterCommandMessage
@@ -42,9 +41,9 @@ export default class CommandsHandlerLevel4 extends BaseService {
       )
     } else if (commandResult.result) {
 
-      if (this.command.cd && !commandResult.success) {
+      /*if (this.command.cd && !commandResult.success) {
         const coolDownHandler = new CoolDownHandler(this.command.cd, 'idk', 'idk')
-      }
+      }*/
 
       if (commandResult.reply)
         return CommandsReplier.processReply(this.msg, commandResult.result, commandResult.options)

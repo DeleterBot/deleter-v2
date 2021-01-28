@@ -1,6 +1,6 @@
 import Discord from 'discord.js'
-import BaseEvent from '@/abstractions/BaseEvent'
-import DeleterPropertiesCache from '@/types/deleter/DeleterPropertiesCache'
+import BaseEvent from '@src/abstractions/BaseEvent'
+import DeleterPropertiesCache from '@src/types/deleter/DeleterPropertiesCache'
 
 export default interface DeleterClientCache {
   cd: Discord.Collection<string, any>

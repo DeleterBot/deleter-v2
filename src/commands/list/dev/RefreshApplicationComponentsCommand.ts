@@ -1,8 +1,8 @@
-import BaseCommand from '@/abstractions/BaseCommand'
+import BaseCommand from '@src/abstractions/BaseCommand'
 import Discord from 'discord.js'
-import Info from '@/types/Info'
-import CommandExecutionResult from '@/structures/CommandExecutionResult'
-import SubCommandsFinder from '@/utils/SubCommandsFinder'
+import Info from '@src/types/Info'
+import CommandExecutionResult from '@src/structures/CommandExecutionResult'
+import SubCommandsFinder from '@src/utils/SubCommandsFinder'
 import { execSync } from 'child_process'
 import { inspect } from 'util'
 
@@ -63,7 +63,7 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
         const Command = require('${this.path.replace(/\./g, '/')}').default
         const command = new Command()
         
-        const SubCommandsFinder = require('@/utils/SubCommandsFinder').default
+        const SubCommandsFinder = require('@src/utils/SubCommandsFinder').default
         const subCommandsFinder = new SubCommandsFinder(this.cache.subCommands)
         
         const info = {

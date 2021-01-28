@@ -1,6 +1,6 @@
-import Base from '@/abstractions/Base'
+import Base from '@src/abstractions/Base'
 import Discord from 'discord.js'
-import GuildLanguage from '@/types/guild/GuildLanguage'
+import GuildLanguage from '@src/types/guild/GuildLanguage'
 
 export default class Guild extends Base {
   public readonly prefix: string

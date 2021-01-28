@@ -17,7 +17,8 @@ declare namespace NodeJS {
     REDIS_PORT: number,
     REDIS_HOST: string,
 
-    API_ENABLED: string | undefined
+    API_ENABLED: string | undefined,
+    API_PREFIX: string | undefined,
     API_PORT: number,
     API_HOST: string,
   }

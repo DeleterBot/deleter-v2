@@ -1,9 +1,9 @@
-import DeleterCommandMessage from '@/types/deleter/DeleterCommandMessage'
-import Info from '@/types/Info'
+import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import Info from '@src/types/Info'
 import Discord from 'discord.js'
-import BaseCommand from '@/abstractions/BaseCommand'
-import CommandExecutionResult from '@/structures/CommandExecutionResult'
-import StringPropertiesParser from '@/utils/StringPropertiesParser'
+import BaseCommand from '@src/abstractions/BaseCommand'
+import CommandExecutionResult from '@src/structures/CommandExecutionResult'
+import StringPropertiesParser from '@src/utils/StringPropertiesParser'
 import { hostname } from 'os'
 
 export default class StatsCommand extends BaseCommand {

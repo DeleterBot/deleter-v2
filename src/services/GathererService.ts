@@ -2,7 +2,7 @@ import Discord from 'discord.js'
 import fs from 'fs'
 import { parse } from 'dot-properties'
 import BaseEvent from '../abstractions/BaseEvent'
-import BaseCommand from '@/abstractions/BaseCommand'
+import BaseCommand from '@src/abstractions/BaseCommand'
 import { resolve } from 'path'
 
 const req = require
