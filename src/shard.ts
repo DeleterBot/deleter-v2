@@ -16,7 +16,7 @@ try {
 const deleter = new DeleterClient(TOKEN, options)
 deleter.load()
   .then(() => {
-    console.log(`shard ${deleter.shard?.ids}: lol, work`)
+    console.log(`shard ${deleter.shard?.ids} | lol, work`)
   })
 
 process.on('unhandledRejection', (reason: string) => console.error(reason))

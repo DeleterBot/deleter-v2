@@ -7,12 +7,9 @@ import DatabaseOperator from '@/services/DatabaseOperator'
 class DeleterClient extends Discord.Client {
   public token: string
   public owner: string | undefined
-  // @ts-ignore
-  public cache: DeleterClientCache
-  // @ts-ignore
-  public db: DatabaseOperator
-  // @ts-ignore
-  public options: DeleterClientOptions
+  public cache!: DeleterClientCache
+  public db!: DatabaseOperator
+  public options!: DeleterClientOptions
 
   constructor(token: string, options?: DeleterClientOptions) {
     super(options)
