@@ -14,12 +14,12 @@ export default function api(manager: Discord.ShardingManager) {
     [ FastifyRateLimit, {
       global: false,
       max: 100,
-      timeWindow: 10000,
+      timeWindow: 3 * 60 * 1000,
       cache: 5000,
       keyGenerator: (req: FastifyRequest) => {
         return req.headers?.['cf-connecting-ip'] ||
           req.headers?.['x-forwarded-for'] ||
-          req.connection.remoteAddress
+          req.socket.remoteAddress
       },
       addHeaders: {
         'x-ratelimit-limit': true,

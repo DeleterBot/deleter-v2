@@ -3,4 +3,5 @@ export default interface CommandDetails {
   aliases?: Array<string>
   description?: string
   flags?: Record<string, any>
+  category?: string
 }

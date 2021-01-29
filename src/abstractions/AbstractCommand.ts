@@ -33,5 +33,9 @@ export default abstract class AbstractCommand extends Base implements CommandCon
     this.en = config?.en
     this.ru = config?.ru
     this.gg = config?.gg
+
+    if (this.en && !this.en.aliases) this.en.aliases = []
+    if (this.ru && !this.ru.aliases) this.ru.aliases = []
+    if (this.gg && !this.gg.aliases) this.gg.aliases = []
   }
 }

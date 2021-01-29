@@ -3,6 +3,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import Discord from 'discord.js'
 import { FastifyPluginCallback, FastifyRegisterOptions, FastifyServerOptions } from 'fastify'
 import AppModule from '@api/modules/app.module'
+import { ValidationPipe } from '@nestjs/common'
 
 export default class DeleterApiWorker {
   private readonly port: number
@@ -30,10 +31,15 @@ export default class DeleterApiWorker {
       }
     )
 
+    this.api.useGlobalPipes(new ValidationPipe())
+
     plugins.forEach(([ plugin, pluginOptions ]) => this.api.register(plugin, pluginOptions))
 
     return this.api.listen(this.port, this.ip, (err: Error, address: string) => {
-      if (err) return err
+      if (err) {
+        console.error(err)
+        return err
+      }
       else {
         console.info(`fastify | listening on ${address}`)
         return true

@@ -3,5 +3,6 @@ import AbstractDatabaseOperationOptions from '@src/types/database/AbstractDataba
 export default interface DatabaseGetOptions extends AbstractDatabaseOperationOptions {
   selector?: string,
   raw?: boolean,
-  array?: boolean
+  array?: boolean,
+  everything?: boolean
 }

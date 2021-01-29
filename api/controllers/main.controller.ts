@@ -6,8 +6,7 @@ import Constants from '@api/utils/Constants'
 export default class MainController extends AbstractController {
 
   @Get('/')
-  findAll(): string {
-    console.log(this)
+  execute() {
     return 'Don\'t worry, API works successfully.'
   }
 

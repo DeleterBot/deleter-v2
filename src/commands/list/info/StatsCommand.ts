@@ -11,13 +11,16 @@ export default class StatsCommand extends BaseCommand {
     super('@deleter.commands.list.info.StatsCommand', {
       name: 'stats',
       ru: {
-        name: 'стата'
+        name: 'стата',
+        category: 'информация'
       },
       en: {
-        name: 'stats'
+        name: 'stats',
+        category: 'information'
       },
       gg: {
-        name: 'хуята'
+        name: 'хуята',
+        category: 'информейшн'
       }
     })
   }

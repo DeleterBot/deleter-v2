@@ -46,7 +46,8 @@ class DatabaseOperator extends BaseService {
     }
 
     const data = await this.execute(
-      `SELECT ${options.selector || '*'} FROM ${DB_KEYSPACE}.${table} WHERE id = ${inspect(id)}`,
+      `SELECT ${options.selector || '*'} FROM ${DB_KEYSPACE}.${table}`
+      + (options.everything ? '' : ` WHERE id = ${inspect(id)}`),
       options.params
     )
 
@@ -54,7 +55,7 @@ class DatabaseOperator extends BaseService {
     if (options.array) return data.rows
 
     if (!options.escapeCache && !options.selector && CACHE_ENABLED)
-      this.cache!.set(cacheKey, data.rows[0] ?? '')
+      this.cache!.set(cacheKey, options.everything ? data.rows : data.rows[0] ?? '')
         .catch(e => console.error(e))
 
     return data.rows[0]

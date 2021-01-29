@@ -6,14 +6,17 @@ export default class HelpCommand extends BaseCommand {
     super('@deleter.commands.list.info.HelpCommand', {
       name: 'help',
       en: {
-        name: 'help'
+        name: 'help',
+        category: 'moderation'
       },
       ru: {
         name: 'хелп',
+        category: 'модерация',
         aliases: [ 'помощь' ]
       },
       gg: {
         name: 'хуелп',
+        category: 'модерейшн',
         aliases: [ 'хуёмощь', 'хелп', 'помощь' ]
       }
     })

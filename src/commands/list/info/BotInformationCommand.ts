@@ -10,13 +10,16 @@ export default class BotInformationCommand extends BaseCommand {
     super('@deleter.commands.list.info.BotInformationCommand', {
       name: 'info',
       ru: {
-        name: 'инфо'
+        name: 'инфо',
+        category: 'информация'
       },
       en: {
-        name: 'info'
+        name: 'info',
+        category: 'information'
       },
       gg: {
         name: 'инфа',
+        category: 'информейшн',
         aliases: [ 'инфо' ]
       },
       clientPermissions: [ 'EMBED_LINKS' ]

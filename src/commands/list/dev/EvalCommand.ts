@@ -12,14 +12,17 @@ export default class EvalCommand extends BaseCommand {
       name: 'eval',
       ru: {
         name: 'eval',
+        category: 'модерация',
         aliases: [ 'e' ],
       },
       en: {
         name: 'eval',
+        category: 'moderation',
         aliases: [ 'e' ],
       },
       gg: {
         name: 'eval',
+        category: 'одменское',
         aliases: [ 'e' ],
       },
       flags: {

@@ -12,14 +12,17 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
       name: 'refresh', hasSubCommands: true, overrideSubCommands: true,
       en: {
         name: 'refresh',
+        category: 'util',
         aliases: [ 'r' ]
       },
       ru: {
         name: 'refresh',
+        category: 'утилиты',
         aliases: [ 'r' ]
       },
       gg: {
         name: 'refresh',
+        category: 'хуетилиты',
         aliases: [ 'r' ]
       },
       flags: {
