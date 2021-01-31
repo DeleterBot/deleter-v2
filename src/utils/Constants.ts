@@ -9,6 +9,11 @@ export default class Constants {
       : 'http://localhost:8080/'
   }
 
+  static localeLang(lang = 'ru') {
+    if (lang === 'gg') return 'ru'
+    else return lang
+  }
+
   static supportServer = 'https://discord.gg/GYYYN65f2J'
   static docs = 'https://halp.deleter.xyz/'
   static commandExecutionMaxTime = 15000

@@ -5,6 +5,8 @@ import BaseCommand from '@src/abstractions/BaseCommand'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import StringPropertiesParser from '@src/utils/StringPropertiesParser'
 import { hostname } from 'os'
+import Moment from 'moment'
+import Constants from '@src/utils/Constants'
 
 export default class StatsCommand extends BaseCommand {
   constructor() {
@@ -44,14 +46,17 @@ export default class StatsCommand extends BaseCommand {
     let memUsageTotal = data?.reduce((a, b) => { return [ a[0] + b[0], a[1] + b[1] ] })
     if (!memUsageTotal) memUsageTotal = [ unknown, unknown ]
 
-    let guildsCount = data?.reduce((a, b) => (a[2] ?? a) + (b[2] ?? b))
+    let guildsCount = data?.reduce((a, b) => (a[2] ?? a) + (b[2] ?? b), 0)
     if (!guildsCount) guildsCount = unknown
 
-    let usersCount = data?.reduce((a, b) => (a[3] ?? a) + (b[3] ?? b))
+    let usersCount = data?.reduce((a, b) => (a[3] ?? a) + (b[3] ?? b), 0)
     if (!usersCount) usersCount = unknown
 
     const memUsageShard
       = [ ~~(process.memoryUsage().heapUsed / 1024 ** 2), ~~(process.memoryUsage().rss / 1024 ** 2) ]
+
+    Moment.locale(Constants.localeLang(info.guild.lang.interface))
+    const uptime = Moment().to(Moment(Date.now() - process.uptime() * 1000))
 
     const description = parser.parse(
       `$phrase[${root}.description]`,
@@ -62,7 +67,7 @@ export default class StatsCommand extends BaseCommand {
         memUsageTotalRss: memUsageTotal[1],
         memUsageShardHeap: memUsageShard[0],
         memUsageShardRss: memUsageShard[1],
-        uptime: 'понятия не имею',
+        uptime: uptime,
         guildsCount: guildsCount,
         usersCount: usersCount,
         ping: this.client.ws.ping,

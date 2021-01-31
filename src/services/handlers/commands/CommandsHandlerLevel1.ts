@@ -42,7 +42,33 @@ export default class CommandsHandlerLevel1 extends BaseService {
     const args = content.split(/ +/)
     const maybeCommand = args.shift()?.toLowerCase()
 
-    const command = commandsFinder.find(maybeCommand as string, this.guild.lang.commands)
+    let command = commandsFinder.find(maybeCommand as string, this.guild.lang.commands)
+
+    if (!command) {
+      switch (this.guild.lang.commands) {
+        case 'ru':
+          command = commandsFinder.find(maybeCommand as string, 'en')
+          this.info.guild.lang.commands = 'en'
+          if (!command) command = commandsFinder.find(maybeCommand as string, 'gg')
+          this.info.guild.lang.commands = 'gg'
+          break
+        case 'en':
+          command = commandsFinder.find(maybeCommand as string, 'ru')
+          this.info.guild.lang.commands = 'ru'
+          if (!command) command = commandsFinder.find(maybeCommand as string, 'gg')
+          this.info.guild.lang.commands = 'gg'
+          break
+        case 'gg':
+          command = commandsFinder.find(maybeCommand as string, 'ru')
+          this.info.guild.lang.commands = 'ru'
+          if (!command) command = commandsFinder.find(maybeCommand as string, 'en')
+          this.info.guild.lang.commands = 'en'
+          break
+      }
+
+      if (command && !command.multiLang) command = null
+    }
+
     if (command) {
 
       this.info.guild = this.guild
