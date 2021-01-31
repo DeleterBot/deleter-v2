@@ -4,9 +4,10 @@ const cache: Record<string, any> = {}
 
 async function collectStatistics(manager: Discord.ShardingManager) {
 
-  let needToCreateCache: boolean = false
+  let needToCreateCache = false
 
-  if (cache.expiresTimestamp > Date.now()) return cache.stats
+  if (cache.expiresTimestamp > Date.now())
+    return Object.assign({}, { shards: cache.stats.shards }, cache.stats.statistic)
   else needToCreateCache = true
 
   const shards = [],
