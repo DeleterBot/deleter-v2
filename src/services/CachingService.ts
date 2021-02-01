@@ -32,26 +32,21 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
 
   public set(key: string, value: Record<string, any> | string | Array<any>): Promise<boolean> {
 
-    if (typeof value === 'object') {
-      if (Array.isArray(value)) {
-        value = JSON.stringify({ __data__: value })
-      } else value = JSON.stringify(value)
-    }
-    else if (typeof value !== 'string') throw new Error('cannot cache anything except strings and objects')
+    if (typeof value === 'object') value = JSON.stringify(value)
+    else if (typeof value !== 'string') throw new Error('cannot cache anything except strings, objects & arrays')
 
     return this.setAsync(key, value)
   }
 
-  public async get(key: string): Promise<Record<string, any> | string> {
+  public async get(key: string) {
 
     const data = await this.getAsync(key)
     let result
 
     try {
       result = JSON.parse(data)
-      if (result.__data__) result = result.__data__
     } catch (e) {
-      result = data
+      result = {}
     }
 
     return result
