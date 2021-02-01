@@ -8,6 +8,7 @@ declare namespace NodeJS {
   interface ProcessEnv {
     TOKEN: string,
     TOTAL_SHARDS: string,
+    CLIENT_SECRET: string | undefined,
 
     DB_USRN: string,
     DB_PSWD: string,
