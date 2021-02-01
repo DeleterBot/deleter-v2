@@ -18,4 +18,6 @@ export default class Constants {
   static docs = 'https://halp.deleter.xyz/'
   static commandExecutionMaxTime = 15000
 
+  static primesTable = 'primes'
+
 }
