@@ -1,8 +1,8 @@
 import 'module-alias/register.js'
-import Discord from 'discord.js'
-import api from '@api/api'
 import DotEnv from 'dotenv'
 DotEnv.config()
+import Discord from 'discord.js'
+import api from '@api/api'
 
 !async function _() {
   const shardingManager = new Discord.ShardingManager('./dist/src/shard.js', {

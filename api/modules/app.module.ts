@@ -3,13 +3,15 @@ import PrivateStatisticsController from '@api/controllers/private/statistics.con
 import CommandsController from '@api/controllers/public/commands.controller'
 import PublicStatisticsController from '@api/controllers/public/statistics.controller'
 import { Module } from '@nestjs/common'
+import TokenController from '@api/controllers/oauth2/token.controller'
 
 @Module({
   controllers: [
     MainController,
     PublicStatisticsController,
     PrivateStatisticsController,
-    CommandsController
+    CommandsController,
+    TokenController
   ]
 })
 export default class AppModule {}

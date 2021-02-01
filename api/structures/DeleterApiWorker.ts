@@ -2,16 +2,17 @@ import { NestFactory } from '@nestjs/core'
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
 import Discord from 'discord.js'
 import { FastifyPluginCallback, FastifyRegisterOptions, FastifyServerOptions } from 'fastify'
-import AppModule from '@api/modules/app.module'
 import { ValidationPipe } from '@nestjs/common'
+import DatabaseOperator from '@src/services/DatabaseOperator'
 
 export default class DeleterApiWorker {
   private readonly port: number
   private readonly ip: string
   public manager: Discord.ShardingManager
+  public db!: DatabaseOperator
   public api!: NestFastifyApplication
 
-  constructor(manager: Discord.ShardingManager, port: number = 8379, ip: string = '0.0.0.0') {
+  constructor(manager: Discord.ShardingManager, port = 8379, ip = '0.0.0.0') {
     this.manager = manager
     this.port = port
     this.ip = ip
@@ -21,7 +22,16 @@ export default class DeleterApiWorker {
     options?: FastifyServerOptions,
     ...plugins: Array<[ FastifyPluginCallback, FastifyRegisterOptions<any> ]>
   ) {
+
+    this.db = new DatabaseOperator()
+    await this.db.connect().catch(e => {
+      console.error('fastify | connection to database failed. exiting NOW', e)
+      process.exit(1)
+    })
+
     global.ApiWorker = this
+
+    const AppModule = require('@api/modules/app.module').default
 
     this.api = await NestFactory.create<NestFastifyApplication>(
       AppModule,
