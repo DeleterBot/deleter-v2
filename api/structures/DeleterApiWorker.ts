@@ -49,8 +49,7 @@ export default class DeleterApiWorker {
       if (err) {
         console.error(err)
         return err
-      }
-      else {
+      } else {
         console.info(`fastify | listening on ${address}`)
         return true
       }
