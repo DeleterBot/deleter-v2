@@ -2,9 +2,9 @@ import Discord from 'discord.js'
 import BaseEvent from '@src/abstractions/BaseEvent'
 import CommandsExecutor from '@src/services/CommandsExecutor'
 
-export default class MessageUpdateEventEvent extends BaseEvent {
+export default class MessageUpdateEvent extends BaseEvent {
   constructor() {
-    super('@deleter.events.messages.MessageUpdateEventEvent', {
+    super('@deleter.events.messages.MessageUpdateEvent', {
       name: 'messageUpdate'
     })
   }
