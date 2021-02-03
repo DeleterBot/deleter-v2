@@ -5,6 +5,7 @@ import { FastifyPluginCallback, FastifyRegisterOptions, FastifyServerOptions } f
 import { ValidationPipe } from '@nestjs/common'
 import DatabaseOperator from '@src/services/DatabaseOperator'
 import Constants from '@api/utils/Constants'
+import QiwiBillPaymentsAPI from '@qiwi/bill-payments-node-js-sdk'
 
 export default class DeleterApiWorker {
   private readonly port: number
@@ -12,11 +13,13 @@ export default class DeleterApiWorker {
   public manager: Discord.ShardingManager
   public db!: DatabaseOperator
   public api!: NestFastifyApplication
+  public qiwi: QiwiBillPaymentsAPI
 
   constructor(manager: Discord.ShardingManager, port = 8379, ip = '0.0.0.0') {
     this.manager = manager
     this.port = port
     this.ip = ip
+    this.qiwi = new QiwiBillPaymentsAPI(process.env.QIWI_PRIVATE_KEY)
   }
 
   public async start(

@@ -17,6 +17,8 @@ class Constants {
 
   static VALID_LANGUAGES = [ 'ru', 'en', 'gg' ]
 
+  static qiwiThemeCode = 'Dmytryi-BD7A2BZBXO'
+
   static hashesTable = 'hashes'
   static settingsTable = 'guilds'
 
