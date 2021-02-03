@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import AuthGuard from '@api/guards/auth.guard'
-import AuthorizedRequest from '@api/types/authorized.request'
+import AuthorizedRequest from '@api/types/AuthorizedRequest'
 
 @Controller(Constants.PREFIX + Constants.PRIVATE)
 export default class PrivateStatisticsController extends AbstractController {

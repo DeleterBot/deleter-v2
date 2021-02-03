@@ -7,7 +7,7 @@ import {
   HttpException
 } from '@nestjs/common'
 import AbstractGuard from '@api/abstractions/abstract.guard'
-import RequestUser from '@api/types/request.user'
+import RequestUser from '@api/types/RequestUser'
 import Constants from '@api/utils/Constants'
 import generateHash from '@api/utils/generateHash'
 import getDiscordUser from '@api/utils/getDiscordUser'

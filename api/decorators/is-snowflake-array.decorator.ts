@@ -30,6 +30,11 @@ export function IsSnowflakeArray(maxArrayLength = 500, validationOptions?: Valid
           }
 
           return isValid
+        },
+
+        defaultMessage(validationArguments?: ValidationArguments): string {
+          return `${validationArguments?.property} must be an array of strings (snowflake) and have a length`
+            + ` of no more than ${validationArguments?.constraints[0]}`
         }
       }
     })

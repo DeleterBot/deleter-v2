@@ -14,7 +14,7 @@ CACHE_ENABLED = CACHE_ENABLED === 'true'
 
 class DatabaseOperator extends BaseService {
   public connection: Cassandra.Client
-  private cache: CachingService | undefined
+  public cache: CachingService | undefined
 
   constructor() {
     super()

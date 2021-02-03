@@ -1,10 +1,11 @@
 import { IsString } from 'class-validator'
-import { IsSnowflake } from '@api/decorators/IsSnowflake.decorator'
+import { IsSnowflake } from '@api/decorators/is-snowflake.decorator'
 
 export default class TokenDto {
 
   @IsString()
   public redirect_uri!: string
+
 
   // @ts-ignore
   @IsSnowflake({

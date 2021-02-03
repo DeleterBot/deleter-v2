@@ -41,7 +41,10 @@ export default class DeleterApiWorker {
       }
     )
 
-    this.api.useGlobalPipes(new ValidationPipe())
+    this.api.useGlobalPipes(new ValidationPipe({
+      transform: true,
+      forbidUnknownValues: true
+    }))
 
     plugins.forEach(([ plugin, pluginOptions ]) => this.api.register(plugin, pluginOptions))
 

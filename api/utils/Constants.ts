@@ -15,7 +15,10 @@ class Constants {
 
   static DISCORD_API = 'https://discord.com/api/'
 
+  static VALID_LANGUAGES = [ 'ru', 'en', 'gg' ]
+
   static hashesTable = 'hashes'
+  static settingsTable = 'guilds'
 
   static tokenTypes = [ 'Bearer' ]
 

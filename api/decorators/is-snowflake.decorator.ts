@@ -1,4 +1,4 @@
-import { registerDecorator, ValidationOptions } from 'class-validator'
+import { registerDecorator, ValidationArguments, ValidationOptions } from 'class-validator'
 
 export function IsSnowflake(validationOptions?: ValidationOptions) {
   return function (object: Record<string, unknown>, propertyName: string) {
@@ -16,6 +16,10 @@ export function IsSnowflake(validationOptions?: ValidationOptions) {
           }
 
           return false
+        },
+
+        defaultMessage(validationArguments?: ValidationArguments): string {
+          return `${validationArguments?.property} must be an string (snowflake)`
         }
       }
     })
