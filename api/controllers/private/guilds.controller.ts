@@ -11,7 +11,7 @@ import getShardID from '@api/utils/getShardID'
 import GuildPerms from '@api/utils/GuildPerms'
 import makeGuild from '@api/utils/makeGuild'
 
-@Controller(Constants.PREFIX + Constants.PRIVATE + 'guilds/')
+@Controller(Constants.PRIVATE + 'guilds/')
 export default class GuildsController extends AbstractController {
 
   @Get()

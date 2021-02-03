@@ -6,7 +6,7 @@ import Axios, { AxiosResponse } from 'axios'
 import generateHash from '@api/utils/generateHash'
 import getDiscordUser from '@api/utils/getDiscordUser'
 
-@Controller(Constants.PREFIX + Constants.OAUTH2)
+@Controller(Constants.OAUTH2)
 export default class TokenController extends AbstractController {
 
   @Post('token')

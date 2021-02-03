@@ -2,7 +2,7 @@ import AbstractController from '@api/abstractions/abstract.controller'
 import Constants from '@api/utils/Constants'
 import { Controller, Get, InternalServerErrorException } from '@nestjs/common'
 
-@Controller(Constants.PREFIX + Constants.PUBLIC)
+@Controller(Constants.PUBLIC)
 export default class CommandsController extends AbstractController {
 
   @Get('commands')

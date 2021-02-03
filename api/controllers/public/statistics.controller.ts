@@ -3,7 +3,7 @@ import collectStatistics from '@api/utils/collectStatistics'
 import Constants from '@api/utils/Constants'
 import { Controller, Get, InternalServerErrorException } from '@nestjs/common'
 
-@Controller(Constants.PREFIX + Constants.PUBLIC)
+@Controller(Constants.PUBLIC)
 export default class PublicStatisticsController extends AbstractController {
 
   @Get('statistics')

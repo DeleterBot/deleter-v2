@@ -5,7 +5,7 @@ export default class CommandsReplier {
 
   static processReply(to: Discord.Message, content: any, options?: any) {
     // @ts-ignore
-    if (to.replyedTo) {
+    if (to.repliedTo) {
       // @ts-ignore
       return this.edit(to, content, options, to)
         .catch((e: any) => {
@@ -23,7 +23,7 @@ export default class CommandsReplier {
   static process(to: Discord.TextChannel | Discord.Message, content: any, options?: any) {
     if (to instanceof Discord.Message) {
       // @ts-ignore
-      if (to.replyedTo) {
+      if (to.repliedTo) {
         // @ts-ignore
         return this.edit(to, content, options)
           .catch((e: any) => {
@@ -51,7 +51,7 @@ export default class CommandsReplier {
       return to.reply(content, options)
         .then(m => {
           // @ts-ignore
-          to.replyedTo = m
+          to.repliedTo = m
 
           return m
         })
@@ -63,7 +63,7 @@ export default class CommandsReplier {
         .then(m => {
           if (to instanceof Discord.Message) {
             // @ts-ignore
-            to.replyedTo = m
+            to.repliedTo = m
           }
           return m
         })
@@ -74,7 +74,7 @@ export default class CommandsReplier {
   static edit(to: Discord.Message, content: any, options?: any, reply?: boolean): any {
 
     // @ts-ignore
-    const rTo: Discord.Message = to.replyedTo
+    const rTo: Discord.Message = to.repliedTo
 
     if (typeof content === 'string' && rTo.content.length && rTo.content !== rTo.author.toString() + ', ') {
       if (reply && parseInt(Discord.version.slice(0, 2)) < 13)
@@ -85,7 +85,7 @@ export default class CommandsReplier {
 
     rTo.delete().catch(() => {}) // eslint-disable-line no-empty
     // @ts-ignore
-    to.replyedTo = null
+    to.repliedTo = null
     return reply ? this.processReply(to, content, options) : this.process(to, content, options)
   }
 

@@ -9,13 +9,13 @@ import AuthorizedRequest from '@api/types/AuthorizedRequest'
 import GeneralSettingsDto from '@api/dto/general-settings.dto'
 import SettingSavedSuccessResponse from '@api/structures/SettingSavedSuccessResponse'
 
-@Controller(Constants.PREFIX + Constants.PRIVATE + 'guilds/:id/')
-export default class GuildSettingsController extends AbstractController {
+@Controller(Constants.PRIVATE + 'guilds/:id/general')
+export default class GuildGeneralSettingsController extends AbstractController {
 
-  @Get('general')
+  @Get()
   @UseGuards(new AuthGuard())
   @UseGuards(new IsShardsLoadedGuard())
-  async getGeneralSettings(@Param('id') id: string, @Req() req: AuthorizedRequest) {
+  async get(@Param('id') id: string, @Req() req: AuthorizedRequest) {
 
     const guildPerms = new GuildPerms(id, req.user.id)
     const isUserPermitted = await guildPerms.check()
@@ -31,10 +31,10 @@ export default class GuildSettingsController extends AbstractController {
 
   }
 
-  @Patch('general')
+  @Patch()
   @UseGuards(new AuthGuard())
   @UseGuards(new IsShardsLoadedGuard())
-  async saveGeneralSettings(
+  async patch(
     @Param('id') id: string,
     @Req() req: AuthorizedRequest,
     @Body() body: GeneralSettingsDto

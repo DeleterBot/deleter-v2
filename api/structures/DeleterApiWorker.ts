@@ -4,6 +4,7 @@ import Discord from 'discord.js'
 import { FastifyPluginCallback, FastifyRegisterOptions, FastifyServerOptions } from 'fastify'
 import { ValidationPipe } from '@nestjs/common'
 import DatabaseOperator from '@src/services/DatabaseOperator'
+import Constants from '@api/utils/Constants'
 
 export default class DeleterApiWorker {
   private readonly port: number
@@ -45,6 +46,8 @@ export default class DeleterApiWorker {
       transform: true,
       forbidUnknownValues: true
     }))
+
+    this.api.setGlobalPrefix(Constants.PREFIX)
 
     plugins.forEach(([ plugin, pluginOptions ]) => this.api.register(plugin, pluginOptions))
 

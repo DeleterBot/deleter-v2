@@ -10,7 +10,7 @@ import {
 import AuthGuard from '@api/guards/auth.guard'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
 
-@Controller(Constants.PREFIX + Constants.PRIVATE)
+@Controller(Constants.PRIVATE)
 export default class PrivateStatisticsController extends AbstractController {
 
   @Get('statistics')

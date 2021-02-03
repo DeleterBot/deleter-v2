@@ -11,7 +11,7 @@ export default class MessageUpdateEventEvent extends BaseEvent {
 
   execute(oldM: Discord.Message, newM: Discord.Message): any {
     // @ts-ignore
-    if (oldM.replyedTo) newM.replyedTo = oldM.replyedTo
+    if (oldM.repliedTo) newM.repliedTo = oldM.repliedTo
 
     const commandsExecutor = new CommandsExecutor(newM)
 
