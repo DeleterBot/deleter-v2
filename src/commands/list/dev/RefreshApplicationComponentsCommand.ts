@@ -5,6 +5,8 @@ import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import SubCommandsFinder from '@src/utils/SubCommandsFinder'
 import { execSync } from 'child_process'
 import { inspect } from 'util'
+import RefreshApplicationComponentsCommandFlags
+  from '@src/commands/list/dev/resources/flags/RefreshApplicationComponentsCommandFlags'
 
 export default class RefreshApplicationComponentsCommand extends BaseCommand {
   constructor() {
@@ -25,20 +27,7 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
         category: 'хуетилиты',
         aliases: [ 'r' ]
       },
-      flags: {
-        'compile': {
-          name: 'compile',
-          alias: 'c'
-        },
-        'pull': {
-          name: 'pull',
-          alias: 'p'
-        },
-        'everywhere': {
-          name: 'everywhere',
-          alias: 'e'
-        }
-      },
+      flags: RefreshApplicationComponentsCommandFlags.default,
       customPermissions: [ 'OWNER' ]
     })
   }

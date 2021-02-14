@@ -5,6 +5,7 @@ import Info from '@src/types/Info'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import { execSync } from 'child_process'
 import { types, inspect } from 'util'
+import EvalCommandFlags from '@src/commands/list/dev/resources/flags/EvalCommandFlags'
 
 export default class EvalCommand extends BaseCommand {
   constructor() {
@@ -25,25 +26,7 @@ export default class EvalCommand extends BaseCommand {
         category: 'одменское',
         aliases: [ 'e' ],
       },
-      flags: {
-        'noreply': {
-          name: 'noReply',
-          alias: 'n'
-        },
-        'everywhere': {
-          name: 'everywhere',
-          alias: 'e'
-        },
-        'last': {
-          name: 'last',
-          alias: 'l'
-        },
-        'api': 'api',
-        'all': 'all',
-        'more': 'more',
-        'shell': 'shell',
-        'async': 'isAsync'
-      },
+      flags: EvalCommandFlags.default,
       customPermissions: [ 'OWNER' ]
     })
   }

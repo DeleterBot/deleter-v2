@@ -9,8 +9,10 @@ declare namespace NodeJS {
     TOKEN: string,
     TOTAL_SHARDS: string,
     CLIENT_SECRET: string | undefined,
+
     QIWI_PRIVATE_KEY: string,
     QIWI_PUBLIC_KEY: string,
+    QIWI_SUCCESS_URL: string,
 
     DB_USRN: string,
     DB_PSWD: string,

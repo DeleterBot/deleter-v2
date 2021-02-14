@@ -2,10 +2,11 @@ import CommandDetails  from '@src/types/commands/CommandDetails'
 import CoolDownConfig from '@src/types/commands/CoolDownConfig'
 import Discord from 'discord.js'
 import DeleterCustomPermissions from '@src/types/deleter/DeleterCustomPermissions'
+import FlagsDetails from '@src/types/commands/FlagsDetails'
 
 export default interface CommandConfig {
   name: string
-  flags?: Record<string, any>
+  flags?: FlagsDetails
   disabled?: boolean
   cd?: CoolDownConfig
   memberPermissions?: Discord.BitFieldResolvable<any>
