@@ -1,3 +1,5 @@
+import locale from '@src/utils/locale'
+
 const matchers: Record<string, Array<RegExp>> = {
   seconds: [ /[\d]+s(ec(ond(s)?)?)?/, /[\d]+с(ек(унд(ы)?)?)?/ ],
   months: [ /[\d]+mo(nth(s)?)?/, /[\d]+ме(с(яц(а)?)?)?/ ],
@@ -19,7 +21,7 @@ export default class TimeArgumentsParser {
   static all(string: string, lang: string): number {
     if (!string || !lang) return 0
 
-    let result: number = 0
+    let result = 0
     const matchersLang: number = lang === 'en' ? 0 : 1
 
     result += this.centuries(string, lang)
@@ -98,8 +100,8 @@ export default class TimeArgumentsParser {
   }
 
   static parse(string: string, matcher: RegExp, increase: number, lang: string): number {
-    let result: number = 0,
-      str: string = ''
+    let result = 0,
+      str = ''
 
     if (!string || !matcher || !increase) return result
 
@@ -116,7 +118,7 @@ export default class TimeArgumentsParser {
 
     if (testString) throw new Error('the time imputed incorrectly')
 
-    let match = string.match(matcher)
+    const match = string.match(matcher)
     if (!match) return result
 
     str = string.slice(match.index)
@@ -124,7 +126,7 @@ export default class TimeArgumentsParser {
 
     if (str.startsWith('0')) throw new Error('the time imputed incorrectly')
 
-    let specifiedTime: number = Number(str.replace(/[^\d]/g, ''))
+    const specifiedTime = Number(str.replace(/[^\d]/g, ''))
     result += specifiedTime * increase
     if (result >= Number.MAX_SAFE_INTEGER)
       throw new RangeError('the result is greater than or equal to max safe integer')
@@ -173,6 +175,7 @@ export default class TimeArgumentsParser {
       { type: 'years', value: years },
       { type: 'months', value: months },
       { type: 'weeks', value: weeks },
+      { type: 'days', value: days },
       { type: 'hours', value: hours },
       { type: 'minutes', value: minutes },
       { type: 'seconds', value: seconds },
@@ -199,6 +202,10 @@ export default class TimeArgumentsParser {
       weeksExtra: {
         ru: [ 'неделю', 'недели', 'недель' ],
         en: [ 'week', 'weeks', 'weeks' ]
+      },
+      days: {
+        ru: [ 'день', 'дня', 'дней' ],
+        en: [ 'day', 'days', 'days' ]
       },
       hours: {
         ru: [ 'час', 'часа', 'часов' ],
@@ -239,8 +246,7 @@ export default class TimeArgumentsParser {
       }
     })
 
-    let result: string = ''
-    const locale = require('../misc/locale')
+    let result = ''
     times.forEach((time, i) => {
       if (time.value) {
         if (extraLocale) {
@@ -261,8 +267,8 @@ export default class TimeArgumentsParser {
 
           if (result.endsWith(', ')) result = result.replace(replaceLastCommaRegExp, '')
 
-          result += and + ' ' + locale.execute(time.value, timesStr[time.type][lang])
-        } else result += locale.execute(time.value, timesStr[time.type][lang]) + comma
+          result += and + ' ' + locale(time.value, timesStr[time.type][lang])
+        } else result += locale(time.value, timesStr[time.type][lang]) + comma
       }
     })
 
