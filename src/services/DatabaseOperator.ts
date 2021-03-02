@@ -78,7 +78,7 @@ class DatabaseOperator extends BaseService {
           `CQL injection detected. Request denied. \nTable: ${table} \nID: ${id} \nData: ${inspect(data)}`
         )
 
-      query += comma + `${key} = ${inspect(value)}`
+      query += comma + `${key} = ${inspect(JSON.parse(JSON.stringify(value)), { depth: undefined })}`
     })
     query += ` WHERE id = ${inspect(id)}`
 
