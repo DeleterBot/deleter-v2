@@ -3,8 +3,8 @@ import Discord from 'discord.js'
 import Info from '@src/types/Info'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import SubCommandsFinder from '@src/utils/SubCommandsFinder'
-import { execSync } from 'child_process'
 import { inspect } from 'util'
+import environmentEval from '@src/utils/environmentEval'
 import RefreshApplicationComponentsCommandFlags
   from '@src/commands/list/dev/resources/flags/RefreshApplicationComponentsCommandFlags'
 
@@ -35,12 +35,12 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
   async execute(msg: Discord.Message, info: Info): Promise<CommandExecutionResult> {
 
     if (info.flags.pull) {
-      await execSync('git pull')
+      await environmentEval('git pull')
     }
 
     if (info.flags.compile) {
       await msg.react('10:637956323958587392')
-      await execSync('npm run build')
+      await environmentEval('npm run build')
       await msg.reactions.cache.get('637956323958587392')?.users.remove(this.client.user!.id)
     }
 

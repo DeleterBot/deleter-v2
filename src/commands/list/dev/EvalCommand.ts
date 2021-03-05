@@ -3,8 +3,8 @@ import Discord from 'discord.js'
 import Axios from 'axios'
 import Info from '@src/types/Info'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
-import { execSync } from 'child_process'
 import { types, inspect } from 'util'
+import environmentEval from '@src/utils/environmentEval'
 import EvalCommandFlags from '@src/commands/list/dev/resources/flags/EvalCommandFlags'
 
 export default class EvalCommand extends BaseCommand {
@@ -57,7 +57,7 @@ export default class EvalCommand extends BaseCommand {
 
       let evaled
       if (shell) {
-        evaled = execSync(toEval, { encoding: 'utf-8' })
+        evaled = environmentEval(toEval)
 
       } else if (api) {
 
