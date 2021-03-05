@@ -1,10 +1,11 @@
-import Cassandra from 'cassandra-driver'
+import Cassandra, { errors } from 'cassandra-driver'
 import BaseService from '@src/abstractions/BaseService'
 import CachingService from '@src/services/CachingService'
 import DatabaseGetOptions from '@src/types/database/DatabaseGetOptions'
 import DatabaseUpdateOptions from '@src/types/database/DatabaseUpdateOptions'
 import DatabaseDeleteOptions from '@src/types/database/DatabaseDeleteOptions'
 import { inspect } from 'util'
+import NoHostAvailableError = errors.NoHostAvailableError
 
 const { DB_KEYSPACE } = process.env
 let { CACHE_ENABLED } = process.env
@@ -30,6 +31,13 @@ class DatabaseOperator extends BaseService {
     })
 
     if (CACHE_ENABLED) this.cache = new CachingService()
+
+    this.connection.on('error', (e: any) => {
+      if (e instanceof NoHostAvailableError) {
+        this.connection.shutdown()
+          .then(() => this.connection.connect())
+      } else console.error(e)
+    })
   }
 
   public connect() {
