@@ -5,6 +5,7 @@ import AuthGuard from '@api/guards/auth.guard'
 import QiwiBillingCreateDto from '@api/dto/qiwi-billing-create.dto'
 import Snowflake from '@src/utils/Snowflake'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
+import CachedBill from '@api/types/CachedBill'
 
 @Controller(Constants.PRIVATE + 'billing')
 export default class QiwiBillingController extends AbstractController {
@@ -13,9 +14,16 @@ export default class QiwiBillingController extends AbstractController {
   @UseGuards(new AuthGuard())
   async create(@Body() body: QiwiBillingCreateDto, @Req() req: AuthorizedRequest) {
 
+    const cacheKey = `${Constants.billingPrefix}:${req.user.id}:${body.amount}`
+
+    const cache: CachedBill | undefined
+      = await this.db.cache?.get(cacheKey)
+
+    if (cache) return cache
+
     const params = {
       amount: body.amount,
-      expirationDateTime: this.qiwi.getLifetimeByDay(0.5),
+      expirationDateTime: this.qiwi.getLifetimeByDay(0.1),
       currency: 'RUB',
       successUrl: 'https://qiwi.com/',
       customFields: {
@@ -25,7 +33,8 @@ export default class QiwiBillingController extends AbstractController {
 
     const bill = await this.qiwi.createBill(Snowflake.generate(), params)
 
-    console.log(bill, req.user)
+    if (bill && this.db.cache)
+      await this.db.cache.set(cacheKey, bill)
 
     return {
       payUrl: bill.payUrl,

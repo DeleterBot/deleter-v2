@@ -21,6 +21,7 @@ class Constants {
 
   static hashesTable = 'hashes'
   static settingsTable = 'guilds'
+  static billingPrefix = 'bill'
 
   static tokenTypes = [ 'Bearer' ]
 
