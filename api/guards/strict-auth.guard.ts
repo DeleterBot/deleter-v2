@@ -9,7 +9,6 @@ export default class StrictAuthGuard extends AuthGuard {
     if (!request.headers.authorization)
       throw new UnauthorizedException()
 
-
     if (typeof request.headers.authorization !== 'string') {
       throw new ForbiddenException({
         message: 'authorization header must be string'

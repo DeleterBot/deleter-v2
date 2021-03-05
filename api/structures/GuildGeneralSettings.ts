@@ -18,7 +18,7 @@ export default class GuildGeneralSettings {
     }
 
     this.ignore = data.ignore ?? {
-      commands: [],
+      channels: [],
       roles: []
     }
   }
