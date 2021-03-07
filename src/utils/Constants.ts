@@ -19,5 +19,6 @@ export default class Constants {
   static commandExecutionMaxTime = 15000
 
   static primesTable = 'primes'
+  static gulagsTable = 'siberia'
 
 }
