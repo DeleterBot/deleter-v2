@@ -110,13 +110,14 @@ class DatabaseOperator extends BaseService {
   public async delete(
     table: string,
     id: string,
-    selector: string | Array<string>,
+    selector: string | Array<string> = '',
     options: DatabaseDeleteOptions = {}
   ) {
 
     if (Array.isArray(selector)) selector = selector.join(', ')
 
-    let query = `DELETE ${selector} FROM ${DB_KEYSPACE}.${table} `
+    let query = `DELETE ${selector ? selector + ' ' : '' }`
+      + `FROM ${DB_KEYSPACE}.${table} `
 
     if (options.timestamp) query += `USING TIMESTAMP ${options.timestamp} `
     query += `WHERE id = ${inspect(id)}`

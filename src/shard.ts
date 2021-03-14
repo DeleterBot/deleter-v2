@@ -2,7 +2,10 @@ import 'module-alias/register.js'
 
 import DeleterClient from '@src/structures/DeleterClient'
 import DeleterClientOptions from '@src/types/deleter/DeleterClientOptions'
+import DeleterGuild from '@src/structures/djs/DeleterGuild'
 import Discord from 'discord.js'
+
+Discord.Structures.extend('Guild', () => DeleterGuild)
 
 global.Discord = Discord
 

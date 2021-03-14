@@ -1,16 +1,26 @@
 import AbstractController from '@api/abstractions/abstract.controller'
-import { Body, Controller, ForbiddenException, InternalServerErrorException, Post } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  InternalServerErrorException,
+  Delete, Post, Req,
+  UseGuards
+} from '@nestjs/common'
 import Constants from '@api/utils/Constants'
-import TokenDto from '@api/dto/token.dto'
+import TokenDto from '@api/dto/oauth2/token.dto'
 import Axios, { AxiosResponse } from 'axios'
 import generateHash from '@api/utils/generateHash'
 import getDiscordUser from '@api/utils/getDiscordUser'
-import RefreshTokenDto from '@api/dto/refresh-token.dto'
+import RefreshTokenDto from '@api/dto/oauth2/refresh-token.dto'
+import AuthGuard from '@api/guards/auth.guard'
+import AuthorizedRequest from '@api/types/AuthorizedRequest'
+import RevokeTokenDto from '@api/dto/oauth2/revoke-token.dto'
 
-@Controller(Constants.OAUTH2)
+@Controller(Constants.OAUTH2 + 'token')
 export default class TokenController extends AbstractController {
 
-  @Post('token')
+  @Post()
   async token(@Body() body: TokenDto) {
 
     if (!process.env.CLIENT_SECRET)
@@ -62,7 +72,7 @@ export default class TokenController extends AbstractController {
 
   }
 
-  @Post('token/refresh')
+  @Post('refresh')
   async refresh(@Body() body: RefreshTokenDto) {
 
     if (!process.env.CLIENT_SECRET)
@@ -94,7 +104,7 @@ export default class TokenController extends AbstractController {
 
     const response = await Axios.post(
       Constants.DISCORD_API + 'oauth2/token',
-      data,
+      new URLSearchParams(data),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
     ).catch(() => {
       throw new InternalServerErrorException({
@@ -121,6 +131,38 @@ export default class TokenController extends AbstractController {
       refresh_token: refresh_token,
       token_type: token_type
     }
+
+  }
+
+  @Delete('revoke')
+  @UseGuards(new AuthGuard())
+  async revoke(@Req() req: AuthorizedRequest, @Body() body: RevokeTokenDto) {
+
+    if (!process.env.CLIENT_SECRET)
+      throw new InternalServerErrorException({
+        message: 'this part of oauth2 does not provided with the necessary components'
+      })
+
+    const data = {
+      token: req.user.token,
+      client_id: body.client_id,
+      client_secret: process.env.CLIENT_SECRET
+    }
+
+    const headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `${req.user.tokenType} ${req.user.token}`
+    }
+
+    await Axios.post(
+      Constants.DISCORD_API + 'oauth2/token/revoke',
+      new URLSearchParams(data),
+      { headers: headers }
+    )
+      .then(
+        () => this.db.delete(Constants.hashesTable, req.user.id),
+        () => {}
+      )
 
   }
 

@@ -11,7 +11,7 @@ export default class Guild extends Base {
     super()
 
     this.prefix = data.prefix ?? this.client.options.prefix
-    this.lang = data.lang ?? guild.locale
+    this.lang = data.lang ?? { commands: guild.locale, interface: guild.locale }
 
     if (data.lang && typeof data.lang === 'string') {
       this.lang = {

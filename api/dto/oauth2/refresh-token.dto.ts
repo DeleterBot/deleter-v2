@@ -1,4 +1,4 @@
-import TokenDto from '@api/dto/token.dto'
+import TokenDto from '@api/dto/oauth2/token.dto'
 import { IsOptional, IsString } from 'class-validator'
 import { IsSnowflake } from '@api/decorators/is-snowflake.decorator'
 

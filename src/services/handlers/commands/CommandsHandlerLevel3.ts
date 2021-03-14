@@ -28,6 +28,8 @@ export default class CommandsHandlerLevel3 extends BaseService {
 
     const subCommandsFinder = new SubCommandsFinder(this.client.cache.subCommands)
 
+    console.log(this.guild.lang)
+
     const commandFlags =
       this.command[this.guild.lang.commands as CommandLanguage].flags && this.command.flags
         ? Object.assign(
