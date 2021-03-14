@@ -28,8 +28,6 @@ export default class CommandsHandlerLevel3 extends BaseService {
 
     const subCommandsFinder = new SubCommandsFinder(this.client.cache.subCommands)
 
-    console.log(this.guild.lang)
-
     const commandFlags =
       this.command[this.guild.lang.commands as CommandLanguage].flags && this.command.flags
         ? Object.assign(
@@ -41,7 +39,7 @@ export default class CommandsHandlerLevel3 extends BaseService {
     if (commandFlags) {
       this.info.flags = {}
 
-      let args: commandLineArgs.OptionDefinition[] = []
+      const args: commandLineArgs.OptionDefinition[] = []
       const commandsFlagsEntries: Array<[string, Record<string, any> | string]> = Object.entries(commandFlags)
 
       commandsFlagsEntries.forEach(flag => {
@@ -70,7 +68,7 @@ export default class CommandsHandlerLevel3 extends BaseService {
         partial: true
       })
 
-      let flags: Record<string, any> = {}
+      const flags: Record<string, any> = {}
 
       if (parsedFlags._unknown) {
         this.info.args = parsedFlags._unknown

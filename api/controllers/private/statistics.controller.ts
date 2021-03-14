@@ -17,8 +17,6 @@ export default class PrivateStatisticsController extends AbstractController {
   @UseGuards(new AuthGuard())
   async execute(@Req() req: AuthorizedRequest) {
 
-    console.log(req.user)
-
     if (!this.manager.shards.size)
       throw new InternalServerErrorException({
         message: 'shards haven\'t created yet'
@@ -72,7 +70,7 @@ export default class PrivateStatisticsController extends AbstractController {
     result += '# HELP commands_usage Commands usage.\n'
     result += '# TYPE commands_usage summary\n'
     result += commandsUsage
-    
+
     return result
 
   }
