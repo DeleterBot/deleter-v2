@@ -4,7 +4,7 @@ class Codes {
   static NEVER_AUTHORIZED = 10001
   static TOKEN_TYPE_NOT_EXISTS = 10002
   static TOKEN_INVALID = 10003
-  static TOKEN_OUTDATED =10004
+  static TOKEN_OUTDATED = 10004
 }
 
 class Constants {

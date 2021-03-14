@@ -20,7 +20,6 @@ export default class AuthGuard extends AbstractGuard implements CanActivate {
     if (!request.headers.authorization)
       throw new UnauthorizedException()
 
-
     if (typeof request.headers.authorization !== 'string') {
       throw new ForbiddenException({
         message: 'authorization header must be string'

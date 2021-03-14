@@ -12,7 +12,7 @@ export default class GuildPerms extends Abstract {
     this.userID = userID
   }
 
-  async check() {
+  check() {
     const shardID = getShardID(this.guildID, this.manager.shards.size)
 
     return this.manager.shards.get(shardID)

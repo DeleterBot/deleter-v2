@@ -50,7 +50,7 @@ export default class DeleterApiWorker {
       forbidUnknownValues: true
     }))
 
-    this.api.setGlobalPrefix(process.env.API_PREFIX || '')
+    this.api.setGlobalPrefix(Constants.PREFIX || '')
 
     plugins.forEach(([ plugin, pluginOptions ]) => this.api.register(plugin, pluginOptions))
 
