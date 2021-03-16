@@ -16,11 +16,13 @@ import RefreshTokenDto from '@api/dto/oauth2/refresh-token.dto'
 import AuthGuard from '@api/guards/auth.guard'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
 import RevokeTokenDto from '@api/dto/oauth2/revoke-token.dto'
+import { RateLimit } from 'nestjs-fastify-rate-limiter'
 
 @Controller(Constants.OAUTH2 + 'token')
 export default class TokenController extends AbstractController {
 
   @Post()
+  @RateLimit({ points: 1, duration: 30 })
   async token(@Body() body: TokenDto) {
 
     if (!process.env.CLIENT_SECRET)
@@ -73,6 +75,7 @@ export default class TokenController extends AbstractController {
   }
 
   @Post('refresh')
+  @RateLimit({ points: 1, duration: 30 })
   async refresh(@Body() body: RefreshTokenDto) {
 
     if (!process.env.CLIENT_SECRET)

@@ -10,6 +10,7 @@ import makePartialGuild from '@api/utils/makePartialGuild'
 import getShardID from '@api/utils/getShardID'
 import GuildPerms from '@api/utils/GuildPerms'
 import makeGuild from '@api/utils/makeGuild'
+import { RateLimit } from 'nestjs-fastify-rate-limiter'
 
 @Controller(Constants.PRIVATE + 'guilds/')
 export default class GuildsController extends AbstractController {
@@ -17,6 +18,7 @@ export default class GuildsController extends AbstractController {
   @Get()
   @UseGuards(new AuthGuard())
   @UseGuards(new IsShardsLoadedGuard())
+  @RateLimit({ points: 5, duration: 60 })
   async execute(@Req() req: AuthorizedRequest) {
 
     const guilds = await Axios.get(
