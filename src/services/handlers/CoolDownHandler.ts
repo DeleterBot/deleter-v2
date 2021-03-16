@@ -26,7 +26,7 @@ export default class CoolDownHandler extends BaseService {
 
     const expirationTimestamp = Date.now() + (this.coolDownConfig.time * 100)
     //const id = Snowflake.generate(expirationTimestamp)
-    let coolDownItem: Record<string, any> = this.client.cache.cd.get(this.coolDownFrom)
+    const coolDownItem: Record<string, any> = this.client.cache.cd.get(this.coolDownFrom)
 
     if (coolDownItem) {
 

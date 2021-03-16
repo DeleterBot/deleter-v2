@@ -1,3 +1,9 @@
+/**
+ * The Deleter API is a RESTful API based on HTTP(s) requests and JSON responses.
+ *
+ * @author Mirdukkk
+ */
+
 import DeleterApiWorker from '@api/structures/DeleterApiWorker'
 import Discord from 'discord.js'
 import { FastifyRequest } from 'fastify'
