@@ -1,13 +1,13 @@
 import AbstractController from '@api/abstractions/abstract.controller'
 import Constants from '@api/utils/Constants'
 import { Controller, Get, InternalServerErrorException } from '@nestjs/common'
-import { RateLimit } from 'nestjs-fastify-rate-limiter'
+import { RateLimit } from 'nestjs-rate-limiter'
 
 @Controller(Constants.PUBLIC)
 export default class CommandsController extends AbstractController {
 
   @Get('commands')
-  @RateLimit({ points: 15, duration: 60 })
+  @RateLimit({ keyPrefix: 'cmds', points: 15, duration: 60 })
   async execute() {
 
     if (!this.manager.shards.size)

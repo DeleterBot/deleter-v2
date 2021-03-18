@@ -16,13 +16,18 @@ import RefreshTokenDto from '@api/dto/oauth2/refresh-token.dto'
 import AuthGuard from '@api/guards/auth.guard'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
 import RevokeTokenDto from '@api/dto/oauth2/revoke-token.dto'
-import { RateLimit } from 'nestjs-fastify-rate-limiter'
+import { RateLimit } from 'nestjs-rate-limiter'
 
 @Controller(Constants.OAUTH2 + 'token')
 export default class TokenController extends AbstractController {
 
   @Post()
-  @RateLimit({ points: 1, duration: 30 })
+  @RateLimit({
+    keyPrefix: 'tkns-get',
+    points: 1,
+    duration: 30,
+    errorMessage: 'Tokens cannot be created more than once in per 30 seconds'
+  })
   async token(@Body() body: TokenDto) {
 
     if (!process.env.CLIENT_SECRET)
@@ -75,7 +80,12 @@ export default class TokenController extends AbstractController {
   }
 
   @Post('refresh')
-  @RateLimit({ points: 1, duration: 30 })
+  @RateLimit({
+    keyPrefix: 'tkns-refresh',
+    points: 1,
+    duration: 30,
+    errorMessage: 'Tokens cannot be refreshed more than once in per 30 seconds'
+  })
   async refresh(@Body() body: RefreshTokenDto) {
 
     if (!process.env.CLIENT_SECRET)
@@ -139,6 +149,12 @@ export default class TokenController extends AbstractController {
 
   @Delete('revoke')
   @UseGuards(new AuthGuard())
+  @RateLimit({
+    keyPrefix: 'tkns-revoke',
+    points: 1,
+    duration: 30,
+    errorMessage: 'Tokens cannot be revoked more than once in per 30 seconds'
+  })
   async revoke(@Req() req: AuthorizedRequest, @Body() body: RevokeTokenDto) {
 
     if (!process.env.CLIENT_SECRET)
