@@ -9,6 +9,7 @@ import AuthorizedRequest from '@api/types/AuthorizedRequest'
 import GeneralSettingsDto from '@api/dto/general-settings.dto'
 import SettingSavedSuccessResponse from '@api/structures/SettingSavedSuccessResponse'
 import { RateLimit } from 'nestjs-rate-limiter'
+import StrictAuthGuard from '@api/guards/strict-auth.guard'
 
 @Controller(Constants.PRIVATE + 'guilds/:id/general')
 export default class GuildGeneralSettingsController extends AbstractController {
@@ -34,7 +35,7 @@ export default class GuildGeneralSettingsController extends AbstractController {
   }
 
   @Patch()
-  @UseGuards(new AuthGuard())
+  @UseGuards(new StrictAuthGuard())
   @UseGuards(new IsShardsLoadedGuard())
   @RateLimit({ keyPrefix: 'glds-stngs-save', points: 15, duration: 60 })
   async patch(
