@@ -41,7 +41,7 @@ export default class DeleterApiWorker {
       AppModule,
       new FastifyAdapter(options),
       {
-        logger: false
+        logger: [ 'error' ]
       }
     )
 

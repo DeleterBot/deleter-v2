@@ -39,7 +39,7 @@ export default class AuthGuard extends AbstractGuard implements CanActivate {
     })
 
     if (!Constants.tokenTypes.includes(type)) throw new ForbiddenException({
-      message: 'the type of token does not exist',
+      message: 'token type does not exist',
       code: Constants.codes.TOKEN_TYPE_NOT_EXISTS
     })
 
@@ -54,13 +54,13 @@ export default class AuthGuard extends AbstractGuard implements CanActivate {
     })
 
     if (Date.now() >= new Date(user.expires_timestamp).getTime()) throw new ForbiddenException({
-      message: 'token outdated',
+      message: 'token is outdated',
       code: Constants.codes.TOKEN_OUTDATED
     })
 
     const hash = generateHash(token)
     if (hash !== user.access_token) throw new ForbiddenException({
-      message: 'token invalid',
+      message: 'token is invalid',
       code: Constants.codes.TOKEN_INVALID
     })
 
@@ -69,7 +69,7 @@ export default class AuthGuard extends AbstractGuard implements CanActivate {
         await getDiscordUser(type, token)
       } catch (e) {
         throw new HttpException({
-          message: 'Discord authorization check failed with ' + e.statusCode
+          message: `authorization check via Discord failed with ${e?.statusCode} status code`
         }, 500)
       }
     }

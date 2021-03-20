@@ -4,23 +4,18 @@ import Constants from '@api/utils/Constants'
 import {
   Controller,
   Get,
-  InternalServerErrorException, Req,
   UseGuards,
 } from '@nestjs/common'
 import AuthGuard from '@api/guards/auth.guard'
-import AuthorizedRequest from '@api/types/AuthorizedRequest'
+import IsShardsLoadedGuard from '@api/guards/is-shards-loaded.guard'
 
 @Controller(Constants.PRIVATE)
 export default class PrivateStatisticsController extends AbstractController {
 
   @Get('statistics')
   @UseGuards(new AuthGuard())
-  async execute(@Req() req: AuthorizedRequest) {
-
-    if (!this.manager.shards.size)
-      throw new InternalServerErrorException({
-        message: 'shards haven\'t created yet'
-      })
+  @UseGuards(new IsShardsLoadedGuard())
+  async execute() {
 
     const commandsScript = `this.db.get('commands', '', { array: true, everything: true })`
 
