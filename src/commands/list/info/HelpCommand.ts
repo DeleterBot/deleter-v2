@@ -1,10 +1,13 @@
 import BaseCommand from '@src/abstractions/BaseCommand'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
+import StringPropertiesParser from '@src/utils/StringPropertiesParser'
+import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import Info from '@src/types/Info'
 
 export default class HelpCommand extends BaseCommand {
   constructor() {
     super('@deleter.commands.list.info.HelpCommand', {
-      name: 'help',
+      name: 'help', multiLang: true,
       en: {
         name: 'help',
         category: 'moderation'
@@ -22,13 +25,27 @@ export default class HelpCommand extends BaseCommand {
     })
   }
 
-  async execute(/*msg: Discord.Message, info: Info*/): Promise<CommandExecutionResult> {
+  async execute(msg: DeleterCommandMessage, info: Info): Promise<CommandExecutionResult> {
 
-    /*this.client.cache.commands.forEach(c => {
 
-    })*/
 
-    return new CommandExecutionResult(null)
+    return new CommandExecutionResult('хелпа нет, иди ты нахер').setReply()
+
+  }
+
+  private standard(msg: DeleterCommandMessage, info: Info) {
+
+    const commands: Record<string, Array<string>> = {}
+
+    this.client.cache.commands.forEach(command => {
+
+      const category = command[info.guild.lang.interface].category
+
+      if (!commands[category]) commands[category] = []
+
+      commands[category].push(command[info.guild.lang.commands])
+
+    })
 
   }
 }

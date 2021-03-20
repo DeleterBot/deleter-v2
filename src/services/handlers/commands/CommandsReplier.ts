@@ -1,5 +1,7 @@
 import Discord from 'discord.js'
 
+// TODO: delete this shit and rewrite using ExtendedMessage
+
 export default class CommandsReplier {
   static isService = true
 

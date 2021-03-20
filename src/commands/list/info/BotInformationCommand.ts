@@ -91,5 +91,6 @@ export default class BotInformationCommand extends BaseCommand {
       .setFooter(footerValue, dev.displayAvatarURL?.({ dynamic: true }))
 
     return new CommandExecutionResult(embed)
+
   }
 }

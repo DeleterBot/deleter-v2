@@ -9,6 +9,7 @@ export default interface CommandConfig {
   flags?: FlagsDetails
   disabled?: boolean
   cd?: CoolDownConfig
+  multiLang?: boolean,
   memberPermissions?: Discord.BitFieldResolvable<any>
   clientPermissions?: Discord.BitFieldResolvable<any>
   customPermissions?: DeleterCustomPermissions

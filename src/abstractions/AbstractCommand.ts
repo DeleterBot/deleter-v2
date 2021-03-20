@@ -11,6 +11,7 @@ export default abstract class AbstractCommand extends Base implements CommandCon
   public flags?: FlagsDetails
   public disabled?: boolean
   public cd?: CoolDownConfig
+  public multiLang?: boolean
 
   public clientPermissions?: Discord.BitFieldResolvable<any>
   public memberPermissions?: Discord.BitFieldResolvable<any>
@@ -26,6 +27,7 @@ export default abstract class AbstractCommand extends Base implements CommandCon
     this.flags = config?.flags
     this.disabled = config?.disabled
     this.cd = config?.cd
+    this.multiLang = config?.multiLang
 
     this.clientPermissions = config?.clientPermissions
     this.memberPermissions = config?.memberPermissions
