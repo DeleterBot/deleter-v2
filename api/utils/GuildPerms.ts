@@ -20,9 +20,7 @@ export default class GuildPerms extends Abstract {
         client.guilds.cache.get('${this.guildID}')
           ?.members.fetch('${this.userID}')
           .then(member => {
-            if (member.permissions.has(8) || member.guild.owner.user.id === member.user.id)
-              return true
-            return false
+            return member.permissions.has(8) || member.guild.owner.user.id === member.user.id
           })
           .catch(() => {
             return false

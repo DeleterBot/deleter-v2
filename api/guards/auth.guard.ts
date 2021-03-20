@@ -53,10 +53,10 @@ export default class AuthGuard extends AbstractGuard implements CanActivate {
       code: Constants.codes.NEVER_AUTHORIZED
     })
 
-    /*if (Date.now() >= user.expires_timestamp) throw new ForbiddenException({
+    if (Date.now() >= new Date(user.expires_timestamp).getTime()) throw new ForbiddenException({
       message: 'token outdated',
       code: Constants.codes.TOKEN_OUTDATED
-    })*/
+    })
 
     const hash = generateHash(token)
     if (hash !== user.access_token) throw new ForbiddenException({
