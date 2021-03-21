@@ -93,7 +93,7 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
         return (await execCommands(this.name, info.args.slice(1))) || result
       } else return result
     } else {
-      return new CommandExecutionResult('не угадал').setReply()
+      return new CommandExecutionResult('не угадала').setReply()
     }
 
   }
