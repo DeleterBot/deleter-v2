@@ -5,30 +5,11 @@ import Info from '@src/types/Info'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import { types, inspect } from 'util'
 import environmentEval from '@src/utils/environmentEval'
-import EvalCommandFlags from '@src/commands/list/dev/resources/flags/EvalCommandFlags'
+import EvalCommandConfig from '@src/commands/list/dev/resources/configs/EvalCommandConfig'
 
 export default class EvalCommand extends BaseCommand {
   constructor() {
-    super('@deleter.commands.list.dev.EvalCommand', {
-      name: 'eval',
-      ru: {
-        name: 'eval',
-        category: 'модерация',
-        aliases: [ 'e' ],
-      },
-      en: {
-        name: 'eval',
-        category: 'moderation',
-        aliases: [ 'e' ],
-      },
-      gg: {
-        name: 'eval',
-        category: 'одменское',
-        aliases: [ 'e' ],
-      },
-      flags: EvalCommandFlags.default,
-      customPermissions: [ 'OWNER' ]
-    })
+    super('@deleter.commands.list.dev.EvalCommand', new EvalCommandConfig())
   }
 
   async execute(msg: Discord.Message, info: Info): Promise<CommandExecutionResult> {

@@ -12,7 +12,8 @@ export default class SubCommandsFinder {
   }
 
   findUsingName(name: string, slaveOf: string, lang = 'ru'): BaseSubCommand | null {
-    const command = this.subCommands.find((c: any) => c?.[lang]?.name === name && c?.slaveOf === slaveOf)
+    const command =
+      this.subCommands.find((c: any) => c?.translations?.[lang]?.name === name && c?.slaveOf === slaveOf)
 
     if (command) return req(command.path.replace(/\./g, '/'))?.default
     return null
@@ -20,7 +21,7 @@ export default class SubCommandsFinder {
 
   findUsingAlias(alias: string, slaveOf: string, lang = 'ru'): BaseSubCommand | null {
     const command =
-      this.subCommands.find((c: any) => c?.[lang]?.aliases?.includes(alias) && c?.slaveOf === slaveOf)
+      this.subCommands.find((c: any) => c?.translations?.[lang]?.aliases?.includes(alias) && c?.slaveOf === slaveOf)
 
     if (command) return req(command.path.replace(/\./g, '/'))?.default
     return null

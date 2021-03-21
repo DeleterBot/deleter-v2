@@ -1,3 +1,3 @@
-type DeleterCustomPermissions = [ 'OWNER' ]
+type DeleterCustomPermissions = string[]
 
 export default DeleterCustomPermissions

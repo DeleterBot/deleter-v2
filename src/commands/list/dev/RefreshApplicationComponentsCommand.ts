@@ -5,31 +5,15 @@ import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import SubCommandsFinder from '@src/utils/SubCommandsFinder'
 import { inspect } from 'util'
 import environmentEval from '@src/utils/environmentEval'
-import RefreshApplicationComponentsCommandFlags
-  from '@src/commands/list/dev/resources/flags/RefreshApplicationComponentsCommandFlags'
+import RefreshApplicationComponentsCommandConfig
+  from '@src/commands/list/dev/resources/configs/RefreshApplicationComponentsCommandConfig'
 
 export default class RefreshApplicationComponentsCommand extends BaseCommand {
   constructor() {
-    super('@deleter.commands.list.dev.RefreshApplicationComponentsCommand', {
-      name: 'refresh', hasSubCommands: true, overrideSubCommands: true,
-      en: {
-        name: 'refresh',
-        category: 'util',
-        aliases: [ 'r' ]
-      },
-      ru: {
-        name: 'refresh',
-        category: 'утилиты',
-        aliases: [ 'r' ]
-      },
-      gg: {
-        name: 'refresh',
-        category: 'хуетилиты',
-        aliases: [ 'r' ]
-      },
-      flags: RefreshApplicationComponentsCommandFlags.default,
-      customPermissions: [ 'OWNER' ]
-    })
+    super(
+      '@deleter.commands.list.dev.RefreshApplicationComponentsCommand',
+      new RefreshApplicationComponentsCommandConfig()
+    )
   }
 
   async execute(msg: Discord.Message, info: Info): Promise<CommandExecutionResult> {

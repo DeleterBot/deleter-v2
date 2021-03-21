@@ -74,9 +74,7 @@ class Gatherer {
         if (newCommand.name) {
           const result = {
             name: newCommand.name,
-            ru: newCommand.ru,
-            en: newCommand.en,
-            gg: newCommand.gg,
+            translations: newCommand.translations,
             path: newCommand.path
           }
           return {
@@ -103,9 +101,7 @@ class Gatherer {
           const result = {
             name: newSubCommand.name,
             slaveOf: newSubCommand.slaveOf,
-            ru: newSubCommand.ru,
-            en: newSubCommand.en,
-            gg: newSubCommand.gg,
+            translations: newSubCommand.translations,
             path: newSubCommand.path
           }
           return {

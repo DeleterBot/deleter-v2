@@ -1,24 +1,11 @@
 import BaseSubCommand from '@src/abstractions/BaseSubCommand'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import Gatherer from '@src/services/GathererService'
+import RefreshServicesSubCommandConfig from '@src/commands/list/dev/resources/configs/RefreshServicesSubCommandConfig'
 
 export default class RefreshServicesSubCommand extends BaseSubCommand {
   constructor() {
-    super('@deleter.commands.list.dev.sub.RefreshServicesSubCommand', {
-      name: 'services', slaveOf: 'refresh',
-      en: {
-        name: 'services',
-        aliases: [ 's' ]
-      },
-      ru: {
-        name: 'services',
-        aliases: [ 's' ]
-      },
-      gg: {
-        name: 'services',
-        aliases: [ 's' ]
-      }
-    })
+    super('@deleter.commands.list.dev.sub.RefreshServicesSubCommand', new RefreshServicesSubCommandConfig())
   }
 
   execute(): CommandExecutionResult {

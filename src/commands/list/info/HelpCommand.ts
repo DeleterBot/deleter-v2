@@ -3,31 +3,16 @@ import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import StringPropertiesParser from '@src/utils/StringPropertiesParser'
 import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import Info from '@src/types/Info'
+import HelpCommandConfig from '@src/commands/list/info/resources/configs/HelpCommandConfig'
 
 export default class HelpCommand extends BaseCommand {
   constructor() {
-    super('@deleter.commands.list.info.HelpCommand', {
-      name: 'help', multiLang: true,
-      en: {
-        name: 'help',
-        category: 'moderation'
-      },
-      ru: {
-        name: 'хелп',
-        category: 'модерация',
-        aliases: [ 'помощь' ]
-      },
-      gg: {
-        name: 'хуелп',
-        category: 'модерейшн',
-        aliases: [ 'хуёмощь', 'хелп', 'помощь' ]
-      }
-    })
+    super('@deleter.commands.list.info.HelpCommand', new HelpCommandConfig())
   }
 
   async execute(msg: DeleterCommandMessage, info: Info): Promise<CommandExecutionResult> {
 
-
+    console.log(this.standard(msg, info))
 
     return new CommandExecutionResult('хелпа нет, иди ты нахер').setReply()
 
@@ -46,6 +31,8 @@ export default class HelpCommand extends BaseCommand {
       commands[category].push(command[info.guild.lang.commands])
 
     })
+
+    return commands
 
   }
 }

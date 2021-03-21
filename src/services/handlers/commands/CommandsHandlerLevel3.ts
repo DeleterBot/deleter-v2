@@ -29,12 +29,12 @@ export default class CommandsHandlerLevel3 extends BaseService {
     const subCommandsFinder = new SubCommandsFinder(this.client.cache.subCommands)
 
     const commandFlags =
-      this.command[this.guild.lang.commands as CommandLanguage].flags && this.command.flags
+      this.command.translations[this.guild.lang.commands as CommandLanguage].flags && this.command.flags
         ? Object.assign(
-        Object.create(this.command[this.guild.lang.commands as CommandLanguage].flags as Record<any, any>),
+        Object.create(this.command.translations[this.guild.lang.commands as CommandLanguage].flags as Record<any, any>),
         Object.create(this.command.flags)
         )
-        : this.command[this.guild.lang.commands as CommandLanguage].flags || this.command.flags
+        : this.command.translations[this.guild.lang.commands as CommandLanguage].flags || this.command.flags
 
     if (commandFlags) {
       this.info.flags = {}

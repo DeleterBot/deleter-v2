@@ -7,24 +7,11 @@ import StringPropertiesParser from '@src/utils/StringPropertiesParser'
 import { hostname } from 'os'
 import Moment from 'moment'
 import Constants from '@src/utils/Constants'
+import StatsCommandConfig from '@src/commands/list/info/resources/configs/StatsCommandConfig'
 
 export default class StatsCommand extends BaseCommand {
   constructor() {
-    super('@deleter.commands.list.info.StatsCommand', {
-      name: 'stats',
-      ru: {
-        name: 'стата',
-        category: 'информация'
-      },
-      en: {
-        name: 'stats',
-        category: 'information'
-      },
-      gg: {
-        name: 'хуята',
-        category: 'информейшн'
-      }
-    })
+    super('@deleter.commands.list.info.StatsCommand', new StatsCommandConfig())
   }
 
   async execute(msg: DeleterCommandMessage, info: Info): Promise<CommandExecutionResult> {

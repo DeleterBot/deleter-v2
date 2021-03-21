@@ -1,4 +1,4 @@
 export default interface GuildLanguage {
-  interface: string,
+  interface: string
   commands: string
 }

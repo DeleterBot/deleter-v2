@@ -4,26 +4,11 @@ import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import Info from '@src/types/Info'
 import StringPropertiesParser from '@src/utils/StringPropertiesParser'
 import Constants from '@src/utils/Constants'
+import BotInformationCommandConfig from '@src/commands/list/info/resources/configs/BotInformationCommandConfig'
 
 export default class BotInformationCommand extends BaseCommand {
   constructor() {
-    super('@deleter.commands.list.info.BotInformationCommand', {
-      name: 'info',
-      ru: {
-        name: 'инфо',
-        category: 'информация'
-      },
-      en: {
-        name: 'info',
-        category: 'information'
-      },
-      gg: {
-        name: 'инфа',
-        category: 'информейшн',
-        aliases: [ 'инфо' ]
-      },
-      clientPermissions: [ 'EMBED_LINKS' ]
-    })
+    super('@deleter.commands.list.info.BotInformationCommand', new BotInformationCommandConfig())
   }
 
   async execute(msg: Discord.Message, info: Info): Promise<CommandExecutionResult> {

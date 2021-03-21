@@ -10,12 +10,12 @@ export default class Constants {
   }
 
   static localeLang(lang = 'ru') {
-    if (lang === 'gg') return 'ru'
+    if (lang !== 'ru' && lang !== 'en') return 'ru'
     else return lang
   }
 
   static supportServer = 'https://discord.gg/GYYYN65f2J'
-  static docs = 'https://halp.deleter.xyz/'
+  static docs = 'https://how.deleter.work/'
   static commandExecutionMaxTime = 15000
 
   static primesTable = 'primes'

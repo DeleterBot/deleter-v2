@@ -12,14 +12,14 @@ export default class CommandsFinder {
   }
 
   findUsingName(name: string, lang = 'ru'): BaseCommand | null {
-    const command = this.commands.find((c: any) => c?.[lang]?.name === name)
+    const command = this.commands.find((c: any) => c?.translations?.[lang]?.name === name)
 
     if (command) return req(command.path.replace(/\./g, '/'))?.default
     return null
   }
 
   findUsingAlias(alias: string, lang = 'ru'): BaseCommand | null {
-    const command = this.commands.find((c: any) => c?.[lang]?.aliases?.includes(alias))
+    const command = this.commands.find((c: any) => c?.translations?.[lang]?.aliases?.includes(alias))
 
     if (command) return req(command.path.replace(/\./g, '/'))?.default
     return null

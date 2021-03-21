@@ -49,20 +49,10 @@ export default class CommandsHandlerLevel1 extends BaseService {
         case 'ru':
           command = commandsFinder.find(maybeCommand as string, 'en')
           this.guild.lang.commands = 'en'
-          if (!command) command = commandsFinder.find(maybeCommand as string, 'gg')
-          this.guild.lang.commands = 'gg'
           break
         case 'en':
           command = commandsFinder.find(maybeCommand as string, 'ru')
           this.guild.lang.commands = 'ru'
-          if (!command) command = commandsFinder.find(maybeCommand as string, 'gg')
-          this.guild.lang.commands = 'gg'
-          break
-        case 'gg':
-          command = commandsFinder.find(maybeCommand as string, 'ru')
-          this.guild.lang.commands = 'ru'
-          if (!command) command = commandsFinder.find(maybeCommand as string, 'en')
-          this.guild.lang.commands = 'en'
           break
       }
 

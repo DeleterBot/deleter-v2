@@ -1,0 +1,47 @@
+import CommandTranslations from '@src/types/commands/CommandTranslations'
+import FlagsDetails from '@src/types/commands/FlagsDetails'
+import BaseCommandConfig from '@src/types/commands/BaseCommandConfig'
+
+export default class EvalCommandConfig implements BaseCommandConfig {
+  public name = 'eval'
+
+  public translations: CommandTranslations = {
+    ru: {
+      name: 'eval',
+      category: 'dev',
+      aliases: [ 'e' ],
+    },
+    en: {
+      name: 'eval',
+      category: 'dev',
+      aliases: [ 'e' ],
+    },
+    gg: {
+      name: 'eval',
+      category: 'dev',
+      aliases: [ 'e' ],
+    }
+  }
+
+  public flags: FlagsDetails = {
+    'noreply': {
+      name: 'noReply',
+      alias: 'n'
+    },
+    'everywhere': {
+      name: 'everywhere',
+      alias: 'e'
+    },
+    'last': {
+      name: 'last',
+      alias: 'l'
+    },
+    'api': 'api',
+    'all': 'all',
+    'more': 'more',
+    'shell': 'shell',
+    'async': 'isAsync'
+  }
+
+  public customPermissions = [ 'OWNER' ]
+}

@@ -1,24 +1,11 @@
 import BaseSubCommand from '@src/abstractions/BaseSubCommand'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import Gatherer from '@src/services/GathererService'
+import RefreshEventsSubCommandConfig from '@src/commands/list/dev/resources/configs/RefreshEventsSubCommandConfig'
 
 export default class RefreshEventsSubCommand extends BaseSubCommand {
   constructor() {
-    super('@deleter.commands.list.dev.sub.RefreshEventsSubCommand', {
-      name: 'events', slaveOf: 'refresh',
-      en: {
-        name: 'events',
-        aliases: [ 'events', 'e' ]
-      },
-      ru: {
-        name: 'events',
-        aliases: [ 'events', 'e' ]
-      },
-      gg: {
-        name: 'events',
-        aliases: [ 'events', 'e' ]
-      }
-    })
+    super('@deleter.commands.list.dev.sub.RefreshEventsSubCommand', new RefreshEventsSubCommandConfig())
   }
 
   execute(): CommandExecutionResult {
