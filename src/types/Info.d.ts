@@ -4,7 +4,7 @@ import BaseSubCommand from '@src/abstractions/BaseSubCommand'
 export default interface Info {
   args: Array<string>
   guild: Guild
-  flags: Record<string, boolean>
+  flags: Record<string, any>
   subCommand?: BaseSubCommand
   maxExecutionTimestamp: number
 }

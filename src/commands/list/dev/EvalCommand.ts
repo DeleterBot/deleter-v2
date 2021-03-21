@@ -16,8 +16,8 @@ export default class EvalCommand extends BaseCommand {
 
     try {
 
-      let toEval = info.args.join(' '), shard: string | boolean = false,
-        { isAsync } = info.flags
+      let toEval = info.args.join(' '),
+        { isAsync, shard } = info.flags
 
       const { noReply, last, all, shell, everywhere, api, more } = info.flags
 
@@ -25,10 +25,12 @@ export default class EvalCommand extends BaseCommand {
 
       toEval = toEval
         .replace(/(```(.+)?)?/g, '')
-        .replace(/(--shard=([0-9]+|any))/g, (match: string) => {
-          shard = match.replace(/([^0-9]+|^any)/g, '')
-          return ''
-        })
+        // .replace(/(--shard=([0-9]+|any))/g, (match: string) => {
+        //   shard = match.replace(/([^0-9]+|^any)/g, '')
+        //   return ''
+        // })
+
+      if (!isNaN(parseInt(shard))) shard = parseInt(shard)
 
       if (toEval.includes('await')) isAsync = true
 
@@ -67,7 +69,7 @@ export default class EvalCommand extends BaseCommand {
           evaled =
             this.client.shard?.broadcastEval(`if (this.shard?.ids?.includes(${shard})) eval("${toEval}")`)
         else
-          evaled = this.client.shard?.broadcastEval(`if (true) eval("${toEval}")`)
+          evaled = this.client.shard?.broadcastEval(`eval("${toEval}")`)
 
       } else evaled = eval(toEval)
 
@@ -104,6 +106,10 @@ export default class EvalCommand extends BaseCommand {
         `${process.env.TOKEN}`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
         'g'
         ),
+        cloudflareRegExp = new RegExp(
+          `${process.env.CF_TOKEN ?? '__cf.D'}`.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+          'g'
+        ),
         databaseRegExp = new RegExp(
           `${process.env.DB_USRN ?? process.env.DB ?? '__db.D'}`
             .replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
@@ -125,6 +131,7 @@ export default class EvalCommand extends BaseCommand {
 
       evaled = evaled
         .replace(tokenRegExp, '__token.D')
+        .replace(cloudflareRegExp, '__cf.D')
         .replace(databaseRegExp, '__db.D')
         .replace(databaseRegExp2, '__db.D')
         .replace(clientSecretRegExp, '__secret.D')

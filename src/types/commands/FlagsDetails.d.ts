@@ -3,8 +3,7 @@ interface Details {
   alias?: string
   multiple?: boolean
   defaultOption?: any
-  // eslint-disable-next-line
-  type?: String | Boolean | Number
+  type?: any
 }
 
 type FlagsDetails = Record<string, Details | string>

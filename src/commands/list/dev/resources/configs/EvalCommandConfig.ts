@@ -37,6 +37,10 @@ export default class EvalCommandConfig extends AbstractConfig implements BaseCom
       name: 'last',
       alias: 'l'
     },
+    'shard': {
+      name: 'shard',
+      type: String
+    },
     'api': 'api',
     'all': 'all',
     'more': 'more',
