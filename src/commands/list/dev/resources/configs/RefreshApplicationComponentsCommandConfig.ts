@@ -1,8 +1,9 @@
 import CommandTranslations from '@src/types/commands/CommandTranslations'
 import FlagsDetails from '@src/types/commands/FlagsDetails'
 import BaseCommandConfig from '@src/types/commands/BaseCommandConfig'
+import AbstractConfig from '@src/abstractions/AbstractConfig'
 
-export default class RefreshApplicationComponentsCommandConfig implements BaseCommandConfig {
+export default class RefreshApplicationComponentsCommandConfig extends AbstractConfig implements BaseCommandConfig {
   public name = 'refresh'
   public hasSubCommands = true
   public overrideSubCommands = true

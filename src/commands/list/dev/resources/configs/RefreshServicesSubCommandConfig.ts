@@ -1,7 +1,8 @@
 import CommandTranslations from '@src/types/commands/CommandTranslations'
 import SubCommandConfig from '@src/types/commands/SubCommandConfig'
+import AbstractConfig from '@src/abstractions/AbstractConfig'
 
-export default class RefreshServicesSubCommandConfig implements SubCommandConfig {
+export default class RefreshServicesSubCommandConfig extends AbstractConfig implements SubCommandConfig {
   public name = 'services'
   public slaveOf = 'refresh'
 

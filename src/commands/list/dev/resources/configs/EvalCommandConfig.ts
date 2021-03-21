@@ -1,8 +1,9 @@
 import CommandTranslations from '@src/types/commands/CommandTranslations'
 import FlagsDetails from '@src/types/commands/FlagsDetails'
 import BaseCommandConfig from '@src/types/commands/BaseCommandConfig'
+import AbstractConfig from '@src/abstractions/AbstractConfig'
 
-export default class EvalCommandConfig implements BaseCommandConfig {
+export default class EvalCommandConfig extends AbstractConfig implements BaseCommandConfig {
   public name = 'eval'
 
   public translations: CommandTranslations = {

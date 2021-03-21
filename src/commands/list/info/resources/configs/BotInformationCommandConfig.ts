@@ -1,7 +1,8 @@
 import BaseCommandConfig from '@src/types/commands/BaseCommandConfig'
 import CommandTranslations from '@src/types/commands/CommandTranslations'
+import AbstractConfig from '@src/abstractions/AbstractConfig'
 
-export default class BotInformationCommandConfig implements BaseCommandConfig {
+export default class BotInformationCommandConfig extends AbstractConfig implements BaseCommandConfig {
   public name = 'info'
 
   public translations: CommandTranslations = {
