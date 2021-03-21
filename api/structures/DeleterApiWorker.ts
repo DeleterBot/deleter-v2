@@ -28,8 +28,8 @@ export default class DeleterApiWorker {
   ) {
 
     this.db = new DatabaseOperator()
-    await this.db.connect().catch(e => {
-      console.error('fastify | connection to database failed. exiting NOW', e)
+    await this.db.connect(true).catch(e => {
+      console.error('fastify | connection to database failed. exiting NOW |', e)
       process.exit(1)
     })
 

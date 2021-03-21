@@ -1,4 +1,4 @@
-import Cassandra, { errors } from 'cassandra-driver'
+import Cassandra, { errors, types } from 'cassandra-driver'
 import BaseService from '@src/abstractions/BaseService'
 import CachingService from '@src/services/CachingService'
 import DatabaseGetOptions from '@src/types/database/DatabaseGetOptions'
@@ -6,6 +6,9 @@ import DatabaseUpdateOptions from '@src/types/database/DatabaseUpdateOptions'
 import DatabaseDeleteOptions from '@src/types/database/DatabaseDeleteOptions'
 import { inspect } from 'util'
 import NoHostAvailableError = errors.NoHostAvailableError
+import ResultSet = types.ResultSet
+import * as fs from 'fs'
+import * as util from 'util'
 
 const { DB_KEYSPACE } = process.env
 let { CACHE_ENABLED } = process.env
@@ -31,17 +34,31 @@ class DatabaseOperator extends BaseService {
     })
 
     if (CACHE_ENABLED) this.cache = new CachingService()
-
-    this.connection.on('error', (e: any) => {
-      if (e instanceof NoHostAvailableError) {
-        this.connection.shutdown()
-          .then(() => this.connection.connect())
-      } else console.error(e)
-    })
   }
 
-  public connect() {
+  public connect(createTables = false) {
     return this.connection.connect()
+      .then(async () => {
+        if (!process.env.DB_KEYSPACE) return
+        if (!createTables) return
+
+        const cqlPaths = [
+          './src/cql/tables/hashes.cql',
+          './src/cql/types/lang.cql',
+          './src/cql/types/ignore.cql',
+          './src/cql/tables/guilds.cql'
+        ]
+
+        const read = util.promisify(fs.readFile)
+
+        for await (const path of cqlPaths) {
+          await this.connection.execute(
+            (await read(path, { encoding: 'utf-8' })).replace('?', process.env.DB_KEYSPACE).replace(/\r\n/g, '')
+          )
+        }
+
+        return
+      })
   }
 
   public async get(table: string, id: string, options: DatabaseGetOptions = {}) {
@@ -133,8 +150,14 @@ class DatabaseOperator extends BaseService {
     return data
   }
 
-  public execute(query: string, params?: Array<string>) {
+  public execute(query: string, params?: Array<string>): Promise<ResultSet> {
     return this.connection.execute(query, params)
+      .catch(e => {
+        if (e instanceof NoHostAvailableError) {
+          return this.connection.connect()
+            .then(() => this.connection.execute(query, params))
+        } else throw e
+      })
   }
 }
 
