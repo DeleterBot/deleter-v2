@@ -31,7 +31,7 @@ export default class BotInformationCommand extends BaseCommand {
           mention: this.client.user!.toString(),
           prefix: info.guild.prefix,
           help: this.client.cache.commands
-            .find(c => c?.name === 'help')![info.guild.lang.commands]?.name
+            .find(c => c?.name === 'help')!.translations[info.guild.lang.commands]?.name
         }
       ),
       versionsTitle = parser.parse(
@@ -41,7 +41,7 @@ export default class BotInformationCommand extends BaseCommand {
         `$phrase[${root}.versions.value]`,
         {
           nodejs: process.version.replace('v', ''),
-          djs: Discord.version,
+          lib: Discord.version,
           deleter: pckg.version,
           username: this.client.user!.username.toLowerCase(),
           ts: pckg.devDependencies.typescript.replace('^', ''),

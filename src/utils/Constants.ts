@@ -17,6 +17,7 @@ export default class Constants {
   static supportServer = 'https://discord.gg/GYYYN65f2J'
   static docs = 'https://how.deleter.work/'
   static commandExecutionMaxTime = 15000
+  static nobody = 'nobody#0000'
 
   static primesTable = 'primes'
   static gulagsTable = 'siberia'

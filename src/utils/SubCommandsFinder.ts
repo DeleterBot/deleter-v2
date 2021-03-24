@@ -36,4 +36,8 @@ export default class SubCommandsFinder {
     if (command) return new command()
     return null
   }
+
+  findUsingSlaveOf(slaveOf: string) {
+    return this.subCommands.filter((c: BaseSubCommand) => c.slaveOf === slaveOf)
+  }
 }

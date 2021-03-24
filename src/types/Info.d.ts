@@ -6,5 +6,6 @@ export default interface Info {
   guild: Guild
   flags: Record<string, any>
   subCommand?: BaseSubCommand
+  additionalLanguage?: string
   maxExecutionTimestamp: number
 }

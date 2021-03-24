@@ -4,6 +4,7 @@ interface Details {
   multiple?: boolean
   defaultOption?: any
   type?: any
+  description?: string
 }
 
 type FlagsDetails = Record<string, Details | string>

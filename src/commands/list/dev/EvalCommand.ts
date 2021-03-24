@@ -23,12 +23,7 @@ export default class EvalCommand extends BaseCommand {
 
       if (!toEval) return new CommandExecutionResult('bruh').setReply(true)
 
-      toEval = toEval
-        .replace(/(```(.+)?)?/g, '')
-        // .replace(/(--shard=([0-9]+|any))/g, (match: string) => {
-        //   shard = match.replace(/([^0-9]+|^any)/g, '')
-        //   return ''
-        // })
+      toEval = toEval.replace(/(```(.+)?)?/g, '')
 
       if (!isNaN(parseInt(shard))) shard = parseInt(shard)
 
