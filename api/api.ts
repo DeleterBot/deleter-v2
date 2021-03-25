@@ -27,12 +27,12 @@ export default function api(manager: Discord.ShardingManager) {
           req.headers?.['x-forwarded-for'] ||
           req.socket.remoteAddress
       },
-      addHeaders: {
-        'x-ratelimit-limit': true,
-        'x-ratelimit-remaining': true,
-        'x-ratelimit-reset': true,
-        'retry-after': true
-      }
+      // addHeaders: {
+      //   'x-ratelimit-limit': true,
+      //   'x-ratelimit-remaining': true,
+      //   'x-ratelimit-reset': true,
+      //   'retry-after': false
+      // }
     } ]
   )
 

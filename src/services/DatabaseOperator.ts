@@ -16,6 +16,16 @@ let { CACHE_ENABLED } = process.env
 // @ts-ignore
 CACHE_ENABLED = CACHE_ENABLED === 'true'
 
+const CASSANDRA_CLIENT_OPTIONS = {
+  cloud: {
+    secureConnectBundle: './secure-connect-deleterdb.zip'
+  },
+  credentials: {
+    username: process.env.DB_USRN,
+    password: process.env.DB_PSWD
+  }
+}
+
 class DatabaseOperator extends BaseService {
   public connection: Cassandra.Client
   public cache: CachingService | undefined
@@ -23,15 +33,7 @@ class DatabaseOperator extends BaseService {
   constructor() {
     super()
 
-    this.connection = new Cassandra.Client({
-      cloud: {
-        secureConnectBundle: './secure-connect-deleterdb.zip'
-      },
-      credentials: {
-        username: process.env.DB_USRN,
-        password: process.env.DB_PSWD
-      }
-    })
+    this.connection = new Cassandra.Client(CASSANDRA_CLIENT_OPTIONS)
 
     if (CACHE_ENABLED) this.cache = new CachingService()
   }
@@ -152,10 +154,11 @@ class DatabaseOperator extends BaseService {
 
   public execute(query: string, params?: Array<string>): Promise<ResultSet> {
     return this.connection.execute(query, params)
-      .catch(e => {
+      .catch(async e => {
         if (e instanceof NoHostAvailableError) {
-          return this.connection.connect()
-            .then(() => this.connection.execute(query, params))
+          this.connection = new Cassandra.Client(CASSANDRA_CLIENT_OPTIONS)
+          await this.connect()
+          return this.connection.execute(query, params)
         } else throw e
       })
   }

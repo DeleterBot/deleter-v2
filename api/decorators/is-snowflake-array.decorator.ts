@@ -1,6 +1,10 @@
 import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator'
 
-export function IsSnowflakeArray(maxArrayLength = 500, validationOptions?: ValidationOptions) {
+export function IsSnowflakeArray(
+  maxArrayLength = 500,
+  validationOptions?: ValidationOptions
+): PropertyDecorator {
+  // @ts-ignore
   return function (object: Record<string, unknown>, propertyName: string) {
     registerDecorator({
       name: 'IsSnowflakeArray',

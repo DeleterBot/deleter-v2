@@ -13,6 +13,8 @@ export default class MessageUpdateEvent extends BaseEvent {
     // @ts-ignore
     if (oldM.repliedTo) newM.repliedTo = oldM.repliedTo
 
+    if (oldM.content === newM.content) return
+
     const commandsExecutor = new CommandsExecutor(newM)
 
     return commandsExecutor.processCommand()

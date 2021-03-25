@@ -7,14 +7,12 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import AuthGuard from '@api/guards/auth.guard'
-import IsShardsLoadedGuard from '@api/guards/is-shards-loaded.guard'
 
 @Controller(Constants.PRIVATE)
+@UseGuards(new AuthGuard())
 export default class PrivateStatisticsController extends AbstractController {
 
   @Get('statistics')
-  @UseGuards(new AuthGuard())
-  @UseGuards(new IsShardsLoadedGuard())
   async execute() {
 
     const commandsScript = `this.db.get('commands', '', { array: true, everything: true })`

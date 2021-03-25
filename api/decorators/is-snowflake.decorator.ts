@@ -1,6 +1,7 @@
 import { registerDecorator, ValidationArguments, ValidationOptions } from 'class-validator'
 
-export function IsSnowflake(validationOptions?: ValidationOptions) {
+export function IsSnowflake(validationOptions?: ValidationOptions): PropertyDecorator {
+  // @ts-ignore
   return function (object: Record<string, unknown>, propertyName: string) {
     registerDecorator({
       name: 'IsSnowflake',

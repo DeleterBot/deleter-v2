@@ -4,15 +4,32 @@ import PublicModule from '@api/modules/public.module'
 import PrivateModule from '@api/modules/private.module'
 import Oauth2Module from '@api/modules/oauth2.module'
 import { RateLimiterInterceptor, RateLimiterModule } from 'nestjs-rate-limiter'
-import { APP_INTERCEPTOR } from '@nestjs/core'
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
+import IsShardsLoadedGuard from '@api/guards/is-shards-loaded.guard'
+import ResponseSerializerInterceptor from '@api/interceptors/response.serializer.interceptor'
 
 @Module({
-  imports: [ PublicModule, PrivateModule, Oauth2Module, RateLimiterModule ],
+  imports: [
+    PublicModule,
+    PrivateModule,
+    Oauth2Module,
+    RateLimiterModule.register({
+      for: 'Fastify',
+    }),
+  ],
   controllers: [ MainController ],
   providers: [
     {
       provide: APP_INTERCEPTOR,
       useClass: RateLimiterInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseSerializerInterceptor
+    },
+    {
+      provide: APP_GUARD,
+      useClass: IsShardsLoadedGuard
     },
   ],
 })

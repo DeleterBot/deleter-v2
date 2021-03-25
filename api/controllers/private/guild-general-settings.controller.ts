@@ -2,7 +2,6 @@ import AbstractController from '@api/abstractions/abstract.controller'
 import { Body, Controller, ForbiddenException, Get, Param, Patch, Req, UseGuards } from '@nestjs/common'
 import Constants from '@api/utils/Constants'
 import AuthGuard from '@api/guards/auth.guard'
-import IsShardsLoadedGuard from '@api/guards/is-shards-loaded.guard'
 import GuildGeneralSettings from '@api/structures/GuildGeneralSettings'
 import GuildPerms from '@api/utils/GuildPerms'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
@@ -16,7 +15,6 @@ export default class GuildGeneralSettingsController extends AbstractController {
 
   @Get()
   @UseGuards(new AuthGuard())
-  @UseGuards(new IsShardsLoadedGuard())
   @RateLimit({ keyPrefix: 'glds-stngs-get', points: 15, duration: 60 })
   async get(@Param('id') id: string, @Req() req: AuthorizedRequest) {
 
@@ -36,7 +34,6 @@ export default class GuildGeneralSettingsController extends AbstractController {
 
   @Patch()
   @UseGuards(new StrictAuthGuard())
-  @UseGuards(new IsShardsLoadedGuard())
   @RateLimit({ keyPrefix: 'glds-stngs-save', points: 15, duration: 60 })
   async patch(
     @Param('id') id: string,

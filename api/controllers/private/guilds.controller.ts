@@ -3,7 +3,6 @@ import { Controller, ForbiddenException, Get, NotFoundException, Param, Req, Use
 import Constants from '@api/utils/Constants'
 import AuthGuard from '@api/guards/auth.guard'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
-import IsShardsLoadedGuard from '@api/guards/is-shards-loaded.guard'
 import Axios from 'axios'
 import { BitField } from 'discord.js'
 import makePartialGuild from '@api/utils/makePartialGuild'
@@ -13,11 +12,10 @@ import makeGuild from '@api/utils/makeGuild'
 import { RateLimit } from 'nestjs-rate-limiter'
 
 @Controller(Constants.PRIVATE + 'guilds/')
+@UseGuards(new AuthGuard())
 export default class GuildsController extends AbstractController {
 
   @Get()
-  @UseGuards(new AuthGuard())
-  @UseGuards(new IsShardsLoadedGuard())
   @RateLimit({ keyPrefix: 'glds-list', points: 5, duration: 60 })
   async execute(@Req() req: AuthorizedRequest) {
 
@@ -63,8 +61,6 @@ export default class GuildsController extends AbstractController {
   }
 
   @Get(':id')
-  @UseGuards(new AuthGuard())
-  @UseGuards(new IsShardsLoadedGuard())
   @RateLimit({ keyPrefix: 'glds-id', points: 15, duration: 60 })
   async get(@Param('id') id: string, @Req() req: AuthorizedRequest) {
 

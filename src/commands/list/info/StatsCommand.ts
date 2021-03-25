@@ -49,7 +49,7 @@ export default class StatsCommand extends BaseCommand {
       `$phrase[${root}.description]`,
       {
         version: pckg.version,
-        djs: `discord.js ${Discord.version}`,
+        lib: `discord.js ${Discord.version}`,
         memUsageTotalHeap: memUsageTotal[0],
         memUsageTotalRss: memUsageTotal[1],
         memUsageShardHeap: memUsageShard[0],

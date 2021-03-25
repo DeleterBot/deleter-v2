@@ -5,12 +5,10 @@ import { IsArray } from 'class-validator'
 export default class IgnoreDto {
 
   @IsArray()
-  // @ts-ignore
   @IsSnowflakeArray(500)
   channels!: Array<Discord.Snowflake>
 
   @IsArray()
-  // @ts-ignore
   @IsSnowflakeArray(250)
   roles!: Array<Discord.Snowflake>
 
