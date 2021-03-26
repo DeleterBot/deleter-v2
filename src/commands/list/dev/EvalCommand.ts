@@ -19,7 +19,7 @@ export default class EvalCommand extends BaseCommand {
       let toEval = info.args.join(' '),
         { isAsync, shard } = info.flags
 
-      const { noReply, last, all, shell, everywhere, api, more } = info.flags
+      const { noReply, last, all, shell, everywhere, api, more, db } = info.flags
 
       if (!toEval) return new CommandExecutionResult('bruh').setReply(true)
 
@@ -34,7 +34,9 @@ export default class EvalCommand extends BaseCommand {
       const before = process.hrtime.bigint()
 
       let evaled
-      if (shell) {
+      if (db) {
+        evaled = this.client.db.execute(toEval)
+      } else if (shell) {
         evaled = environmentEval(toEval)
 
       } else if (api) {

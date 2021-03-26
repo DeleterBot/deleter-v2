@@ -1,4 +1,4 @@
 CREATE TYPE IF NOT EXISTS ?.ignore (
-    commands frozen<list<text>>,
+    channels frozen<list<text>>,
     roles frozen<list<text>>
 );

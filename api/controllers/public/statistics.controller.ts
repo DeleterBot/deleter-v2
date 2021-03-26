@@ -8,7 +8,7 @@ import { Throttle } from '@nestjs/throttler'
 export default class PublicStatisticsController extends AbstractController {
 
   @Get('statistics')
-  @Throttle(20, 60)
+  @Throttle(10, 60)
   async execute() {
 
     return await collectStatistics(this.manager)

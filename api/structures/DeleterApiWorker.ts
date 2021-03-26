@@ -6,6 +6,7 @@ import { ValidationPipe } from '@nestjs/common'
 import DatabaseOperator from '@src/services/DatabaseOperator'
 import Constants from '@api/utils/Constants'
 import QiwiBillPaymentsAPI from '@qiwi/bill-payments-node-js-sdk'
+import AllExceptionsFilter from '@api/utils/AllExceptionsFilter'
 
 export default class DeleterApiWorker {
   private readonly port: number
@@ -49,6 +50,9 @@ export default class DeleterApiWorker {
       transform: true,
       forbidUnknownValues: true
     }))
+
+    const adapter = this.api.getHttpAdapter()
+    this.api.useGlobalFilters(new AllExceptionsFilter(adapter))
 
     this.api.setGlobalPrefix(Constants.PREFIX || '')
 

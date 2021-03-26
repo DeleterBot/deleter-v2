@@ -6,7 +6,6 @@ import GuildGeneralSettings from '@api/structures/GuildGeneralSettings'
 import GuildPerms from '@api/utils/GuildPerms'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
 import GeneralSettingsDto from '@api/dto/general-settings.dto'
-import SettingSavedSuccessResponse from '@api/structures/SettingSavedSuccessResponse'
 import StrictAuthGuard from '@api/guards/strict-auth.guard'
 import { Throttle } from '@nestjs/throttler'
 
@@ -46,7 +45,7 @@ export default class GuildGeneralSettingsController extends AbstractController {
 
     if (!isUserPermitted)
       throw new ForbiddenException({
-        message: 'missing permissions'
+        message: 'missing permissions.'
       })
 
     if (body.color.replace('#', '').toLowerCase() === 'ffffff')
@@ -56,7 +55,7 @@ export default class GuildGeneralSettingsController extends AbstractController {
 
     return this.db.update('guilds', id, body)
       .then(() => {
-        return new SettingSavedSuccessResponse()
+        return 'settings saved.'
       })
 
   }
