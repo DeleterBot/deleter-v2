@@ -1,13 +1,13 @@
 import AbstractController from '@api/abstractions/abstract.controller'
 import Constants from '@api/utils/Constants'
 import { Controller, Get } from '@nestjs/common'
-import { RateLimit } from 'nestjs-rate-limiter'
+import { Throttle } from '@nestjs/throttler'
 
 @Controller(Constants.PUBLIC)
 export default class CommandsController extends AbstractController {
 
   @Get('commands')
-  @RateLimit({ keyPrefix: 'cmds', points: 15, duration: 60 })
+  @Throttle(15, 60)
   async execute() {
 
     const script = 'Array.from(this.cache.commands?.filter(c =>'

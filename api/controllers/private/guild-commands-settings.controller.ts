@@ -2,14 +2,14 @@ import AbstractController from '@api/abstractions/abstract.controller'
 import { Controller, Get, Param, UseGuards } from '@nestjs/common'
 import Constants from '@api/utils/Constants'
 import AuthGuard from '@api/guards/auth.guard'
-import { RateLimit } from 'nestjs-rate-limiter'
+import { Throttle } from '@nestjs/throttler'
 
 @Controller(Constants.PRIVATE + 'guilds/:id/commands')
 export default class GuildCommandsSettingsController extends AbstractController {
 
   @Get()
   @UseGuards(new AuthGuard())
-  @RateLimit({ keyPrefix: 'glds-cmds-get', points: 15, duration: 60 })
+  @Throttle(15, 60)
   async get(@Param('id') id: string) {
     return id
   }

@@ -7,15 +7,15 @@ import GuildPerms from '@api/utils/GuildPerms'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
 import GeneralSettingsDto from '@api/dto/general-settings.dto'
 import SettingSavedSuccessResponse from '@api/structures/SettingSavedSuccessResponse'
-import { RateLimit } from 'nestjs-rate-limiter'
 import StrictAuthGuard from '@api/guards/strict-auth.guard'
+import { Throttle } from '@nestjs/throttler'
 
 @Controller(Constants.PRIVATE + 'guilds/:id/general')
 export default class GuildGeneralSettingsController extends AbstractController {
 
   @Get()
   @UseGuards(new AuthGuard())
-  @RateLimit({ keyPrefix: 'glds-stngs-get', points: 15, duration: 60 })
+  @Throttle(15, 60)
   async get(@Param('id') id: string, @Req() req: AuthorizedRequest) {
 
     const guildPerms = new GuildPerms(id, req.user.id)
@@ -34,7 +34,7 @@ export default class GuildGeneralSettingsController extends AbstractController {
 
   @Patch()
   @UseGuards(new StrictAuthGuard())
-  @RateLimit({ keyPrefix: 'glds-stngs-save', points: 15, duration: 60 })
+  @Throttle(15, 60)
   async patch(
     @Param('id') id: string,
     @Req() req: AuthorizedRequest,

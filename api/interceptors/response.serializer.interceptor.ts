@@ -1,5 +1,9 @@
+/**
+ * KISS? not in this file, sorry
+ * */
+
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common'
-import { from, Observable, of } from 'rxjs'
+import { from, Observable } from 'rxjs'
 import { switchMap } from 'rxjs/operators'
 import AbstractApiResponse from '@api/abstractions/AbstractApiResponse'
 

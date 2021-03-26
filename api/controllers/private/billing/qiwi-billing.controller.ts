@@ -6,14 +6,14 @@ import QiwiBillingCreateDto from '@api/dto/qiwi-billing-create.dto'
 import Snowflake from '@src/utils/Snowflake'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
 import CachedBill from '@api/types/CachedBill'
-import { RateLimit } from 'nestjs-rate-limiter'
+import { Throttle } from '@nestjs/throttler'
 
 @Controller(Constants.PRIVATE + 'billing')
 export default class QiwiBillingController extends AbstractController {
 
   @Post('create')
   @UseGuards(new AuthGuard())
-  @RateLimit({ keyPrefix: 'qiwi-create', points: 1, duration: 60 })
+  @Throttle(1, 60)
   async create(@Body() body: QiwiBillingCreateDto, @Req() req: AuthorizedRequest) {
 
     const cacheKey = `${Constants.billingPrefix}:${req.user.id}:${body.amount}`
@@ -48,7 +48,7 @@ export default class QiwiBillingController extends AbstractController {
 
   @Get('check')
   @UseGuards(new AuthGuard())
-  @RateLimit({ keyPrefix: 'qiwi-check', points: 15, duration: 60 })
+  @Throttle(5, 60)
   async check() {} // eslint-disable-line no-empty
 
 }
