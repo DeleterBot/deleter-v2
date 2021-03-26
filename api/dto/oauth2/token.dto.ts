@@ -6,9 +6,7 @@ export default class TokenDto {
   @IsString()
   public redirect_uri!: string
 
-  @IsSnowflake({
-    message: 'client_id must be a string (snowflake)'
-  })
+  @IsSnowflake()
   public client_id!: string
 
   @IsString()

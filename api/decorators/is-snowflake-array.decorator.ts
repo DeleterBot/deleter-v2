@@ -1,7 +1,7 @@
 import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator'
 
 export function IsSnowflakeArray(
-  maxArrayLength = 500,
+  maxLength = 500,
   validationOptions?: ValidationOptions
 ): PropertyDecorator {
   // @ts-ignore
@@ -10,17 +10,17 @@ export function IsSnowflakeArray(
       name: 'IsSnowflakeArray',
       target: object.constructor,
       propertyName: propertyName,
-      constraints: [maxArrayLength],
+      constraints: [ maxLength ],
       options: validationOptions,
       validator: {
         validate(value: any, args: ValidationArguments) {
           const [ relatedPropertyName ] = args.constraints
-          const maxArrayLength = relatedPropertyName
+          const maxLength = relatedPropertyName
 
           let isValid = false
 
           if (Array.isArray(value)) {
-            if (value.length <= maxArrayLength) {
+            if (value.length <= maxLength) {
               const notValidValues = value.filter(v => {
                 if (typeof v === 'string') {
                   if (v.length >= 17 && v.length <= 19) return false

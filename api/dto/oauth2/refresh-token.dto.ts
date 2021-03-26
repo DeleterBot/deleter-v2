@@ -4,9 +4,7 @@ import { IsSnowflake } from '@api/decorators/is-snowflake.decorator'
 
 export default class RefreshTokenDto extends TokenDto {
 
-  @IsSnowflake({
-    message: 'user_id must be a string (snowflake)'
-  })
+  @IsSnowflake()
   public user_id!: string
 
   @IsString()

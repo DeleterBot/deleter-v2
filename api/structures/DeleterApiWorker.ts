@@ -47,8 +47,8 @@ export default class DeleterApiWorker {
     )
 
     this.api.useGlobalPipes(new ValidationPipe({
-      transform: true,
-      forbidUnknownValues: true
+      whitelist: true,
+      forbidNonWhitelisted: true,
     }))
 
     const adapter = this.api.getHttpAdapter()

@@ -2,7 +2,7 @@ import {
   ArgumentsHost,
   BadRequestException,
   Catch,
-  ForbiddenException,
+  ForbiddenException, HttpException,
   InternalServerErrorException
 } from '@nestjs/common'
 import { ThrottlerException } from '@nestjs/throttler'
@@ -26,7 +26,7 @@ export default class AllExceptionsFilter extends BaseExceptionFilter{
         })
       )
 
-    } else if (exception instanceof InternalServerErrorException) {
+    } else if (exception instanceof InternalServerErrorException || !(exception instanceof HttpException)) {
 
       console.error(exception)
       res.code(500).send(
@@ -61,14 +61,14 @@ export default class AllExceptionsFilter extends BaseExceptionFilter{
 
     } else {
 
-      res.code(exception.status || 500).send(
+      res.code((exception as any).status || 500).send(
         new AbstractApiResponse({
           success: false,
           errors: [ { message: exception.message || 'Unknown Error', code: 0 } ]
         })
       )
 
-      if (!exception.status || !exception.message)
+      if (!(exception as any).status || !exception.message)
         console.error(exception)
 
     }
