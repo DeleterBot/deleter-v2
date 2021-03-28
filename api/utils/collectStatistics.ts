@@ -20,7 +20,6 @@ async function collectStatistics(manager: Discord.ShardingManager) {
     totalGuilds: 0,
     totalChannels: 0,
     totalUsers: 0,
-    totalShards: 0
   }
 
   for await (const shard of Array.from(manager.shards.values())) {
@@ -39,8 +38,6 @@ async function collectStatistics(manager: Discord.ShardingManager) {
       guilds: data[3] ?? 0,
       users: data[4] ?? 0
     })
-
-    statistic.totalShards = shards.length
 
   }
 
