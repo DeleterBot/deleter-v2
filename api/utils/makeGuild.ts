@@ -1,4 +1,3 @@
-
 export default function makeGuild(guildID: string) {
   return `
     (async () => {
