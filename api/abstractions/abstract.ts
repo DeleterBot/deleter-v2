@@ -1,7 +1,7 @@
 import Discord from 'discord.js'
 import DatabaseOperator from '@src/services/DatabaseOperator'
 import DeleterClientOptions from '@src/types/deleter/DeleterClientOptions'
-import QiwiBillPaymentsAPI  from '@qiwi/bill-payments-node-js-sdk'
+import QiwiBillPaymentsAPI from '@qiwi/bill-payments-node-js-sdk'
 
 export default class Abstract {
   manager: Discord.ShardingManager
