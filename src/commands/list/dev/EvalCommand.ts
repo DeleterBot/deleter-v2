@@ -17,9 +17,9 @@ export default class EvalCommand extends BaseCommand {
     try {
 
       let toEval = info.args.join(' '),
-        { isAsync, shard } = info.flags
+        { isAsync, shard, more } = info.flags
 
-      const { noReply, last, all, shell, everywhere, api, more, db } = info.flags
+      const { noReply, last, all, shell, everywhere, api, db, rows } = info.flags
 
       if (!toEval) return new CommandExecutionResult('bruh').setReply(true)
 
@@ -73,6 +73,11 @@ export default class EvalCommand extends BaseCommand {
       if (noReply) return new CommandExecutionResult('😎').setReact(true)
 
       if (types.isPromise(evaled)) evaled = await evaled
+
+      if (db && rows) {
+        evaled = evaled.rows
+        more = true
+      }
 
       const after = process.hrtime.bigint()
 

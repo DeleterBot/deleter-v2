@@ -22,5 +22,5 @@ deleter.load()
     console.log(`shard ${deleter.shard?.ids} | lol, work`)
   })
 
-process.on('unhandledRejection', (reason: string) => console.error(reason))
+process.on('unhandledRejection', (reason: any) => console.error(reason))
 process.on('uncaughtException', (reason: any) => console.error(reason))

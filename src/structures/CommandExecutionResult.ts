@@ -1,9 +1,10 @@
 import Base from '@src/abstractions/Base'
 import CommandExecutionResultType from '@src/types/commands/CommandExecutionResultType'
 import Discord from 'discord.js'
+import DeleterEmbed from '@src/structures/DeleterEmbed'
 
 export default class CommandExecutionResult extends Base implements CommandExecutionResultType {
-  public readonly result: Discord.MessageEmbed | string |
+  public readonly result: DeleterEmbed | string |
     Discord.EmojiResolvable | Discord.EmojiResolvable[] | undefined | null
   public options: Discord.MessageOptions | undefined
   public react: boolean | undefined
@@ -11,7 +12,7 @@ export default class CommandExecutionResult extends Base implements CommandExecu
   public success: boolean
 
   constructor(
-    result: Discord.MessageEmbed | string | Discord.EmojiResolvable | Discord.EmojiResolvable[] | undefined | null
+    result: DeleterEmbed | string | Discord.EmojiResolvable | Discord.EmojiResolvable[] | undefined | null
   ) {
     super()
 

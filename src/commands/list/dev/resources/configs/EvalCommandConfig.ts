@@ -46,7 +46,8 @@ export default class EvalCommandConfig extends AbstractConfig implements BaseCom
     'more': 'more',
     'shell': 'shell',
     'async': 'isAsync',
-    'db': 'db'
+    'db': 'db',
+    'rows': 'rows',
   }
 
   public customPermissions = [ 'OWNER' ]

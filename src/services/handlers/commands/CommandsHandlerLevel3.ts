@@ -49,7 +49,8 @@ export default class CommandsHandlerLevel3 extends BaseService {
           case 'string':
             args.push({
               name: flagKey,
-              type: Boolean
+              type: Boolean,
+              multiple: true
             })
             break
           case 'object':
@@ -57,7 +58,8 @@ export default class CommandsHandlerLevel3 extends BaseService {
               name: flagKey,
               type: flagValue.type ?? Boolean,
               alias: flagValue.alias,
-              defaultValue: flagValue.default ?? false
+              defaultValue: flagValue.default ?? false,
+              multiple: true
             })
             break
         }
@@ -82,10 +84,10 @@ export default class CommandsHandlerLevel3 extends BaseService {
 
         switch (typeof commandFlag) {
           case 'object':
-            flags[commandFlag.name] = flag[1]
+            flags[commandFlag.name] = flag[1][0]
             break
           case 'string':
-            flags[commandFlag] = flag[1]
+            flags[commandFlag] = flag[1][0]
             break
         }
       })

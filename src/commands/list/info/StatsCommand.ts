@@ -8,6 +8,7 @@ import { hostname } from 'os'
 import Moment from 'moment'
 import Constants from '@src/utils/Constants'
 import StatsCommandConfig from '@src/commands/list/info/resources/configs/StatsCommandConfig'
+import DeleterEmbed from '@src/structures/DeleterEmbed'
 
 export default class StatsCommand extends BaseCommand {
   constructor() {
@@ -69,7 +70,7 @@ export default class StatsCommand extends BaseCommand {
       }
     )
 
-    const embed = new Discord.MessageEmbed()
+    const embed = new DeleterEmbed()
       .setColor(info.guild.color)
       .setDescription(description)
       .setThumbnail(this.client.user!.displayAvatarURL({ size: 256, format: 'png' }))

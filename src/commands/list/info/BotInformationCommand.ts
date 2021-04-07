@@ -5,6 +5,7 @@ import Info from '@src/types/Info'
 import StringPropertiesParser from '@src/utils/StringPropertiesParser'
 import Constants from '@src/utils/Constants'
 import BotInformationCommandConfig from '@src/commands/list/info/resources/configs/BotInformationCommandConfig'
+import DeleterEmbed from '@src/structures/DeleterEmbed'
 
 export default class BotInformationCommand extends BaseCommand {
   constructor() {
@@ -67,7 +68,7 @@ export default class BotInformationCommand extends BaseCommand {
         }
       )
 
-    const embed = new Discord.MessageEmbed()
+    const embed = new DeleterEmbed()
       .setColor(info.guild.color)
       .setDescription(description)
       .setThumbnail(this.client.user!.displayAvatarURL({ size: 256, format: 'png' }))

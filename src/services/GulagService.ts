@@ -4,6 +4,7 @@ import Constants from '@src/utils/Constants'
 import StringPropertiesParser from '@src/utils/StringPropertiesParser'
 import DeleterGuild from '@src/structures/djs/DeleterGuild'
 import guildFirstWritableChannel from '@src/utils/guildFirstWritableChannel'
+import DeleterEmbed from '@src/structures/DeleterEmbed'
 
 export default class GulagService extends BaseService {
 
@@ -33,7 +34,7 @@ export default class GulagService extends BaseService {
       }
     )
 
-    const embed = new Discord.MessageEmbed()
+    const embed = new DeleterEmbed()
       .setColor(this.client.options.color)
       .setDescription(description)
 

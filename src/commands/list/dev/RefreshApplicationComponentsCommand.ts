@@ -25,7 +25,7 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
     if (info.flags.compile) {
       await msg.react('10:637956323958587392')
       await environmentEval('npm run build')
-      await msg.reactions.cache.get('637956323958587392')?.users.remove(this.client.user!.id)
+      await msg.reactions.cache.get('637956323958587392')?.users.remove(this.client.user.id)
     }
 
     if (info.flags.everywhere && this.client.shard) {
