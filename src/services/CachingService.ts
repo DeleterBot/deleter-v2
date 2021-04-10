@@ -2,9 +2,10 @@ import Redis from 'redis'
 import BaseService from '@src/abstractions/BaseService'
 import { promisify } from 'util'
 import DeleterDatabaseCache from '@src/types/deleter/DeleterDatabaseCache'
+import { Collection } from 'discord.js'
 
 class CachingService extends BaseService implements DeleterDatabaseCache {
-  public connection: Redis.RedisClient
+  public connection: Redis.RedisClient | Collection<any, any>
   private readonly getAsync: any
   private readonly setAsync: any
   private readonly delAsync: any
@@ -15,17 +16,26 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
 
     const { REDIS_HOST, REDIS_PORT } = process.env
 
-    this.connection = Redis.createClient({
-      host: REDIS_HOST,
-      port: REDIS_PORT
-    })
+    if (REDIS_HOST && REDIS_PORT) {
+      this.connection = Redis.createClient({
+        host: REDIS_HOST,
+        port: REDIS_PORT
+      })
 
-    this.getAsync = promisify(this.connection.get).bind(this.connection)
-    this.setAsync = promisify(this.connection.set).bind(this.connection)
-    this.delAsync = promisify(this.connection.del).bind(this.connection)
-    this.xstAsync = promisify(this.connection.exists).bind(this.connection)
+      this.getAsync = promisify(this.connection.get).bind(this.connection)
+      this.setAsync = promisify(this.connection.set).bind(this.connection)
+      this.delAsync = promisify(this.connection.del).bind(this.connection)
+      this.xstAsync = promisify(this.connection.exists).bind(this.connection)
 
-    this.connection.on('error', (reason: string) => console.error(reason))
+      this.connection.on('error', (reason: string) => console.error(reason))
+    } else {
+      this.connection = new Collection()
+
+      this.getAsync = this.connection.get
+      this.setAsync = this.connection.set
+      this.delAsync = this.connection.delete
+      this.xstAsync = this.connection.has
+    }
 
     return this
   }

@@ -11,10 +11,6 @@ import * as fs from 'fs'
 import * as util from 'util'
 
 const { DB_KEYSPACE } = process.env
-let { CACHE_ENABLED } = process.env
-
-// @ts-ignore
-CACHE_ENABLED = CACHE_ENABLED === 'true'
 
 const CASSANDRA_CLIENT_OPTIONS = {
   cloud: {
@@ -35,7 +31,7 @@ class DatabaseOperator extends BaseService {
 
     this.connection = new Cassandra.Client(CASSANDRA_CLIENT_OPTIONS)
 
-    if (CACHE_ENABLED) this.cache = new CachingService()
+    this.cache = new CachingService()
   }
 
   public connect(createTables = false) {
@@ -67,7 +63,7 @@ class DatabaseOperator extends BaseService {
 
     const cacheKey = `${table}:${id}`
 
-    if (!options.escapeCache && CACHE_ENABLED) {
+    if (!options.escapeCache) {
       const cache = await this.cache!.get(cacheKey)
       if (cache) return cache
     }
@@ -81,7 +77,7 @@ class DatabaseOperator extends BaseService {
     if (options.raw) return data
     if (options.array) return data.rows
 
-    if (!options.escapeCache && !options.selector && CACHE_ENABLED)
+    if (!options.escapeCache && !options.selector)
       this.cache!.set(cacheKey, options.everything ? data.rows : data.rows[0] ?? '')
         .catch(e => console.error(e))
 
@@ -115,7 +111,7 @@ class DatabaseOperator extends BaseService {
     const result = await this.execute(query, options.params)
     const cacheKey = `${table}:${id}`
 
-    if (!options.escapeCache && CACHE_ENABLED) {
+    if (!options.escapeCache) {
       const isCached: boolean = await this.cache!.exists(cacheKey)
         .catch((e) => { console.error(e); return false })
 
@@ -145,7 +141,7 @@ class DatabaseOperator extends BaseService {
 
     const data = await this.execute(query, options.params)
 
-    if (!options.escapeCache && CACHE_ENABLED)
+    if (!options.escapeCache)
       await this.cache!.del(`${table}:${id}`)
         .catch(this.errFn)
 
