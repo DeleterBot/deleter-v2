@@ -19,7 +19,7 @@ export default class HelpCommandConfig extends AbstractConfig implements BaseCom
     gg: {
       name: 'хуелп',
       category: 'информейшн',
-      aliases: [ 'хуёмощь', 'хелп', 'помощь' ]
+      aliases: [ 'хуёмощь', 'хелп', 'помощь', 'помогибля' ]
     }
   }
 
