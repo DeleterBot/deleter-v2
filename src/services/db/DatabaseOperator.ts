@@ -1,6 +1,6 @@
 import Cassandra, { errors, types } from 'cassandra-driver'
 import BaseService from '@src/abstractions/BaseService'
-import CachingService from '@src/services/CachingService'
+import CachingService from '@src/services/db/CachingService'
 import DatabaseGetOptions from '@src/types/database/DatabaseGetOptions'
 import DatabaseUpdateOptions from '@src/types/database/DatabaseUpdateOptions'
 import DatabaseDeleteOptions from '@src/types/database/DatabaseDeleteOptions'
@@ -24,7 +24,7 @@ const CASSANDRA_CLIENT_OPTIONS = {
 
 class DatabaseOperator extends BaseService {
   public connection: Cassandra.Client
-  public cache: CachingService | undefined
+  public cache: CachingService
 
   constructor() {
     super()

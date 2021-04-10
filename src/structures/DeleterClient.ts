@@ -1,8 +1,8 @@
 import Discord, { ClientUser } from 'discord.js'
 import DeleterClientOptions from '@src/types/deleter/DeleterClientOptions'
 import DeleterClientCache from '@src/types/deleter/DeleterClientCache'
-import Gatherer from '@src/services/GathererService'
-import DatabaseOperator from '@src/services/DatabaseOperator'
+import Gatherer from '@src/services/misc/GathererService'
+import DatabaseOperator from '@src/services/db/DatabaseOperator'
 
 class DeleterClient extends Discord.Client {
   public token: string

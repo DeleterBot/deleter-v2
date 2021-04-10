@@ -4,7 +4,7 @@
   "main": "./dist/index.js",
   "type": "commonjs",
   "scripts": {
-    "build": "tsc --build tsconfig.json && echo \"success.\"",
+    "build": "tsc --build tsconfig.json && echo success.",
     "start": "node ./dist/index.js",
     "lint": "eslint --ext .js ."
   },

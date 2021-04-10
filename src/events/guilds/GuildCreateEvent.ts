@@ -1,5 +1,5 @@
 import BaseEvent from '@src/abstractions/BaseEvent'
-import GulagService from '@src/services/GulagService'
+import GulagService from '@src/services/misc/GulagService'
 import DeleterGuild from '@src/structures/djs/DeleterGuild'
 
 export default class GuildCreateEvent extends BaseEvent {

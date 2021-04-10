@@ -18,6 +18,7 @@ declare namespace NodeJS {
     DB_PSWD: string
     DB_KEYSPACE: string
 
+    REDIS_ENABLED: string
     REDIS_PORT: number
     REDIS_HOST: string
 

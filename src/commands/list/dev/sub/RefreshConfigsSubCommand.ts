@@ -1,6 +1,6 @@
 import BaseSubCommand from '@src/abstractions/BaseSubCommand'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
-import Gatherer from '@src/services/GathererService'
+import Gatherer from '@src/services/misc/GathererService'
 import RefreshConfigsSubCommandConfig from '@src/commands/list/dev/resources/configs/RefreshConfigsSubCommandConfig'
 
 export default class RefreshConfigsSubCommand extends BaseSubCommand {

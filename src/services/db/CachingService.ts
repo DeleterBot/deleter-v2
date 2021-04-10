@@ -14,9 +14,9 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
   constructor() {
     super()
 
-    const { REDIS_HOST, REDIS_PORT } = process.env
+    const { REDIS_ENABLED, REDIS_HOST, REDIS_PORT } = process.env
 
-    if (REDIS_HOST && REDIS_PORT) {
+    if (REDIS_ENABLED === 'true' && REDIS_HOST && REDIS_PORT) {
       this.connection = Redis.createClient({
         host: REDIS_HOST,
         port: REDIS_PORT
@@ -31,17 +31,19 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
     } else {
       this.connection = new Collection()
 
-      this.getAsync = this.connection.get
-      this.setAsync = this.connection.set
-      this.delAsync = this.connection.delete
-      this.xstAsync = this.connection.has
+      this.getAsync = this.connection.get.bind(this.connection)
+      this.setAsync = this.connection.set.bind(this.connection)
+      this.delAsync = this.connection.delete.bind(this.connection)
+      this.xstAsync = this.connection.has.bind(this.connection)
     }
 
     return this
   }
 
-  public set(key: string, value: Record<string, any> | string | Array<any>): Promise<boolean> {
+  public set(key: string, value: Record<string, any> | string | Array<any>): Promise<boolean>
+  public set(key: string, value: any): Promise<boolean> {
 
+    // runtime check
     if (typeof value === 'object') value = JSON.stringify(value)
     else if (typeof value !== 'string') throw new Error('cannot cache anything except strings, objects & arrays')
 
