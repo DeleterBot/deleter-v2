@@ -44,7 +44,7 @@ export default class BotInformationCommand extends BaseCommand {
           nodejs: process.version.replace('v', ''),
           lib: Discord.version,
           deleter: pckg.version,
-          username: this.client.user!.username.toLowerCase(),
+          username: this.client.user.username.toLowerCase(),
           ts: pckg.devDependencies.typescript.replace('^', ''),
           cassandra: pckg.dependencies['cassandra-driver'].replace('^', '')
         }
@@ -56,7 +56,7 @@ export default class BotInformationCommand extends BaseCommand {
         `$phrase[${root}.links.value]`,
         {
           site: site,
-          id: this.client.user!.id,
+          id: this.client.user.id,
           server: supportServer,
           docs: docs
         }
