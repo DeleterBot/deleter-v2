@@ -1,4 +1,4 @@
-import Cassandra, { errors, types } from 'cassandra-driver'
+import Cassandra, { DseClientOptions, errors, types } from 'cassandra-driver'
 import BaseService from '@src/abstractions/BaseService'
 import CachingService from '@src/services/db/CachingService'
 import DatabaseGetOptions from '@src/types/database/DatabaseGetOptions'
@@ -9,16 +9,20 @@ import NoHostAvailableError = errors.NoHostAvailableError
 import ResultSet = types.ResultSet
 import * as fs from 'fs'
 import * as util from 'util'
+import Constants from '@src/utils/Constants'
 
 const { DB_KEYSPACE } = process.env
 
-const CASSANDRA_CLIENT_OPTIONS = {
+const CASSANDRA_CLIENT_OPTIONS: DseClientOptions = {
   cloud: {
     secureConnectBundle: './secure-connect-deleterdb.zip'
   },
   credentials: {
     username: process.env.DB_USRN,
     password: process.env.DB_PSWD
+  },
+  socketOptions: {
+    readTimeout: Constants.CASSANDRA_READ_TIMEOUT
   }
 }
 
@@ -44,12 +48,17 @@ class DatabaseOperator extends BaseService {
           './src/cql/tables/hashes.cql',
           './src/cql/types/lang.cql',
           './src/cql/types/ignore.cql',
-          './src/cql/tables/guilds.cql'
+          './src/cql/tables/guilds.cql',
+          './src/cql/tables/misc.cql',
+          './src/cql/types/presence.cql',
+          './src/cql/types/latest_presence.cql',
+          './src/cql/tables/users.cql'
         ]
 
         const read = util.promisify(fs.readFile)
 
         for await (const path of cqlPaths) {
+          console.info('executing ', path)
           await this.connection.execute(
             (await read(path, { encoding: 'utf-8' })).replace('?', process.env.DB_KEYSPACE).replace(/\r\n/g, '')
           )
@@ -59,13 +68,17 @@ class DatabaseOperator extends BaseService {
       })
   }
 
-  public async get(table: string, id: string, options: DatabaseGetOptions = {}) {
+  public async get<T = any>(table: string, id: string, options?: DatabaseGetOptions): Promise<T>
+  public async get(table: string, id: string, options: DatabaseGetOptions = {}): Promise<any> {
 
     const cacheKey = `${table}:${id}`
 
     if (!options.escapeCache) {
-      const cache = await this.cache!.get(cacheKey)
-      if (cache) return cache
+      const cache = await this.cache.get(cacheKey)
+      if (cache) {
+        if (options.transform) return new options.transform(cache)
+        else return cache
+      }
     }
 
     const data = await this.execute(
@@ -78,8 +91,10 @@ class DatabaseOperator extends BaseService {
     if (options.array) return data.rows
 
     if (!options.escapeCache && !options.selector)
-      this.cache!.set(cacheKey, options.everything ? data.rows : data.rows[0] ?? '')
+      this.cache.set(cacheKey, options.everything ? data.rows : data.rows[0] ?? '')
         .catch(e => console.error(e))
+
+    if (options.transform) return new options.transform(data.rows[0])
 
     return data.rows[0]
   }
@@ -149,12 +164,12 @@ class DatabaseOperator extends BaseService {
   }
 
   public execute(query: string, params?: Array<string>): Promise<ResultSet> {
-    return this.connection.execute(query, params)
+    return this.connection.execute(query, params, { readTimeout: Constants.CASSANDRA_READ_TIMEOUT })
       .catch(async e => {
         if (e instanceof NoHostAvailableError) {
           this.connection = new Cassandra.Client(CASSANDRA_CLIENT_OPTIONS)
           await this.connect()
-          return this.connection.execute(query, params)
+          return this.connection.execute(query, params, { readTimeout: Constants.CASSANDRA_READ_TIMEOUT })
         } else throw e
       })
   }

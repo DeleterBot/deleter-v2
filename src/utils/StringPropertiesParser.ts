@@ -45,11 +45,11 @@ export default class StringPropertiesParser extends Base {
     switch (mode) {
       case 'keywords':
         parsingRegExp = parsingRegExps.keywords
-        valuesCollection = this.client.cache.props.keywords
+        valuesCollection = this.deleter.cache.props.keywords
         break
       case 'phrases':
         parsingRegExp = parsingRegExps.phrases
-        valuesCollection = this.client.cache.props.phrases
+        valuesCollection = this.deleter.cache.props.phrases
         break
     }
 

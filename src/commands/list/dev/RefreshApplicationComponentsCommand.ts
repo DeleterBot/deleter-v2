@@ -25,10 +25,10 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
     if (info.flags.compile) {
       await msg.react('10:637956323958587392')
       await environmentEval('npm run build')
-      await msg.reactions.cache.get('637956323958587392')?.users.remove(this.client.user.id)
+      await msg.reactions.cache.get('637956323958587392')?.users.remove(this.deleter.user.id)
     }
 
-    if (info.flags.everywhere && this.client.shard) {
+    if (info.flags.everywhere && this.deleter.shard) {
       delete info.flags.complile
       delete info.flags.pull
       delete info.flags.everywhere
@@ -57,7 +57,7 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
       `
 
       const before = process.hrtime.bigint()
-      const result = await this.client.shard.broadcastEval(script)
+      const result = await this.deleter.shard.broadcastEval(script)
       const after = process.hrtime.bigint()
 
       const resultStr = 'Completed in '
@@ -68,7 +68,7 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
       return new CommandExecutionResult(resultStr).setOptions({ code: 'js' })
     }
 
-    const subCommandsFinder = new SubCommandsFinder(this.client.cache.subCommands)
+    const subCommandsFinder = new SubCommandsFinder(this.deleter.cache.subCommands)
 
     async function execCommands(name: string, args: string[]): Promise<CommandExecutionResult | undefined> {
       const command = args[0]

@@ -7,6 +7,7 @@ import DatabaseOperator from '@src/services/db/DatabaseOperator'
 import Constants from '@api/utils/Constants'
 import QiwiBillPaymentsAPI from '@qiwi/bill-payments-node-js-sdk'
 import AllExceptionsFilter from '@api/utils/AllExceptionsFilter'
+import { Server } from 'http'
 
 export default class DeleterApiWorker {
   private readonly port: number
@@ -25,7 +26,7 @@ export default class DeleterApiWorker {
 
   public async start(
     options?: FastifyServerOptions,
-    ...plugins: Array<[ FastifyPluginCallback, FastifyRegisterOptions<any> ]>
+    ...plugins: Array<[ FastifyPluginCallback<Record<never, never>, Server>, FastifyRegisterOptions<any> ]>
   ) {
 
     this.db = new DatabaseOperator()
@@ -56,7 +57,7 @@ export default class DeleterApiWorker {
 
     this.api.setGlobalPrefix(Constants.PREFIX || '')
 
-    plugins.forEach(([ plugin, pluginOptions ]) => this.api.register(plugin, pluginOptions))
+    plugins.forEach(([ plugin, pluginOptions ]) => this.api.register(plugin as any, pluginOptions))
 
     return this.api.listen(this.port, this.ip, (err: Error, address: string) => {
       if (err) {

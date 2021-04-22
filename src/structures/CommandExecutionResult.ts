@@ -4,7 +4,7 @@ import Discord from 'discord.js'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
 
 export default class CommandExecutionResult extends Base implements CommandExecutionResultType {
-  public readonly result: DeleterEmbed | string |
+  public result: DeleterEmbed | string |
     Discord.EmojiResolvable | Discord.EmojiResolvable[] | undefined | null
   public options: Discord.MessageOptions | undefined
   public react: boolean | undefined
@@ -19,6 +19,11 @@ export default class CommandExecutionResult extends Base implements CommandExecu
     this.result = result
     this.success = true
 
+    return this
+  }
+
+  public setResult(result: CommandExecutionResult['result']) {
+    this.result = result
     return this
   }
 

@@ -22,7 +22,7 @@ export default class StatsCommand extends BaseCommand {
       pckg: Record<string, any> = require('@root/package.json'),
       unknown = parser.parse(`$keyword[${info.guild.lang.interface}.deleter.global.unknown]`)
 
-    const data = await this.client.shard?.broadcastEval(
+    const data = await this.deleter.shard?.broadcastEval(
       `[ 
          ~~(process.memoryUsage().heapUsed / 1024 ** 2), 
          ~~(process.memoryUsage().rss / 1024 ** 2), 
@@ -46,8 +46,10 @@ export default class StatsCommand extends BaseCommand {
     Moment.locale(Constants.localeLang(info.guild.lang.interface))
     const uptime = Moment().to(Moment(Date.now() - process.uptime() * 1000))
 
-    const description = parser.parse(
-      `$phrase[${root}.description]`,
+    let description = ''
+
+    description += parser.parse(
+      `$phrase[${root}.description.part1]`,
       {
         version: pckg.version,
         lib: `discord.js ${Discord.version}`,
@@ -58,12 +60,35 @@ export default class StatsCommand extends BaseCommand {
         uptime: uptime,
         guildsCount: guildsCount,
         usersCount: usersCount,
-        ping: this.client.ws.ping,
+        ping: this.deleter.ws.ping,
         commandsExecuted: unknown,
         shard: msg.guild.shardID + 1,
-        totalShards: this.client.shard!.count
+        totalShards: this.deleter.shard!.count
       }
-    ), footer = parser.parse(
+    )
+
+    if (this.deleter.shard!.count > 1) description += '\n\n' + parser.parse(
+      `$phrase[${root}.description.part2]`,
+      {
+        memUsageShardHeap: memUsageShard[0],
+        memUsageShardRss: memUsageShard[1]
+      }
+    )
+
+    description += '\n\n' + parser.parse(
+      `$phrase[${root}.description.part3]`,
+      {
+        uptime: uptime,
+        guildsCount: guildsCount,
+        usersCount: usersCount,
+        ping: this.deleter.ws.ping,
+        commandsExecuted: unknown,
+        shard: msg.guild.shardID + 1,
+        totalShards: this.deleter.shard!.count
+      }
+    )
+
+    const footer = parser.parse(
       `$phrase[${root}.footer.value]`,
       {
         hostname: hostname()
@@ -73,7 +98,7 @@ export default class StatsCommand extends BaseCommand {
     const embed = new DeleterEmbed()
       .setColor(info.guild.color)
       .setDescription(description)
-      .setThumbnail(this.client.user!.displayAvatarURL({ size: 256, format: 'png' }))
+      .setThumbnail(this.deleter.user!.displayAvatarURL({ size: 256, format: 'png' }))
       .setFooter(footer)
 
     return new CommandExecutionResult(embed)

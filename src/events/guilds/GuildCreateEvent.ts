@@ -1,5 +1,5 @@
 import BaseEvent from '@src/abstractions/BaseEvent'
-import GulagService from '@src/services/misc/GulagService'
+// import GulagService from '@src/services/misc/GulagService'
 import DeleterGuild from '@src/structures/djs/DeleterGuild'
 
 export default class GuildCreateEvent extends BaseEvent {
@@ -11,13 +11,15 @@ export default class GuildCreateEvent extends BaseEvent {
 
   async execute(guild: DeleterGuild) {
 
-    const gulagService = new GulagService()
+    return guild
+
+    /*const gulagService = new GulagService()
 
     const gulag = await gulagService.isGulaged(guild.id)
 
     if (gulag) {
       gulagService.sendGulagedMessage(guild, gulag)?.then(guild.leave, guild.leave)
-    }
+    }*/
 
   }
 }

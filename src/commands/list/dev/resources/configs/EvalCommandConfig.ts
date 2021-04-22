@@ -41,6 +41,10 @@ export default class EvalCommandConfig extends AbstractConfig implements BaseCom
       name: 'shard',
       type: String
     },
+    'row': {
+      name: 'row',
+      type: Number
+    },
     'api': 'api',
     'all': 'all',
     'more': 'more',

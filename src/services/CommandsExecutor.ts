@@ -16,7 +16,7 @@ export default class CommandsExecutor extends BaseService {
     if (this.msg.author.bot) return
     if (this.msg.channel.type === 'dm') return
 
-    const guildData = await this.client.db.get('guilds', this.msg.guild!.id)
+    const guildData = await this.deleter.db.get('guilds', this.msg.guild!.id)
     const guild = new Guild(this.msg.guild as DeleterGuild, typeof guildData !== 'string' ? guildData : undefined)
 
     const commandsHandler = new CommandsHandlerLevel1(this.msg, guild)

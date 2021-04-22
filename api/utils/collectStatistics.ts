@@ -12,9 +12,9 @@ async function collectStatistics(manager: Discord.ShardingManager) {
 
   const shards = [],
     script =
-      '[ client.ws.status, client.ws.ping,'
-      + ' client.channels.cache.size, client.guilds.cache.size,'
-      + ' client.users.cache.size, client.ws.destroyed, client.ws.reconnecting ]'
+      '[ deleter.ws.status, deleter.ws.ping,'
+      + ' deleter.channels.cache.size, deleter.guilds.cache.size,'
+      + ' deleter.users.cache.size, deleter.ws.destroyed, deleter.ws.reconnecting ]'
 
   const statistic = {
     totalGuilds: 0,

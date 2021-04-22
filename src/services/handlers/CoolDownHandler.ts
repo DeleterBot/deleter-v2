@@ -2,13 +2,6 @@ import BaseService from '@src/abstractions/BaseService'
 import CoolDownConfig from '@src/types/commands/CoolDownConfig'
 //import Snowflake from '@src/utils/Snowflake'
 
-/**
- * @class CoolDown Handler.
- * @param {CoolDownConfig} coolDown The cool down config.
- * @param {string} coolDownFor Item, that will be cool downed.
- * @param {string} coolDownFrom Item, that will be used to check if the previous item is cool downed.
- */
-
 export default class CoolDownHandler extends BaseService {
   private readonly coolDownConfig: CoolDownConfig
   private readonly coolDownFor: string
@@ -26,7 +19,7 @@ export default class CoolDownHandler extends BaseService {
 
     const expirationTimestamp = Date.now() + (this.coolDownConfig.time * 100)
     //const id = Snowflake.generate(expirationTimestamp)
-    const coolDownItem: Record<string, any> = this.client.cache.cd.get(this.coolDownFrom)
+    const coolDownItem: Record<string, any> = this.deleter.cache.cd.get(this.coolDownFrom)
 
     if (coolDownItem) {
 

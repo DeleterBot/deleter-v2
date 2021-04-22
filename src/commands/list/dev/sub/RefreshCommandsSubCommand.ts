@@ -9,8 +9,8 @@ export default class RefreshCommandsSubCommand extends BaseSubCommand {
   }
 
   execute(): CommandExecutionResult {
-    this.client.cache.commands = GathererService.loadCommands()
-    this.client.cache.subCommands = GathererService.loadSubCommands()
+    this.deleter.cache.commands = GathererService.loadCommands()
+    this.deleter.cache.subCommands = GathererService.loadSubCommands()
 
     return new CommandExecutionResult('😎').setReact()
   }

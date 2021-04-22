@@ -37,7 +37,7 @@ export default class HelpCommand extends BaseCommand {
     this.nullish = this.parser.parse(`$phrase[${this.globalRoot}.nullish.description]`)
 
     const dev: Discord.User | Record<string, any>
-      = await this.client.users.fetch(this.client.owner!).catch(() => { return {} })
+      = await this.deleter.users.fetch(this.deleter.owner!).catch(() => { return {} })
 
     this.dev.tag = dev.tag ?? Constants.nobody
     this.dev.avatar = dev.displayAvatarURL?.({ dynamic: true })
@@ -46,13 +46,13 @@ export default class HelpCommand extends BaseCommand {
 
     if (!info.args[0]) embed = this.standard(info)
     else {
-      const commands = this.client.cache.commands.filter(c => (
+      const commands = this.deleter.cache.commands.filter(c => (
         c.translations[this.lang].category === info.args[0].toLowerCase()
       ))
 
       if (commands.size) embed = this.category(info, commands)
 
-      const commandsFinder = new CommandsFinder(this.client.cache.commands)
+      const commandsFinder = new CommandsFinder(this.deleter.cache.commands)
 
       const command = commandsFinder.find(info.args[0], this.lang)
 
@@ -63,7 +63,7 @@ export default class HelpCommand extends BaseCommand {
 
     embed
       .setColor(info.guild.color)
-      .setThumbnail(this.client.user.displayAvatarURL({ size: 256, format: 'png' }))
+      .setThumbnail(this.deleter.user.displayAvatarURL({ size: 256, format: 'png' }))
       .setFooter(
         this.parser.parse(`$phrase[${this.root}.footer.value]`, {
           dev: this.dev.tag
@@ -77,7 +77,7 @@ export default class HelpCommand extends BaseCommand {
 
     const commands: Record<string, Array<Record<string, any>>> = {}
 
-    this.client.cache.commands.forEach(command => {
+    this.deleter.cache.commands.forEach(command => {
 
       const category = command.translations[info.guild.lang.interface].category
 
@@ -93,7 +93,7 @@ export default class HelpCommand extends BaseCommand {
       )
       .setDescription(
         this.parser.parse(`$phrase[${this.root}.standard.description]`, {
-          command: this.client.cache.commands.random().translations[info.guild.lang.commands].name,
+          command: this.deleter.cache.commands.random().translations[info.guild.lang.commands].name,
           help: (this.translations as any)[info.guild.lang.commands].name,
           prefix: info.guild.prefix,
           site: Constants.site
@@ -156,7 +156,7 @@ export default class HelpCommand extends BaseCommand {
       interfaceLanguageCommand: CommandDetails = (command.translations as any)[info.guild.lang.interface]
 
     const subCommandsList =
-      new SubCommandsFinder(this.client.cache.subCommands).findUsingSlaveOf(commandsLanguageCommand.name)
+      new SubCommandsFinder(this.deleter.cache.subCommands).findUsingSlaveOf(commandsLanguageCommand.name)
 
     let subCommands = ''
 

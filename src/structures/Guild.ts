@@ -10,7 +10,7 @@ export default class Guild extends Base {
   constructor(guild: DeleterGuild, data: Record<string, any> = {}) {
     super()
 
-    this.prefix = data.prefix ?? this.client.options.prefix
+    this.prefix = data.prefix ?? this.deleter.options.prefix
     this.lang = data.lang ?? { commands: guild.locale, interface: guild.locale }
 
     if (data.lang && typeof data.lang === 'string') {
@@ -20,6 +20,6 @@ export default class Guild extends Base {
       }
     }
 
-    this.color = data.color ?? this.client.options.color
+    this.color = data.color ?? this.deleter.options.color
   }
 }

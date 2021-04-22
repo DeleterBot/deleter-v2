@@ -10,7 +10,7 @@ export default class GulagService extends BaseService {
 
   isGulaged(id: Discord.Snowflake) {
 
-    return this.client.db.get(Constants.gulagsTable, id)
+    return this.deleter.db.get(Constants.gulagsTable, id)
 
   }
 
@@ -18,7 +18,7 @@ export default class GulagService extends BaseService {
 
     if (!reason.endsWith('.') && !reason.endsWith('>')) reason += '.'
 
-    await this.client.db.update(Constants.gulagsTable, id, { reason: reason }, { upsert: true })
+    await this.deleter.db.update(Constants.gulagsTable, id, { reason: reason }, { upsert: true })
 
   }
 
@@ -29,13 +29,13 @@ export default class GulagService extends BaseService {
     const description = parser.parse(
       `$phrase[${guild.locale}.deleter.global.gulag.owner.description`,
       {
-        username: this.client.user!.username,
+        username: this.deleter.user!.username,
         reason: gulag.reason
       }
     )
 
     const embed = new DeleterEmbed()
-      .setColor(this.client.options.color)
+      .setColor(this.deleter.options.color)
       .setDescription(description)
 
     const channel = guildFirstWritableChannel(guild)

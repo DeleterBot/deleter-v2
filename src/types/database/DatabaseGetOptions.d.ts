@@ -5,4 +5,5 @@ export default interface DatabaseGetOptions extends AbstractDatabaseOperationOpt
   raw?: boolean
   array?: boolean
   everything?: boolean
+  transform?: any
 }

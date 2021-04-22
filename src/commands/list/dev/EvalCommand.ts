@@ -19,7 +19,7 @@ export default class EvalCommand extends BaseCommand {
       let toEval = info.args.join(' '),
         { isAsync, shard, more } = info.flags
 
-      const { noReply, last, all, shell, everywhere, api, db, rows } = info.flags
+      const { noReply, last, all, shell, everywhere, api, db, rows, row } = info.flags
 
       if (!toEval) return new CommandExecutionResult('bruh').setReply(true)
 
@@ -29,13 +29,13 @@ export default class EvalCommand extends BaseCommand {
 
       if (toEval.includes('await')) isAsync = true
 
-      if (isAsync) toEval = '(async() => {' + toEval + '})()'
+      if (isAsync) toEval = '(async() => (' + toEval + '))()'
 
       const before = process.hrtime.bigint()
 
       let evaled
       if (db) {
-        evaled = this.client.db.execute(toEval)
+        evaled = this.deleter.db.execute(toEval)
       } else if (shell) {
         evaled = environmentEval(toEval)
 
@@ -49,7 +49,7 @@ export default class EvalCommand extends BaseCommand {
         evaled = Axios.post(
           endpoint,
           { toEval: toEval },
-          { headers: { 'Authorization': this.client.token } }
+          { headers: { 'Authorization': this.deleter.token } }
           )
           .then((r) => r.data.toString())
           .catch((e) => {
@@ -58,15 +58,15 @@ export default class EvalCommand extends BaseCommand {
           })
 
       } else if (everywhere) {
-        evaled = this.client.shard?.broadcastEval(toEval)
+        evaled = this.deleter.shard?.broadcastEval(toEval)
 
       } else if (shard) {
 
         if (shard !== 'any')
           evaled =
-            this.client.shard?.broadcastEval(`if (this.shard?.ids?.includes(${shard})) eval("${toEval}")`)
+            this.deleter.shard?.broadcastEval(`if (this.shard?.ids?.includes(${shard})) eval("${toEval}")`)
         else
-          evaled = this.client.shard?.broadcastEval(`eval("${toEval}")`)
+          evaled = this.deleter.shard?.broadcastEval(`eval("${toEval}")`)
 
       } else evaled = eval(toEval)
 
@@ -74,8 +74,9 @@ export default class EvalCommand extends BaseCommand {
 
       if (types.isPromise(evaled)) evaled = await evaled
 
-      if (db && rows) {
+      if (db && (rows || typeof row !== 'undefined')) {
         evaled = evaled.rows
+        if (typeof row === 'number') evaled = evaled[row]
         more = true
       }
 

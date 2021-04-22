@@ -11,6 +11,7 @@ class DeleterClient extends Discord.Client {
   public db!: DatabaseOperator
   public options!: DeleterClientOptions
   public user!: ClientUser
+  private deleter: DeleterClient = this
 
   constructor(token: string, options?: DeleterClientOptions) {
     super(options)
@@ -19,7 +20,7 @@ class DeleterClient extends Discord.Client {
   }
 
   load() {
-    global.client = this
+    global.deleter = this
 
     this.cache = {
       cd: new Discord.Collection<string, any>(),

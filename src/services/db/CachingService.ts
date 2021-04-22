@@ -40,8 +40,8 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
     return this
   }
 
-  public set(key: string, value: Record<string, any> | string | Array<any>): Promise<boolean>
-  public set(key: string, value: any): Promise<boolean> {
+  public async set(key: string, value: Record<string, any> | string | Array<any>): Promise<boolean>
+  public async set(key: string, value: any): Promise<boolean> {
 
     // runtime check
     if (typeof value === 'object') value = JSON.stringify(value)
@@ -58,17 +58,17 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
     try {
       result = JSON.parse(data)
     } catch (e) {
-      result = {}
+      if (data) result = {}
     }
 
     return result
   }
 
-  public del(key: string): Promise<boolean> {
+  public async del(key: string): Promise<boolean> {
     return this.delAsync(key)
   }
 
-  public exists(key: string): Promise<boolean> {
+  public async exists(key: string): Promise<boolean> {
     return this.xstAsync(key)
   }
 }

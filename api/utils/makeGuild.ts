@@ -1,7 +1,7 @@
 export default function makeGuild(guildID: string) {
   return `
     (async () => {
-    const guild = client.guilds.cache.get('${guildID}'),
+    const guild = deleter.guilds.cache.get('${guildID}'),
       result = {}
       
     if (guild && guild.available) {
@@ -19,8 +19,8 @@ export default function makeGuild(guildID: string) {
       result.emojis = []
       result.roles = []
       
-      if (client.db.cache) {
-        const guildCache = await client.db.cache.get('guilds:' + guild.id)
+      if (deleter.db.cache) {
+        const guildCache = await deleter.db.cache.get('guilds:' + guild.id)
         if (guildCache) result.lang = guildCache.lang?.interface
       }
 

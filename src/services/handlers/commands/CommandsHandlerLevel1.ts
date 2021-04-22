@@ -19,13 +19,13 @@ export default class CommandsHandlerLevel1 extends BaseService {
   }
 
   public handle() {
-    const commandsFinder = new CommandsFinder(this.client.cache.commands)
+    const commandsFinder = new CommandsFinder(this.deleter.cache.commands)
 
     const now = Date.now()
     const nowPrefix = `${now} `
 
     const mentionPrefix = this.msg.content.replace(
-      new RegExp(String.raw`<@(!)?${this.client.user?.id}>( *)?`, 'i'), nowPrefix)
+      new RegExp(String.raw`<@(!)?${this.deleter.user?.id}>( *)?`, 'i'), nowPrefix)
     const prefix =
       this.msg.content.startsWith(this.guild.prefix) ?
         this.guild.prefix :

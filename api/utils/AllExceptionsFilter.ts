@@ -32,7 +32,7 @@ export default class AllExceptionsFilter extends BaseExceptionFilter{
       res.code(500).send(
         new AbstractApiResponse({
           success: false,
-          errors: [ { message: 'Internal Server Error', code: 0 } ]
+          errors: [ { message: 'Internal Server Error', code: 10000 } ]
         })
       )
 

@@ -9,7 +9,7 @@ export default class RefreshCommandsSubCommand extends BaseSubCommand {
   }
 
   execute(): CommandExecutionResult {
-    this.client.cache.props = {
+    this.deleter.cache.props = {
       keywords: Gatherer.loadProps('keywords'),
       phrases: Gatherer.loadProps('phrases')
     }

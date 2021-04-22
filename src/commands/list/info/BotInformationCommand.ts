@@ -20,7 +20,7 @@ export default class BotInformationCommand extends BaseCommand {
 
       root = `${info.guild.lang.interface}.deleter.commands.list.info.command.info`,
       dev: Discord.User | Record<any, any>
-        = await this.client.users.fetch(this.client.owner!).catch(() => { return {} }),
+        = await this.deleter.users.fetch(this.deleter.owner!).catch(() => { return {} }),
 
       { site, docs, supportServer } = Constants
 
@@ -28,10 +28,10 @@ export default class BotInformationCommand extends BaseCommand {
       description = parser.parse(
         `$phrase[${root}.desc]`,
         {
-          username: this.client.user!.username,
-          mention: this.client.user!.toString(),
+          username: this.deleter.user!.username,
+          mention: this.deleter.user!.toString(),
           prefix: info.guild.prefix,
-          help: this.client.cache.commands
+          help: this.deleter.cache.commands
             .find(c => c?.name === 'help')!.translations[info.guild.lang.commands]?.name
         }
       ),
@@ -44,7 +44,7 @@ export default class BotInformationCommand extends BaseCommand {
           nodejs: process.version.replace('v', ''),
           lib: Discord.version,
           deleter: pckg.version,
-          username: this.client.user.username.toLowerCase(),
+          username: this.deleter.user.username.toLowerCase(),
           ts: pckg.devDependencies.typescript.replace('^', ''),
           cassandra: pckg.dependencies['cassandra-driver'].replace('^', '')
         }
@@ -56,7 +56,7 @@ export default class BotInformationCommand extends BaseCommand {
         `$phrase[${root}.links.value]`,
         {
           site: site,
-          id: this.client.user.id,
+          id: this.deleter.user.id,
           server: supportServer,
           docs: docs
         }
@@ -71,7 +71,7 @@ export default class BotInformationCommand extends BaseCommand {
     const embed = new DeleterEmbed()
       .setColor(info.guild.color)
       .setDescription(description)
-      .setThumbnail(this.client.user!.displayAvatarURL({ size: 256, format: 'png' }))
+      .setThumbnail(this.deleter.user!.displayAvatarURL({ size: 256, format: 'png' }))
       .addField(linksTitle, linksValue, true)
       .addField(versionsTitle, versionsValue, true)
       .setFooter(footerValue, dev.displayAvatarURL?.({ dynamic: true }))

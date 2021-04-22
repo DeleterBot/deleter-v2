@@ -1,6 +1,6 @@
 {
   "name": "deleter-v2",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "main": "./dist/index.js",
   "type": "commonjs",
   "scripts": {

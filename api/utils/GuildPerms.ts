@@ -17,7 +17,7 @@ export default class GuildPerms extends Abstract {
 
     return this.manager.shards.get(shardID)
       ?.eval(`
-        client.guilds.cache.get('${this.guildID}')
+        deleter.guilds.cache.get('${this.guildID}')
           ?.members.fetch('${this.userID}')
           .then(member => {
             return member.permissions.has(8) || member.guild.owner.user.id === member.user.id

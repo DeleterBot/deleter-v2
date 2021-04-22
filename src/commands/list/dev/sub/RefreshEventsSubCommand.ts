@@ -10,14 +10,14 @@ export default class RefreshEventsSubCommand extends BaseSubCommand {
 
   execute(): CommandExecutionResult {
 
-    this.client.cache.events.forEach(e => {
-      this.client.off(e.name, e.execute)
+    this.deleter.cache.events.forEach(e => {
+      this.deleter.off(e.name, e.execute)
     })
 
-    this.client.cache.events = Gatherer.loadEvents()
+    this.deleter.cache.events = Gatherer.loadEvents()
 
-    this.client.cache.events.forEach(e => {
-      this.client.on(e.name, e.execute)
+    this.deleter.cache.events.forEach(e => {
+      this.deleter.on(e.name, e.execute)
     })
 
     return new CommandExecutionResult('😎').setReact()

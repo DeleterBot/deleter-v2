@@ -1,6 +1,6 @@
 declare namespace NodeJS {
   interface Global {
-    client: any
+    deleter: any
     Discord: any
     ApiWorker: any
   }

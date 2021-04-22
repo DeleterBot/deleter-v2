@@ -26,7 +26,7 @@ export default class CommandsHandlerLevel3 extends BaseService {
 
   public handle(mode = 'process'): any {
 
-    const subCommandsFinder = new SubCommandsFinder(this.client.cache.subCommands)
+    const subCommandsFinder = new SubCommandsFinder(this.deleter.cache.subCommands)
 
     const commandFlags =
       this.command.translations[this.guild.lang.commands as CommandLanguage].flags && this.command.flags
