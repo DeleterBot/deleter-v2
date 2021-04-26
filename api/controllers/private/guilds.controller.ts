@@ -44,12 +44,16 @@ export default class GuildsController extends AbstractController {
         }
 
         return result.sort(g => {
-          if (g.newGuild) return -1
+          if (!g.added) return -1
           else return 1
         })
 
       })
       .catch(e => {
+        if (e?.response?.status === 401) throw new ForbiddenException({
+          message: 'cannot perform guilds examination, got 401',
+          code: 0
+        })
         console.error(e)
         return null
       })
