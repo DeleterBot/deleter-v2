@@ -48,7 +48,7 @@ export default class UserInfoCommand extends BaseCommand {
         idle = this.findStatus('idle'),
         dnd = this.findStatus('dnd'),
         now = Date.now(),
-        agoRegExp = /ago|назад/gi
+        agoRegExp = / (ago|назад)/gi
 
       if (online) description += parser.parse(`$phrase[${root}.description.online]`, {
         online: Moment().to(Moment(now - online.played)).replace(agoRegExp, '')
