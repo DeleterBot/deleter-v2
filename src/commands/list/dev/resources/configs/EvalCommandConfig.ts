@@ -9,7 +9,7 @@ export default class EvalCommandConfig extends AbstractConfig implements BaseCom
   public translations: CommandTranslations = {
     ru: {
       name: 'eval',
-      category: 'dev',
+      category: 'разработка',
       aliases: [ 'e' ],
     },
     en: {

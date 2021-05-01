@@ -16,7 +16,7 @@ export default class RefreshApplicationComponentsCommandConfig extends AbstractC
     },
     ru: {
       name: 'refresh',
-      category: 'dev',
+      category: 'разработка',
       aliases: [ 'r' ]
     },
     gg: {

@@ -4,6 +4,7 @@ import DeleterClient from '@src/structures/DeleterClient'
 import DeleterClientOptions from '@src/types/deleter/DeleterClientOptions'
 import DeleterGuild from '@src/structures/djs/DeleterGuild'
 import Discord from 'discord.js'
+import Logger from '@src/services/misc/Logger'
 
 Discord.Structures.extend('Guild', () => DeleterGuild)
 
@@ -14,13 +15,15 @@ let options: DeleterClientOptions | undefined
 
 try {
   options = require('@src/options').default
-} catch (e) {} // eslint-disable-line no-empty
+} catch (e) {
+  new Logger().warn('shard.ts', 'cannot found client options. this may cause errors.')
+}
 
 const deleter = new DeleterClient(TOKEN, options)
 deleter.load()
   .then(() => {
-    console.log(`shard ${deleter.shard?.ids} | lol, work`)
+    deleter.logger.info(undefined, 'lol, work')
   })
 
-process.on('unhandledRejection', (reason: any) => console.error(reason))
-process.on('uncaughtException', (reason: any) => console.error(reason))
+process.on('unhandledRejection', (...reason: any) => deleter.logger.error(undefined, ...reason))
+process.on('uncaughtException', (...reason: any) => deleter.logger.error(undefined, ...reason))

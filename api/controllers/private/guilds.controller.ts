@@ -1,9 +1,18 @@
 import AbstractController from '@api/abstractions/abstract.controller'
-import { Controller, ForbiddenException, Get, NotFoundException, Param, Req, UseGuards } from '@nestjs/common'
+import {
+  Controller,
+  ForbiddenException,
+  Get,
+  HttpException,
+  NotFoundException,
+  Param,
+  Req,
+  UseGuards
+} from '@nestjs/common'
 import Constants from '@api/utils/Constants'
 import AuthGuard from '@api/guards/auth.guard'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
-import Axios from 'axios'
+import Axios, { AxiosError, AxiosResponse } from 'axios'
 import { BitField } from 'discord.js'
 import makePartialGuild from '@api/utils/makePartialGuild'
 import getShardID from '@api/utils/getShardID'
@@ -19,48 +28,52 @@ export default class GuildsController extends AbstractController {
   @Throttle(5, 60)
   async execute(@Req() req: AuthorizedRequest) {
 
-    const guilds = await Axios.get(
+    const response: AxiosResponse & AxiosError = await Axios.get(
       Constants.DISCORD_API + 'users/@me/guilds',
       { headers: { authorization: `${req.user.tokenType} ${req.user.token}` } }
-      )
-      .then(async response => {
+    ).catch(e => e)
 
-        const result: any[] = []
-
-        for await (const guild of response.data) {
-          // fix when /api/v8
-          const permissions = new BitField(guild.permissions)
-          if (permissions?.has?.(8) || guild.owner) {
-
-            const shardID = getShardID(guild.id, this.manager.shards.size)
-
-            await this.manager.shards.get(shardID)?.eval(`this.guilds.cache.get('${guild.id}')`)
-              .then(res => {
-                const guild = makePartialGuild(res, !!res)
-                if (guild) result.push(guild)
-              }).catch(() => {})
-
-          }
-        }
-
-        return result.sort(g => {
-          if (!g.added) return -1
-          else return 1
-        })
-
-      })
-      .catch(e => {
-        if (e?.response?.status === 401) throw new ForbiddenException({
+    if (response.isAxiosError) {
+      if (response?.response?.status === 401) {
+        throw new ForbiddenException({
           message: 'cannot perform guilds examination, got 401',
           code: 0
         })
-        console.error(e)
-        return null
-      })
+      } else {
+        throw new HttpException({
+          message: 'request to Discord failed',
+          code: 0
+        }, response.response?.status || 500)
+      }
+    }
 
-    if (!Array.isArray(guilds)) return []
+    const result: any[] = []
 
-    return guilds
+    for await (const guild of response.data) {
+
+      const perms = new BitField(guild.permissions || 0)
+
+      if (perms.has(8) || guild.owner) {
+        const shardID = getShardID(guild.id, this.manager.shards.size)
+        const shard = this.manager.shards.get(shardID)
+
+        if (!shard) {
+          result.push(makePartialGuild(guild))
+        } else {
+          const exists: boolean = await shard.eval(`this.guilds.cache.has('${guild.id}')`)
+            .then(r => !!r)
+            .catch(() => false)
+
+          result.push(makePartialGuild(guild, exists))
+        }
+      }
+
+    }
+
+    return result.sort(g => {
+      if (!g.added) return 1
+      else return -1
+    })
 
   }
 

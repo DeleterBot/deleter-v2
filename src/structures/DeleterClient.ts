@@ -3,6 +3,7 @@ import DeleterClientOptions from '@src/types/deleter/DeleterClientOptions'
 import DeleterClientCache from '@src/types/deleter/DeleterClientCache'
 import Gatherer from '@src/services/misc/GathererService'
 import DatabaseOperator from '@src/services/db/DatabaseOperator'
+import Logger from '@src/services/misc/Logger'
 
 class DeleterClient extends Discord.Client {
   public token: string
@@ -11,6 +12,7 @@ class DeleterClient extends Discord.Client {
   public db!: DatabaseOperator
   public options!: DeleterClientOptions
   public user!: ClientUser
+  public logger: Logger = new Logger()
   private deleter: DeleterClient = this
 
   constructor(token: string, options?: DeleterClientOptions) {

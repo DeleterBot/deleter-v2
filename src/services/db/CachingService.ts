@@ -27,7 +27,7 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
       this.delAsync = promisify(this.connection.del).bind(this.connection)
       this.xstAsync = promisify(this.connection.exists).bind(this.connection)
 
-      this.connection.on('error', (reason: string) => console.error(reason))
+      this.connection.on('error', (reason: string) => this.logger.error('redis', reason))
     } else {
       this.connection = new Collection()
 

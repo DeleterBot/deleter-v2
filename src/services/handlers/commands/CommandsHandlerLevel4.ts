@@ -34,7 +34,7 @@ export default class CommandsHandlerLevel4 extends BaseService {
     }
 
     if (commandResult instanceof Error) {
-      console.error(commandResult)
+      this.logger.error(undefined, `${this.command.constructor.name}:`, commandResult)
       return CommandsReplier.processReply(
         this.msg,
         `Выполнение команды завершилось с ${commandResult.name}: ${commandResult.message}`

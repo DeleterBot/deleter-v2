@@ -8,6 +8,7 @@ import Constants from '@api/utils/Constants'
 import QiwiBillPaymentsAPI from '@qiwi/bill-payments-node-js-sdk'
 import AllExceptionsFilter from '@api/utils/AllExceptionsFilter'
 import { Server } from 'http'
+import Logger from '@src/services/misc/Logger'
 
 export default class DeleterApiWorker {
   private readonly port: number
@@ -16,6 +17,7 @@ export default class DeleterApiWorker {
   public db!: DatabaseOperator
   public api!: NestFastifyApplication
   public qiwi: QiwiBillPaymentsAPI
+  public logger: Logger = new Logger()
 
   constructor(manager: Discord.ShardingManager, port = 8379, ip = '0.0.0.0') {
     this.manager = manager
@@ -31,7 +33,7 @@ export default class DeleterApiWorker {
 
     this.db = new DatabaseOperator()
     await this.db.connect(true).catch(e => {
-      console.error('fastify | connection to database failed. exiting NOW |', e)
+      this.logger.error('fastify', 'connection to database failed. exiting NOW ==>', e)
       process.exit(1)
     })
 
@@ -61,10 +63,10 @@ export default class DeleterApiWorker {
 
     return this.api.listen(this.port, this.ip, (err: Error, address: string) => {
       if (err) {
-        console.error(err)
+        this.logger.warn('fastify', `${err.name}: ${err.message}.`, 'api will be disabled')
         return err
       } else {
-        console.info(`fastify | listening on ${address}`)
+        this.logger.info('fastify', `listening on ${address}`)
         return true
       }
     })

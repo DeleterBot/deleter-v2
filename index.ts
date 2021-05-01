@@ -1,8 +1,11 @@
 import 'module-alias/register.js'
+
 import DotEnv from 'dotenv'
 DotEnv.config()
+
 import Discord from 'discord.js'
 import api from '@api/api'
+import Logger from '@src/services/misc/Logger'
 
 !async function _() {
   const shardingManager = new Discord.ShardingManager('./dist/src/shard.js', {
@@ -16,4 +19,4 @@ import api from '@api/api'
   return shardingManager.spawn()
 }()
 
-process.on('unhandledRejection', (reason: string) => console.error(reason))
+process.on('unhandledRejection', (...reason: any) => new Logger().error(undefined, ...reason))

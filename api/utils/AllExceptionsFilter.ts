@@ -8,9 +8,11 @@ import {
 import { ThrottlerException } from '@nestjs/throttler'
 import AbstractApiResponse from '@api/abstractions/AbstractApiResponse'
 import { BaseExceptionFilter } from '@nestjs/core'
+import Logger from '@src/services/misc/Logger'
 
 @Catch()
-export default class AllExceptionsFilter extends BaseExceptionFilter{
+export default class AllExceptionsFilter extends BaseExceptionFilter {
+  private logger: Logger = new Logger()
 
   catch(exception: any, host: ArgumentsHost): any {
 
@@ -28,7 +30,7 @@ export default class AllExceptionsFilter extends BaseExceptionFilter{
 
     } else if (exception instanceof InternalServerErrorException || !(exception instanceof HttpException)) {
 
-      console.error(exception)
+      this.logger.error('fastify', exception)
       res.code(500).send(
         new AbstractApiResponse({
           success: false,
@@ -69,7 +71,7 @@ export default class AllExceptionsFilter extends BaseExceptionFilter{
       )
 
       if (!(exception as any).status || !exception.message)
-        console.error(exception)
+        this.logger.error('fastify', exception)
 
     }
 

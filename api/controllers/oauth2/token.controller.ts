@@ -5,7 +5,7 @@ import {
   ForbiddenException,
   InternalServerErrorException,
   Delete, Post, Req,
-  UseGuards
+  UseGuards, UnauthorizedException
 } from '@nestjs/common'
 import Constants from '@api/utils/Constants'
 import TokenDto from '@api/dto/oauth2/token.dto'
@@ -22,7 +22,7 @@ import { Throttle } from '@nestjs/throttler'
 export default class TokenController extends AbstractController {
 
   @Post()
-  @Throttle(1, 30)
+  @Throttle(1, 15)
   async token(@Body() body: TokenDto) {
 
     if (!process.env.CLIENT_SECRET)
@@ -55,6 +55,9 @@ export default class TokenController extends AbstractController {
     const { access_token, refresh_token, token_type, expires_in } = response.data
 
     const user = await getDiscordUser(token_type, access_token)
+      .catch(() => {
+        throw new UnauthorizedException()
+      })
 
     const expires_timestamp: number = Date.now() + (expires_in * 1000)
 
@@ -75,7 +78,7 @@ export default class TokenController extends AbstractController {
   }
 
   @Post('refresh')
-  @Throttle(1, 30)
+  @Throttle(1, 15)
   async refresh(@Body() body: RefreshTokenDto) {
 
     if (!process.env.CLIENT_SECRET)

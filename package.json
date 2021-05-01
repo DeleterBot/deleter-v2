@@ -5,6 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc --build tsconfig.json && echo success.",
+    "watch": "tsc --watch",
     "start": "node ./dist/index.js",
     "lint": "eslint --ext .js ."
   },
@@ -25,6 +26,7 @@
     "cassandra-driver": "^4.6.1",
     "class-transformer": "^0.3.2",
     "class-validator": "^0.13.1",
+    "colors": "^1.4.0",
     "command-line-args": "^5.1.1",
     "discord.js": "^12.5.1",
     "dot-properties": "^1.0.1",

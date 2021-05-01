@@ -58,7 +58,7 @@ class DatabaseOperator extends BaseService {
         const read = util.promisify(fs.readFile)
 
         for await (const path of cqlPaths) {
-          console.info('executing ', path)
+          this.logger.log('cassandra', 'executing', path)
           await this.connection.execute(
             (await read(path, { encoding: 'utf-8' })).replace('?', process.env.DB_KEYSPACE).replace(/\r\n/g, '')
           )
@@ -92,7 +92,7 @@ class DatabaseOperator extends BaseService {
 
     if (!options.escapeCache && !options.selector)
       this.cache.set(cacheKey, options.everything ? data.rows : data.rows[0] ?? '')
-        .catch(e => console.error(e))
+        .catch(e => this.logger.error('redis', e))
 
     if (options.transform) return new options.transform(data.rows[0])
 
@@ -128,7 +128,7 @@ class DatabaseOperator extends BaseService {
 
     if (!options.escapeCache) {
       const isCached: boolean = await this.cache!.exists(cacheKey)
-        .catch((e) => { console.error(e); return false })
+        .catch((e) => { this.logger.error('redis', e); return false })
 
       if (isCached) await this.cache!.del(cacheKey)
         .catch(this.errFn)
