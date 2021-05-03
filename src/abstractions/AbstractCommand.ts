@@ -33,7 +33,7 @@ export default abstract class AbstractCommand extends Base implements CommandCon
 
     this.translations = config?.translations
 
-    Object.entries(this.translations || {}).forEach(([ key, value]) => {
+    Object.entries(this.translations || {}).forEach(([ key, value ]) => {
       // @ts-ignore
       if (!value.aliases) this.translations[key].aliases = []
     })

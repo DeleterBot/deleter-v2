@@ -9,6 +9,9 @@ import QiwiBillPaymentsAPI from '@qiwi/bill-payments-node-js-sdk'
 import AllExceptionsFilter from '@api/utils/AllExceptionsFilter'
 import { Server } from 'http'
 import Logger from '@src/services/misc/Logger'
+import { promisify } from 'util'
+
+const wait = promisify(setTimeout)
 
 export default class DeleterApiWorker {
   private readonly port: number
@@ -33,9 +36,14 @@ export default class DeleterApiWorker {
 
     this.db = new DatabaseOperator()
     await this.db.connect(true).catch(e => {
-      this.logger.error('fastify', 'connection to database failed. exiting NOW ==>', e)
+      this.logger.critical('fastify', 'connection to database failed. exiting NOW |', e)
       process.exit(1)
     })
+
+    this.logger.log('nest', 'bootstrapping application')
+    this.logger.clear = true
+
+    await wait(200)
 
     global.ApiWorker = this
 
@@ -49,26 +57,42 @@ export default class DeleterApiWorker {
       }
     )
 
+    this.logger.log('nest', 'applying global validation pipes')
+    await wait(200)
+
     this.api.useGlobalPipes(new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
     }))
 
+    this.logger.log('nest', 'applying global exceptions filters')
+    await wait(200)
+
     const adapter = this.api.getHttpAdapter()
     this.api.useGlobalFilters(new AllExceptionsFilter(adapter))
 
+    this.logger.log('nest', 'applying global prefix')
+    await wait(100)
+
     this.api.setGlobalPrefix(Constants.PREFIX || '')
+
+    this.logger.log('nest', 'applying fastify plugins')
+    await wait(200)
 
     plugins.forEach(([ plugin, pluginOptions ]) => this.api.register(plugin as any, pluginOptions))
 
-    return this.api.listen(this.port, this.ip, (err: Error, address: string) => {
-      if (err) {
-        this.logger.warn('fastify', `${err.name}: ${err.message}.`, 'api will be disabled')
-        return err
-      } else {
-        this.logger.info('fastify', `listening on ${address}`)
-        return true
-      }
+    return new Promise(res => {
+      this.api.listen(this.port, this.ip, (err: Error, address: string) => {
+        if (err) {
+          this.logger.warn('fastify', `${err.name}: ${err.message}.`, 'api will be disabled')
+          this.logger.clear = false
+          res(err)
+        } else {
+          this.logger.success('fastify', `listening on ${address}`)
+          this.logger.clear = false
+          res(true)
+        }
+      })
     })
   }
 }

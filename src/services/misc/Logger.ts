@@ -1,6 +1,14 @@
 import Colors from 'colors'
+import Moment from 'moment'
+import Constants from '@src/utils/Constants'
 
 export default class Logger {
+
+  private clearLine = false
+
+  public set clear(condition: boolean) {
+    this.clearLine = condition
+  }
 
   public get info() {
     return this.log
@@ -13,8 +21,8 @@ export default class Logger {
   private prependDepartment(department: string) {
     let result = department
 
-    if (department.length < 15) {
-      const length = 14 - department.length,
+    if (department.length < 13) {
+      const length = 12 - department.length,
         isEven = length % 2 !== 0
 
       if (isEven) {
@@ -30,29 +38,38 @@ export default class Logger {
     return Colors.grey(result)
   }
 
+  private universalLog(type: string, department: string, ...content: any) {
+    if (this.clearLine && process.stdout.isTTY) process.stdout.clearLine(0) && process.stdout.cursorTo(0)
+    else process.stdout.write('\n')
+
+    process.stdout.write(
+      type + ' ' +
+      Colors.white('at') + ' ' +
+      Colors.grey(Moment().format(Constants.getMomentFormat('time', 'en'))) + ' ' +
+      Colors.white('from') + ' ' +
+      this.prependDepartment(department) + ' ' +
+      Colors.white('|') + ' ' + content.join(' ')
+    )
+  }
+
   public log(department = this.defaultDepartment, ...content: any) {
-    console.log(
-      Colors.bgBlue( ' INFO ').black,
-      this.prependDepartment(department),
-      Colors.white('|'), ...content
-    )
+    this.universalLog(Colors.bgBlue(' INFO ').black, department, ...content)
   }
 
-  public error(department =  this.defaultDepartment, ...content: any) {
-    console.log(
-      Colors.bgRed( ' FAIL ').black,
-      this.prependDepartment(department),
-      Colors.white('|'),
-      ...content
-    )
+  public error(department = this.defaultDepartment, ...content: any) {
+    this.universalLog(Colors.bgRed(' FAIL ').black, department, ...content)
   }
 
-  public warn(department =  this.defaultDepartment, ...content: any) {
-    console.log(
-      Colors.bgYellow( ' WARN ').black,
-      this.prependDepartment(department),
-      Colors.white('|'),
-      ...content
-    )
+  public warn(department = this.defaultDepartment, ...content: any) {
+    this.universalLog(Colors.bgYellow(' WARN ').black, department, ...content)
   }
+
+  public success(department = this.defaultDepartment, ...content: any ) {
+    this.universalLog(Colors.bgGreen(' DONE ').black, department, ...content)
+  }
+
+  public critical(department = this.defaultDepartment, ...content: any ) {
+    this.universalLog(Colors.bgRed(' CRIT ').black, department, ...content)
+  }
+
 }

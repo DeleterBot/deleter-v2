@@ -22,8 +22,14 @@ try {
 const deleter = new DeleterClient(TOKEN, options)
 deleter.load()
   .then(() => {
-    deleter.logger.info(undefined, 'lol, work')
+    deleter.logger.success(undefined, 'successfully started')
+    deleter.logger.clear = false
   })
 
-process.on('unhandledRejection', (...reason: any) => deleter.logger.error(undefined, ...reason))
-process.on('uncaughtException', (...reason: any) => deleter.logger.error(undefined, ...reason))
+function catchError(...reason: any) {
+  deleter.logger.clear = false
+  deleter.logger.error(undefined, ...reason)
+}
+
+process.on('unhandledRejection', catchError)
+process.on('uncaughtException', catchError)

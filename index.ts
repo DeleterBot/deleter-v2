@@ -7,16 +7,41 @@ import Discord from 'discord.js'
 import api from '@api/api'
 import Logger from '@src/services/misc/Logger'
 
+const logger = new Logger()
+
 !async function _() {
   const shardingManager = new Discord.ShardingManager('./dist/src/shard.js', {
     totalShards: parseInt(process.env.TOTAL_SHARDS) || 'auto'
   })
 
   if (process.env.API_ENABLED === 'true') {
+    logger.clear = true
+    logger.log(undefined, 'starting rest api')
+    logger.clear = false
     await api(shardingManager)
+    logger.log(undefined, 'shards are starting')
+  } else {
+    logger.clear = true
+    logger.log(undefined, 'shards are starting')
+    logger.clear = false
   }
 
   return shardingManager.spawn()
+    .then(s => logger.success(
+      undefined,
+      'all shards done,', s.size, s.size > 1 ? 'shards': 'shard', 'running'
+    ))
+    .catch(e => logger.error(
+      undefined,
+      'error when spawning shards:',
+      e
+    ))
 }()
 
-process.on('unhandledRejection', (...reason: any) => new Logger().error(undefined, ...reason))
+function catchError(...reason: any) {
+  logger.clear = false
+  logger.error(undefined, ...reason)
+}
+
+process.on('unhandledRejection', catchError)
+process.on('uncaughtException', catchError)

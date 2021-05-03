@@ -38,7 +38,7 @@ class DatabaseOperator extends BaseService {
     this.cache = new CachingService()
   }
 
-  public connect(createTables = false) {
+  public connect(createTables = false): Promise<any> {
     return this.connection.connect()
       .then(async () => {
         if (!process.env.DB_KEYSPACE) return
@@ -56,15 +56,35 @@ class DatabaseOperator extends BaseService {
         ]
 
         const read = util.promisify(fs.readFile)
+        let errors = 0
 
         for await (const path of cqlPaths) {
           this.logger.log('cassandra', 'executing', path)
+          this.logger.clear = true
           await this.connection.execute(
-            (await read(path, { encoding: 'utf-8' })).replace('?', process.env.DB_KEYSPACE).replace(/\r\n/g, '')
-          )
+            (await read(path, { encoding: 'utf-8' })).replace('?', process.env.DB_KEYSPACE).replace(/\r\n/g, ''),
+            undefined,
+            { readTimeout: 20000 }
+          ).catch(() => errors++)
         }
 
-        return
+        if (errors) {
+          this.logger.warn(
+            'cassandra',
+            `got ${errors} ${errors > 1 ? 'errors' : 'error'} when executing cql. execution retrying...`
+          )
+        } else {
+          this.logger.success('cassandra', 'whole cql executed success')
+        }
+
+        this.logger.clear = false
+
+        if (errors) {
+          this.connection = new Cassandra.Client(CASSANDRA_CLIENT_OPTIONS)
+          return await this.connect(createTables)
+        }
+
+        return void 100500
       })
   }
 

@@ -14,7 +14,7 @@ export default class Constants {
     else return lang
   }
 
-  static getMomentFormat(mode = 'calendar', lang = 'ru'): string {
+  static getMomentFormat(mode: 'time' | 'calendar' = 'calendar', lang = 'ru'): string {
     switch (mode) {
       case 'calendar':
         if (lang === 'en') return 'L'

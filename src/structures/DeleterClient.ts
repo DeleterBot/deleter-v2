@@ -21,8 +21,11 @@ class DeleterClient extends Discord.Client {
     this.owner = options?.owner || 'nobody'
   }
 
-  load() {
+  async load() {
     global.deleter = this
+
+    this.logger.log(undefined, 'gathering cache')
+    this.logger.clear = true
 
     this.cache = {
       cd: new Discord.Collection<string, any>(),
@@ -35,12 +38,14 @@ class DeleterClient extends Discord.Client {
       }
     }
 
+    this.logger.log(undefined, 'applying events')
     this.cache.events.forEach(e => {
       this.on(e.name, e.execute)
     })
 
+    this.logger.log(undefined, 'connecting database')
     this.db = new DatabaseOperator()
-    this.db.connect()
+    await this.db.connect()
 
     return this.login(this.token)
   }
