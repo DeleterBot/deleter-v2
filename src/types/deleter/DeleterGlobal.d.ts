@@ -19,8 +19,8 @@ declare global {
       QIWI_PUBLIC_KEY: string
       QIWI_SUCCESS_URL: string
 
-      DB_USRN: string
-      DB_PSWD: string
+      DB_CLIENT_ID: string
+      DB_CLIENT_SECRET: string
       DB_KEYSPACE: string
 
       REDIS_ENABLED: string

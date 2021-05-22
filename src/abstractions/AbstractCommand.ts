@@ -5,6 +5,7 @@ import Discord from 'discord.js'
 import DeleterCustomPermissions from '@src/types/deleter/DeleterCustomPermissions'
 import FlagsDetails from '@src/types/commands/FlagsDetails'
 import CommandTranslations from '@src/types/commands/CommandTranslations'
+import AbstractCommandDto from '@src/abstractions/AbstractCommandDto'
 
 export default abstract class AbstractCommand extends Base implements CommandConfig {
   public name: string
@@ -12,6 +13,7 @@ export default abstract class AbstractCommand extends Base implements CommandCon
   public disabled?: boolean
   public cd?: CoolDownConfig
   public multiLang?: boolean
+  public dto?: typeof AbstractCommandDto
 
   public clientPermissions?: Discord.BitFieldResolvable<any>
   public memberPermissions?: Discord.BitFieldResolvable<any>
@@ -26,6 +28,7 @@ export default abstract class AbstractCommand extends Base implements CommandCon
     this.disabled = config?.disabled
     this.cd = config?.cd
     this.multiLang = config?.multiLang
+    this.dto = config?.dto
 
     this.clientPermissions = config?.clientPermissions
     this.memberPermissions = config?.memberPermissions

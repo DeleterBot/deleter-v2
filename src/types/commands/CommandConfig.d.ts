@@ -3,6 +3,7 @@ import Discord from 'discord.js'
 import DeleterCustomPermissions from '@src/types/deleter/DeleterCustomPermissions'
 import FlagsDetails from '@src/types/commands/FlagsDetails'
 import CommandTranslations from '@src/types/commands/CommandTranslations'
+import AbstractCommandDto from '@src/abstractions/AbstractCommandDto'
 
 export default interface CommandConfig {
   name: string
@@ -10,6 +11,7 @@ export default interface CommandConfig {
   disabled?: boolean
   cd?: CoolDownConfig
   multiLang?: boolean
+  dto?: typeof AbstractCommandDto
   memberPermissions?: Discord.BitFieldResolvable<any>
   clientPermissions?: Discord.BitFieldResolvable<any>
   customPermissions?: DeleterCustomPermissions

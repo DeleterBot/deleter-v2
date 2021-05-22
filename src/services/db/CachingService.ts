@@ -3,6 +3,7 @@ import BaseService from '@src/abstractions/BaseService'
 import { promisify } from 'util'
 import DeleterDatabaseCache from '@src/types/deleter/DeleterDatabaseCache'
 import { Collection } from 'discord.js'
+import exists from '@src/utils/exists'
 
 class CachingService extends BaseService implements DeleterDatabaseCache {
   public connection: Redis.RedisClient | Collection<any, any>
@@ -58,7 +59,7 @@ class CachingService extends BaseService implements DeleterDatabaseCache {
     try {
       result = JSON.parse(data)
     } catch (e) {
-      if (data) result = {}
+      if (exists(data)) result = {}
     }
 
     return result

@@ -10,6 +10,7 @@ import ResultSet = types.ResultSet
 import * as fs from 'fs'
 import * as util from 'util'
 import Constants from '@src/utils/Constants'
+import exists from '@src/utils/exists'
 
 const { DB_KEYSPACE } = process.env
 
@@ -18,8 +19,8 @@ const CASSANDRA_CLIENT_OPTIONS: DseClientOptions = {
     secureConnectBundle: './secure-connect-deleterdb.zip'
   },
   credentials: {
-    username: process.env.DB_USRN,
-    password: process.env.DB_PSWD
+    username: process.env.DB_CLIENT_ID,
+    password: process.env.DB_CLIENT_SECRET
   },
   socketOptions: {
     readTimeout: Constants.CASSANDRA_READ_TIMEOUT
@@ -91,11 +92,11 @@ class DatabaseOperator extends BaseService {
   public async get<T = any>(table: string, id: string, options?: DatabaseGetOptions): Promise<T>
   public async get(table: string, id: string, options: DatabaseGetOptions = {}): Promise<any> {
 
-    const cacheKey = `${table}:${id}`
+    const cacheKey = `${table}:${id}${options.selector ? `:${options.selector}` : ''}`
 
     if (!options.escapeCache) {
       const cache = await this.cache.get(cacheKey)
-      if (cache) {
+      if (exists(cache)) {
         if (options.transform) return new options.transform(cache)
         else return cache
       }
@@ -110,8 +111,8 @@ class DatabaseOperator extends BaseService {
     if (options.raw) return data
     if (options.array) return data.rows
 
-    if (!options.escapeCache && !options.selector)
-      this.cache.set(cacheKey, options.everything ? data.rows : data.rows[0] ?? '')
+    if (!options.escapeCache)
+      await this.cache.set(cacheKey, options.everything ? data.rows : (data.rows[0] ?? ''))
         .catch(e => this.logger.error('redis', e))
 
     if (options.transform) return new options.transform(data.rows[0])

@@ -1,6 +1,7 @@
 import Colors from 'colors'
 import Moment from 'moment'
 import Constants from '@src/utils/Constants'
+import { inspect } from 'util'
 
 export default class Logger {
 
@@ -48,7 +49,7 @@ export default class Logger {
       Colors.grey(Moment().format(Constants.getMomentFormat('time', 'en'))) + ' ' +
       Colors.white('from') + ' ' +
       this.prependDepartment(department) + ' ' +
-      Colors.white('|') + ' ' + content.join(' ')
+      Colors.white('|') + ' ' + content.map((c: any) => typeof c !== 'string' ? inspect(c) : c).join(' ')
     )
   }
 
