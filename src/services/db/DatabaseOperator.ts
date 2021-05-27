@@ -92,7 +92,7 @@ class DatabaseOperator extends BaseService {
   public async get<T = any>(table: string, id: string, options?: DatabaseGetOptions): Promise<T>
   public async get(table: string, id: string, options: DatabaseGetOptions = {}): Promise<any> {
 
-    const cacheKey = `${table}:${id}${options.selector ? `:${options.selector}` : ''}`
+    const cacheKey = this.cacheKey(table, id, options.selector)
 
     if (!options.escapeCache) {
       const cache = await this.cache.get(cacheKey)
@@ -145,7 +145,7 @@ class DatabaseOperator extends BaseService {
     if (!options.upsert && options.condition) query += ` ${options.condition}`
 
     const result = await this.execute(query, options.params)
-    const cacheKey = `${table}:${id}`
+    const cacheKey = this.cacheKey(table, id)
 
     if (!options.escapeCache) {
       const isCached: boolean = await this.cache!.exists(cacheKey)
@@ -178,7 +178,7 @@ class DatabaseOperator extends BaseService {
     const data = await this.execute(query, options.params)
 
     if (!options.escapeCache)
-      await this.cache!.del(`${table}:${id}`)
+      await this.cache!.del(this.cacheKey(table, id, selector))
         .catch(this.errFn)
 
     return data
@@ -193,6 +193,10 @@ class DatabaseOperator extends BaseService {
           return this.connection.execute(query, params, { readTimeout: Constants.CASSANDRA_READ_TIMEOUT })
         } else throw e
       })
+  }
+
+  private cacheKey(table: string, id: string, selector?: string) {
+    return `${table}:${id}${selector ? `:${selector}` : ''}`
   }
 }
 

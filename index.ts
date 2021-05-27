@@ -5,7 +5,7 @@ DotEnv.config()
 
 import Discord from 'discord.js'
 import api from '@api/api'
-import Logger from '@src/services/misc/Logger'
+import Logger from '@src/utils/Logger'
 
 const logger = new Logger()
 

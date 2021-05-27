@@ -3,7 +3,7 @@ import DeleterClientOptions from '@src/types/deleter/DeleterClientOptions'
 import DeleterClientCache from '@src/types/deleter/DeleterClientCache'
 import Gatherer from '@src/services/misc/GathererService'
 import DatabaseOperator from '@src/services/db/DatabaseOperator'
-import Logger from '@src/services/misc/Logger'
+import Logger from '@src/utils/Logger'
 
 class DeleterClient extends Discord.Client {
   public token: string
@@ -47,6 +47,7 @@ class DeleterClient extends Discord.Client {
     this.db = new DatabaseOperator()
     await this.db.connect()
 
+    this.logger.log(undefined, 'connecting to discord')
     return this.login(this.token)
   }
 }

@@ -1,5 +1,5 @@
 import DeleterClient from '@src/structures/DeleterClient'
-import Logger from '@src/services/misc/Logger'
+import Logger from '@src/utils/Logger'
 
 export default class Base {
   public deleter: DeleterClient

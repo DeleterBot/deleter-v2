@@ -8,7 +8,7 @@ import Constants from '@api/utils/Constants'
 import QiwiBillPaymentsAPI from '@qiwi/bill-payments-node-js-sdk'
 import AllExceptionsFilter from '@api/utils/AllExceptionsFilter'
 import { Server } from 'http'
-import Logger from '@src/services/misc/Logger'
+import Logger from '@src/utils/Logger'
 import { promisify } from 'util'
 
 const wait = promisify(setTimeout)
