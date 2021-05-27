@@ -35,7 +35,7 @@ export default class DeleterApiWorker {
   ) {
 
     this.db = new DatabaseOperator()
-    await this.db.connect(true).catch(e => {
+    await this.db.connect({ createTables: true, log: true }).catch(e => {
       this.logger.critical('fastify', 'connection to database failed. exiting NOW |', e)
       process.exit(1)
     })

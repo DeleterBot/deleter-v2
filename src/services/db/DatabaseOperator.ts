@@ -11,6 +11,7 @@ import * as fs from 'fs'
 import * as util from 'util'
 import Constants from '@src/utils/Constants'
 import exists from '@src/utils/exists'
+import DatabaseConnectOptions from '@src/types/database/DatabaseConnectOptions'
 
 const { DB_KEYSPACE } = process.env
 
@@ -39,11 +40,27 @@ class DatabaseOperator extends BaseService {
     this.cache = new CachingService()
   }
 
-  public connect(createTables = false): Promise<any> {
+  public connect(options: DatabaseConnectOptions = {}): Promise<any> {
+    if (options.log) {
+      this.logger.clear = false
+      this.logger.log('cassandra', 'connecting')
+      this.logger.clear = true
+    }
+
     return this.connection.connect()
       .then(async () => {
-        if (!process.env.DB_KEYSPACE) return
-        if (!createTables) return
+
+        if (!process.env.DB_KEYSPACE) {
+          this.logger.critical('cassandra', 'cannot detect database keyspace')
+          process.exit(1)
+        }
+
+        if (options.log) {
+          this.logger.success('cassandra', 'connected')
+          if (!options.createTables) this.logger.clear = false
+        }
+
+        if (!options.createTables) return
 
         const cqlPaths = [
           './src/cql/tables/hashes.cql',
@@ -82,7 +99,7 @@ class DatabaseOperator extends BaseService {
 
         if (errors) {
           this.connection = new Cassandra.Client(CASSANDRA_CLIENT_OPTIONS)
-          return await this.connect(createTables)
+          return await this.connect(options)
         }
 
         return void 100500
