@@ -1,8 +1,8 @@
 import BaseCommand from '@src/abstractions/BaseCommand'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
-import StringPropertiesParser from '@src/utils/StringPropertiesParser'
+import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
 import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
-import Info from '@src/types/Info'
+import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import HelpCommandConfig from '@src/commands/categories/info/resources/configs/HelpCommandConfig'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
 import Constants from '@src/utils/Constants'
@@ -25,13 +25,13 @@ export default class HelpCommand extends BaseCommand {
     super('@deleter.commands.categories.info.HelpCommand', new HelpCommandConfig())
   }
 
-  async execute(msg: DeleterCommandMessage, info: Info): Promise<CommandExecutionResult> {
+  async execute(msg: DeleterCommandMessage, context: CommandExecutionContext): Promise<CommandExecutionResult> {
 
-    this.root = `${info.guild.lang.interface}.deleter.commands.categories.info.command.help`
-    this.globalRoot = `${info.guild.lang.interface}.deleter.global`
+    this.root = `${context.guild.lang.interface}.deleter.commands.categories.info.command.help`
+    this.globalRoot = `${context.guild.lang.interface}.deleter.global`
 
     this.parser = new StringPropertiesParser()
-    this.lang = info.additionalLanguage || info.guild.lang.commands
+    this.lang = context.additionalLanguage || context.guild.lang.commands
 
     this.empty = withACapital(this.parser.parse(`$keyword[${this.globalRoot}.empty's]`))
     this.nullish = this.parser.parse(`$phrase[${this.globalRoot}.nullish.description]`)
@@ -44,25 +44,25 @@ export default class HelpCommand extends BaseCommand {
 
     let embed: DeleterEmbed
 
-    if (!info.args[0]) embed = this.standard(info)
+    if (!context.args[0]) embed = this.standard(context)
     else {
       const commands = this.deleter.cache.commands.filter(c => (
-        c.translations[this.lang].category === info.args[0].toLowerCase()
+        c.translations[this.lang].category === context.args[0].toLowerCase()
       ))
 
-      if (commands.size) embed = this.category(info, commands)
+      if (commands.size) embed = this.category(context, commands)
 
       const commandsFinder = new CommandsFinder(this.deleter.cache.commands)
 
-      const command = commandsFinder.find(info.args[0], this.lang)
+      const command = commandsFinder.find(context.args[0], this.lang)
 
-      if (command) embed = this.individual(info, command)
+      if (command) embed = this.individual(context, command)
 
-      if (!embed!) embed = this.standard(info)
+      if (!embed!) embed = this.standard(context)
     }
 
     embed
-      .setColor(info.guild.color)
+      .setColor(context.guild.color)
       .setThumbnail(this.deleter.user.displayAvatarURL({ size: 256, format: 'png' }))
       .setFooter(
         this.parser.parse(`$phrase[${this.root}.footer.value]`, {
@@ -73,17 +73,17 @@ export default class HelpCommand extends BaseCommand {
     return new CommandExecutionResult(embed)
   }
 
-  private standard(info: Info) {
+  private standard(context: CommandExecutionContext) {
 
     const commands: Record<string, Array<Record<string, any>>> = {}
 
     this.deleter.cache.commands.forEach(command => {
 
-      const category = command.translations[info.guild.lang.interface].category
+      const category = command.translations[context.guild.lang.interface].category
 
       if (!commands[category]) commands[category] = []
 
-      commands[category].push(command.translations[info.guild.lang.commands])
+      commands[category].push(command.translations[context.guild.lang.commands])
 
     })
 
@@ -93,9 +93,9 @@ export default class HelpCommand extends BaseCommand {
       )
       .setDescription(
         this.parser.parse(`$phrase[${this.root}.standard.description]`, {
-          command: this.deleter.cache.commands.random().translations[info.guild.lang.commands].name,
-          help: (this.translations as any)[info.guild.lang.commands].name,
-          prefix: info.guild.prefix,
+          command: this.deleter.cache.commands.random().translations[context.guild.lang.commands].name,
+          help: (this.translations as any)[context.guild.lang.commands].name,
+          prefix: context.guild.prefix,
           site: Constants.site
         })
       )
@@ -106,7 +106,7 @@ export default class HelpCommand extends BaseCommand {
       .sort((c1, c2) => c2[1].length - c1[1].length)
       .forEach(category => {
         description += `**${withACapital(category[0])}**\n`
-        description += category[1].map(command => `\`${info.guild.prefix}${command.name}\``).join(' ')
+        description += category[1].map(command => `\`${context.guild.prefix}${command.name}\``).join(' ')
         description += '\n\n'
       })
 
@@ -114,8 +114,8 @@ export default class HelpCommand extends BaseCommand {
 
   }
 
-  private category(info: Info, commands: Collection<string, any>) {
-    const category = commands.first()!.translations[info.guild.lang.interface].category
+  private category(context: CommandExecutionContext, commands: Collection<string, any>) {
+    const category = commands.first()!.translations[context.guild.lang.interface].category
 
     const embed = new DeleterEmbed()
       .setTitle(
@@ -132,17 +132,17 @@ export default class HelpCommand extends BaseCommand {
     let description = ''
 
     commands.forEach(c => {
-      const command = c.translations[info.guild.lang.commands]
+      const command = c.translations[context.guild.lang.commands]
 
-      description += `\`${info.guild.prefix}${command.name}\``
+      description += `\`${context.guild.prefix}${command.name}\``
 
       if (command.aliases.length)
         description += ' **|** ' + command.aliases
-          .map((a: string) => `\`${info.guild.prefix}${a}\``)
+          .map((a: string) => `\`${context.guild.prefix}${a}\``)
           .join(' **|** ') + '\n'
       else description += '\n'
 
-      description += c.translations[info.guild.lang.interface].description ||
+      description += c.translations[context.guild.lang.interface].description ||
         this.parser.parse(`$phrase[${this.globalRoot}.nullish.description]`)
 
       description += '\n\n'
@@ -151,9 +151,9 @@ export default class HelpCommand extends BaseCommand {
     return embed.amendDescription(description)
   }
 
-  private individual(info: Info, command: BaseCommand) {
-    const commandsLanguageCommand: CommandDetails = (command.translations as any)[info.guild.lang.commands],
-      interfaceLanguageCommand: CommandDetails = (command.translations as any)[info.guild.lang.interface]
+  private individual(context: CommandExecutionContext, command: BaseCommand) {
+    const commandsLanguageCommand: CommandDetails = (command.translations as any)[context.guild.lang.commands],
+      interfaceLanguageCommand: CommandDetails = (command.translations as any)[context.guild.lang.interface]
 
     const subCommandsList =
       new SubCommandsFinder(this.deleter.cache.subCommands).findUsingSlaveOf(commandsLanguageCommand.name)
@@ -161,8 +161,8 @@ export default class HelpCommand extends BaseCommand {
     let subCommands = ''
 
     subCommandsList.forEach(subCommand => {
-      const commandsLanguageSubCommand: CommandDetails = (subCommand.translations as any)[info.guild.lang.commands],
-        interfaceLanguageSubCommand: CommandDetails = (subCommand.translations as any)[info.guild.lang.interface]
+      const commandsLanguageSubCommand: CommandDetails = (subCommand.translations as any)[context.guild.lang.commands],
+        interfaceLanguageSubCommand: CommandDetails = (subCommand.translations as any)[context.guild.lang.interface]
 
       subCommands += `\`${commandsLanguageSubCommand.name}\``
 

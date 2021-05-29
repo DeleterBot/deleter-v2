@@ -2,9 +2,9 @@ import BaseSubCommand from '@src/abstractions/BaseSubCommand'
 import IWantDisableSubCommandConfig
   from '@src/commands/categories/settings/resources/configs/IWantDisableSubCommandConfig'
 import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
-import Info from '@src/types/Info'
+import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
-import StringPropertiesParser from '@src/utils/StringPropertiesParser'
+import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
 import Constants from '@src/utils/Constants'
 
 export default class IWantDisableSubCommand extends BaseSubCommand {
@@ -12,13 +12,13 @@ export default class IWantDisableSubCommand extends BaseSubCommand {
     super('@deleter.commands.categories.settings.sub.IWantDisableSubCommand', new IWantDisableSubCommandConfig())
   }
 
-  async execute(msg: DeleterCommandMessage, info: Info): Promise<CommandExecutionResult> {
+  async execute(msg: DeleterCommandMessage, context: CommandExecutionContext): Promise<CommandExecutionResult> {
 
     const result = new CommandExecutionResult(null),
       parser = new StringPropertiesParser(),
-      root = `${info.guild.lang.interface}.deleter.commands.categories.settings.command.sub.disable`
+      root = `${context.guild.lang.interface}.deleter.commands.categories.settings.command.sub.disable`
 
-    switch (info.args.join(' ')) {
+    switch (context.args.join(' ')) {
       case parser.parse(`$key[${root}.presences]`):
         await this.deleter.db.delete(Constants.usersTable, msg.author.id, 'presences_enabled')
         result.setResult(Constants.successEmoji).setReact()

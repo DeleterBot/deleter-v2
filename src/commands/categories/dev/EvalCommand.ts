@@ -1,7 +1,7 @@
 import BaseCommand from '@src/abstractions/BaseCommand'
 import Discord from 'discord.js'
 import Axios from 'axios'
-import Info from '@src/types/Info'
+import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import { types, inspect } from 'util'
 import environmentEval from '@src/utils/environmentEval'
@@ -12,14 +12,14 @@ export default class EvalCommand extends BaseCommand {
     super('@deleter.commands.categories.dev.EvalCommand', new EvalCommandConfig())
   }
 
-  async execute(msg: Discord.Message, info: Info): Promise<CommandExecutionResult> {
+  async execute(msg: Discord.Message, context: CommandExecutionContext): Promise<CommandExecutionResult> {
 
     try {
 
-      let toEval = info.args.join(' '),
-        { isAsync, shard, more } = info.flags
+      let toEval = context.args.join(' '),
+        { isAsync, shard, more } = context.flags
 
-      const { noReply, last, all, shell, everywhere, api, db, rows, row } = info.flags
+      const { noReply, last, all, shell, everywhere, api, db, rows, row } = context.flags
 
       if (!toEval) return new CommandExecutionResult('bruh').setReply(true)
 

@@ -4,18 +4,18 @@ import BaseService from '@src/abstractions/BaseService'
 import CommandsFinder from '@src/utils/CommandsFinder'
 import CommandsHandlerLevel2 from '@src/services/handlers/commands/CommandsHandlerLevel2'
 import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
-import Info from '@src/types/Info'
+import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 
 export default class CommandsHandlerLevel1 extends BaseService {
   private readonly msg: Discord.Message
   private readonly guild: Guild
-  private readonly info: Info
+  private readonly context: CommandExecutionContext
 
   constructor(msg: Discord.Message, guild: Guild) {
     super()
     this.msg = msg
     this.guild = guild
-    this.info = {} as Info
+    this.context = {} as CommandExecutionContext
   }
 
   public handle() {
@@ -48,11 +48,11 @@ export default class CommandsHandlerLevel1 extends BaseService {
       switch (this.guild.lang.commands) {
         case 'ru':
           command = commandsFinder.find(maybeCommand as string, 'en')
-          if (command) this.info.additionalLanguage = 'en'
+          if (command) this.context.additionalLanguage = 'en'
           break
         case 'en':
           command = commandsFinder.find(maybeCommand as string, 'ru')
-          if (command) this.info.additionalLanguage = 'ru'
+          if (command) this.context.additionalLanguage = 'ru'
           break
       }
 
@@ -61,15 +61,15 @@ export default class CommandsHandlerLevel1 extends BaseService {
 
     if (command) {
 
-      this.info.guild = this.guild
-      this.info.args = args
-      this.info.flags = {}
+      this.context.guild = this.guild
+      this.context.args = args
+      this.context.flags = {}
 
       const commandsHandler = new CommandsHandlerLevel2(
         this.msg as DeleterCommandMessage,
         this.guild,
         command,
-        this.info
+        this.context
       )
       return commandsHandler.handle()
     }

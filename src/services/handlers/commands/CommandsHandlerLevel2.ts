@@ -3,21 +3,21 @@ import Guild from '@src/structures/Guild'
 import BaseCommand from '@src/abstractions/BaseCommand'
 import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import CommandsHandlerLevel3 from '@src/services/handlers/commands/CommandsHandlerLevel3'
-import Info from '@src/types/Info'
+import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 
 export default class CommandsHandlerLevel2 extends BaseService {
   private readonly msg: DeleterCommandMessage
   private readonly guild: Guild
   private readonly command: BaseCommand
-  private readonly info: Info
+  private readonly context: CommandExecutionContext
 
-  constructor(msg: DeleterCommandMessage, guild: Guild, command: BaseCommand, info: Info) {
+  constructor(msg: DeleterCommandMessage, guild: Guild, command: BaseCommand, context: CommandExecutionContext) {
     super()
 
     this.msg = msg
     this.guild = guild
     this.command = command
-    this.info = info
+    this.context = context
   }
 
   public handle() {
@@ -40,7 +40,7 @@ export default class CommandsHandlerLevel2 extends BaseService {
       if (!isPermitted) return this.msg.reply('слы, дай прав')
     }
 
-    const commandsHandler = new CommandsHandlerLevel3(this.msg, this.guild, this.command, this.info)
+    const commandsHandler = new CommandsHandlerLevel3(this.msg, this.guild, this.command, this.context)
     return commandsHandler.handle()
 
   }

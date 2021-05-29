@@ -1,13 +1,13 @@
 import AbstractCommandDto from '@src/abstractions/AbstractCommandDto'
 import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
-import Info from '@src/types/Info'
+import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import { validate, ValidatorOptions } from 'class-validator'
 
 export default class CommandDtoProcessor {
 
   public static validate(
     msg: DeleterCommandMessage,
-    info: Info,
+    context: CommandExecutionContext,
     Dto: typeof AbstractCommandDto,
     options?: ValidatorOptions
   ) {
@@ -17,7 +17,7 @@ export default class CommandDtoProcessor {
     const dtoPrepare: Record<string, any> = { all: [] },
       latestArg = Dto.validateAll ? Infinity : Dto.argsCount
 
-    info.args.forEach((argument, index) => {
+    context.args.forEach((argument, index) => {
       if (index < latestArg) {
         dtoPrepare[`a${index + 1}`] = argument
       } else {

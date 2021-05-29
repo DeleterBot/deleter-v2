@@ -3,7 +3,7 @@ import Guild from '@src/structures/Guild'
 import BaseCommand from '@src/abstractions/BaseCommand'
 import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import CommandsHandlerLevel4 from '@src/services/handlers/commands/CommandsHandlerLevel4'
-import Info from '@src/types/Info'
+import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import commandLineArgs from 'command-line-args'
 import SubCommandsFinder from '@src/utils/SubCommandsFinder'
 import CommandLanguage from '@src/types/commands/CommandLanguage'
@@ -13,15 +13,15 @@ export default class CommandsHandlerLevel3 extends BaseService {
   private readonly msg: DeleterCommandMessage
   private readonly guild: Guild
   public command: BaseCommand
-  public info: Info
+  public context: CommandExecutionContext
 
-  constructor(msg: DeleterCommandMessage, guild: Guild, command: BaseCommand, info: Info) {
+  constructor(msg: DeleterCommandMessage, guild: Guild, command: BaseCommand, context: CommandExecutionContext) {
     super()
 
     this.msg = msg
     this.guild = guild
     this.command = command
-    this.info = info
+    this.context = context
   }
 
   public handle(mode = 'process'): any {
@@ -37,7 +37,7 @@ export default class CommandsHandlerLevel3 extends BaseService {
         : this.command.translations[this.guild.lang.commands as CommandLanguage].flags || this.command.flags
 
     if (commandFlags) {
-      this.info.flags = {}
+      this.context.flags = {}
 
       const args: commandLineArgs.OptionDefinition[] = []
       const commandsFlagsEntries: Array<[string, Record<string, any> | string]> = Object.entries(commandFlags)
@@ -66,14 +66,14 @@ export default class CommandsHandlerLevel3 extends BaseService {
       })
 
       const parsedFlags = commandLineArgs(args, {
-        argv: this.info.args,
+        argv: this.context.args,
         partial: true
       })
 
       const flags: Record<string, any> = {}
 
       if (parsedFlags._unknown) {
-        this.info.args = parsedFlags._unknown
+        this.context.args = parsedFlags._unknown
         delete parsedFlags._unknown
       }
 
@@ -92,25 +92,25 @@ export default class CommandsHandlerLevel3 extends BaseService {
         }
       })
 
-      Object.assign(this.info.flags, flags)
+      Object.assign(this.context.flags, flags)
     }
 
-    if (this.command.hasSubCommands && this.info.args[0]) {
+    if (this.command.hasSubCommands && this.context.args[0]) {
       const subCommand =
-        subCommandsFinder.find(this.info.args[0].toLowerCase(), this.command.name, this.guild.lang.commands)
+        subCommandsFinder.find(this.context.args[0].toLowerCase(), this.command.name, this.guild.lang.commands)
 
       if (!this.command.overrideSubCommands) {
         if (subCommand) this.command = subCommand as unknown as BaseCommand
         mode = 'this'
-        this.info.args = this.info.args.slice(1)
-      } else this.info.subCommand = subCommand!
+        this.context.args = this.context.args.slice(1)
+      } else this.context.subCommand = subCommand!
     }
 
     if (mode === 'process') {
-      const commandsHandler = new CommandsHandlerLevel4(this.msg, this.guild, this.command, this.info)
+      const commandsHandler = new CommandsHandlerLevel4(this.msg, this.guild, this.command, this.context)
       return commandsHandler.handle()
     } else if (mode === 'this') {
-      const commandsHandler = new CommandsHandlerLevel2(this.msg, this.guild, this.command, this.info)
+      const commandsHandler = new CommandsHandlerLevel2(this.msg, this.guild, this.command, this.context)
       return commandsHandler.handle()
     }
 

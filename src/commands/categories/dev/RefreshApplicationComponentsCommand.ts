@@ -1,6 +1,6 @@
 import BaseCommand from '@src/abstractions/BaseCommand'
 import Discord from 'discord.js'
-import Info from '@src/types/Info'
+import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import SubCommandsFinder from '@src/utils/SubCommandsFinder'
 import { inspect } from 'util'
@@ -16,22 +16,22 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
     )
   }
 
-  async execute(msg: Discord.Message, info: Info): Promise<CommandExecutionResult> {
+  async execute(msg: Discord.Message, context: CommandExecutionContext): Promise<CommandExecutionResult> {
 
-    if (info.flags.pull) {
+    if (context.flags.pull) {
       await environmentEval('git pull')
     }
 
-    if (info.flags.compile) {
+    if (context.flags.compile) {
       await msg.react('10:637956323958587392')
       await environmentEval('npm run build')
       await msg.reactions.cache.get('637956323958587392')?.users.remove(this.deleter.user.id)
     }
 
-    if (info.flags.everywhere && this.deleter.shard) {
-      delete info.flags.complile
-      delete info.flags.pull
-      delete info.flags.everywhere
+    if (context.flags.everywhere && this.deleter.shard) {
+      delete context.flags.complile
+      delete context.flags.pull
+      delete context.flags.everywhere
 
       const script = `
         delete require.cache[require.resolve('${this.path.replace(/\./g, '/')}')]
@@ -43,15 +43,15 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
         const subCommandsFinder = new SubCommandsFinder(this.cache.subCommands)
         
         const info = {
-          args: ${inspect(info.args)},
-          flags: ${inspect(info.flags)},
+          args: ${inspect(context.args)},
+          flags: ${inspect(context.flags)},
           guild: {
-            lang: ${inspect(info.guild.lang)}
+            lang: ${inspect(context.guild.lang)}
           }
         }
         
-        info.subCommand 
-          = subCommandsFinder.find(${inspect(info.subCommand?.name)}, '${this.name}', '${info.guild.lang.commands}')
+        info.subCommand = subCommandsFinder
+          .find(${inspect(context.subCommand?.name)}, '${this.name}', '${context.guild.lang.commands}')
         
         command.execute({}, info)
       `
@@ -76,8 +76,8 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
       let result
 
       if (command) {
-        const subCommand = subCommandsFinder.find(command, name, info.guild.lang.commands)
-        if (subCommand) result = await subCommand.execute(msg, info)
+        const subCommand = subCommandsFinder.find(command, name, context.guild.lang.commands)
+        if (subCommand) result = await subCommand.execute(msg, context)
       }
 
       if (args[1]) {
@@ -87,10 +87,10 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
 
     }
 
-    if (info.subCommand) {
-      const result = info.subCommand.execute(msg, info)
-      if (info.args[1]) {
-        return (await execCommands(this.name, info.args.slice(1))) || result
+    if (context.subCommand) {
+      const result = context.subCommand.execute(msg, context)
+      if (context.args[1]) {
+        return (await execCommands(this.name, context.args.slice(1))) || result
       } else return result
     } else {
       return new CommandExecutionResult('не угадала').setReply()

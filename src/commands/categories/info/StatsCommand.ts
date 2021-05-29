@@ -1,9 +1,9 @@
 import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
-import Info from '@src/types/Info'
+import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import Discord from 'discord.js'
 import BaseCommand from '@src/abstractions/BaseCommand'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
-import StringPropertiesParser from '@src/utils/StringPropertiesParser'
+import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
 import { hostname } from 'os'
 import Moment from 'moment'
 import Constants from '@src/utils/Constants'
@@ -15,12 +15,12 @@ export default class StatsCommand extends BaseCommand {
     super('@deleter.commands.categories.info.StatsCommand', new StatsCommandConfig())
   }
 
-  async execute(msg: DeleterCommandMessage, info: Info): Promise<CommandExecutionResult> {
+  async execute(msg: DeleterCommandMessage, context: CommandExecutionContext): Promise<CommandExecutionResult> {
 
     const parser = new StringPropertiesParser(),
-      root = `${info.guild.lang.interface}.deleter.commands.categories.info.command.stats`,
+      root = `${context.guild.lang.interface}.deleter.commands.categories.info.command.stats`,
       pckg: Record<string, any> = require('@root/package.json'),
-      unknown = parser.parse(`$keyword[${info.guild.lang.interface}.deleter.global.unknown]`)
+      unknown = parser.parse(`$keyword[${context.guild.lang.interface}.deleter.global.unknown]`)
 
     const data = await this.deleter.shard?.broadcastEval(
       `[ 
@@ -43,7 +43,7 @@ export default class StatsCommand extends BaseCommand {
     const memUsageShard
       = [ ~~(process.memoryUsage().heapUsed / 1024 ** 2), ~~(process.memoryUsage().rss / 1024 ** 2) ]
 
-    Moment.locale(Constants.localeLang(info.guild.lang.interface))
+    Moment.locale(Constants.localeLang(context.guild.lang.interface))
     const uptime = Moment().to(Moment(Date.now() - process.uptime() * 1000))
 
     let description = ''
@@ -96,7 +96,7 @@ export default class StatsCommand extends BaseCommand {
     )
 
     const embed = new DeleterEmbed()
-      .setColor(info.guild.color)
+      .setColor(context.guild.color)
       .setDescription(description)
       .setThumbnail(this.deleter.user!.displayAvatarURL({ size: 256, format: 'png' }))
       .setFooter(footer)
