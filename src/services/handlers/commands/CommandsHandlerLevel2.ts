@@ -5,6 +5,7 @@ import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import CommandsHandlerLevel3 from '@src/services/handlers/commands/CommandsHandlerLevel3'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 
+// permissions checking: resolving custom permissions, looking if command disabled or enabled
 export default class CommandsHandlerLevel2 extends BaseService {
   private readonly msg: DeleterCommandMessage
   private readonly guild: Guild

@@ -9,8 +9,8 @@ import NoHostAvailableError = errors.NoHostAvailableError
 import ResultSet = types.ResultSet
 import * as fs from 'fs'
 import * as util from 'util'
-import Constants from '@src/utils/Constants'
-import exists from '@src/utils/exists'
+import Constants from '@src/utils/other/Constants'
+import exists from '@src/utils/functions/exists'
 import DatabaseConnectOptions from '@src/types/database/DatabaseConnectOptions'
 
 const { DB_KEYSPACE } = process.env

@@ -5,7 +5,7 @@ import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
-import Constants from '@src/utils/Constants'
+import Constants from '@src/utils/other/Constants'
 
 export default class IWantDisableSubCommand extends BaseSubCommand {
   constructor() {

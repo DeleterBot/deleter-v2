@@ -4,6 +4,7 @@ import CommandExecutionContext from '@src/types/commands/CommandExecutionContext
 import { validate, ValidatorOptions } from 'class-validator'
 
 export default class CommandDtoProcessor {
+  public static readonly isUtils = true
 
   public static validate(
     msg: DeleterCommandMessage,

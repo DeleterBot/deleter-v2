@@ -1,5 +1,5 @@
 import BaseService from '@src/abstractions/BaseService'
-import Constants from '@src/utils/Constants'
+import Constants from '@src/utils/other/Constants'
 
 const primesTable = Constants.primesTable
 

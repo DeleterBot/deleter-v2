@@ -2,9 +2,9 @@ import BaseCommand from '@src/abstractions/BaseCommand'
 import Discord from 'discord.js'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
-import SubCommandsFinder from '@src/utils/SubCommandsFinder'
+import SubCommandsFinder from '@src/utils/finders/SubCommandsFinder'
 import { inspect } from 'util'
-import environmentEval from '@src/utils/environmentEval'
+import environmentEval from '@src/utils/functions/environmentEval'
 import RefreshApplicationComponentsCommandConfig
   from '@src/commands/categories/dev/resources/configs/RefreshApplicationComponentsCommandConfig'
 

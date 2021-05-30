@@ -1,6 +1,6 @@
 import Colors from 'colors'
 import Moment from 'moment'
-import Constants from '@src/utils/Constants'
+import Constants from '@src/utils/other/Constants'
 import { inspect } from 'util'
 
 export default class Logger {

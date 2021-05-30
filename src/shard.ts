@@ -4,7 +4,7 @@ import DeleterClient from '@src/structures/DeleterClient'
 import DeleterClientOptions from '@src/types/deleter/DeleterClientOptions'
 import DeleterGuild from '@src/structures/djs/DeleterGuild'
 import Discord from 'discord.js'
-import Logger from '@src/utils/Logger'
+import Logger from '@src/utils/other/Logger'
 
 Discord.Structures.extend('Guild', () => DeleterGuild)
 

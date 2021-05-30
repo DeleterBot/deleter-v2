@@ -8,7 +8,7 @@ import {
 import { ThrottlerException } from '@nestjs/throttler'
 import AbstractApiResponse from '@api/abstractions/AbstractApiResponse'
 import { BaseExceptionFilter } from '@nestjs/core'
-import Logger from '@src/utils/Logger'
+import Logger from '@src/utils/other/Logger'
 
 @Catch()
 export default class AllExceptionsFilter extends BaseExceptionFilter {

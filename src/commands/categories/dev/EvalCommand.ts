@@ -4,7 +4,7 @@ import Axios from 'axios'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import { types, inspect } from 'util'
-import environmentEval from '@src/utils/environmentEval'
+import environmentEval from '@src/utils/functions/environmentEval'
 import EvalCommandConfig from '@src/commands/categories/dev/resources/configs/EvalCommandConfig'
 
 export default class EvalCommand extends BaseCommand {

@@ -4,8 +4,9 @@ import Guild from '@src/structures/Guild'
 import BaseCommand from '@src/abstractions/BaseCommand'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandsHandlerLevel5 from '@src/services/handlers/commands/CommandsHandlerLevel5'
-import CommandDtoProcessor from '@src/services/misc/CommandDtoProcessor'
+import CommandDtoProcessor from '@src/utils/processors/CommandDtoProcessor'
 
+// dto processing and handling
 export default class CommandsHandlerLevel4 extends BaseService {
   private readonly msg: DeleterCommandMessage
   private readonly guild: Guild

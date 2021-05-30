@@ -6,7 +6,7 @@ import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
 import { hostname } from 'os'
 import Moment from 'moment'
-import Constants from '@src/utils/Constants'
+import Constants from '@src/utils/other/Constants'
 import StatsCommandConfig from '@src/commands/categories/info/resources/configs/StatsCommandConfig'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
 

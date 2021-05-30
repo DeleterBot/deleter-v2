@@ -1,11 +1,12 @@
 import Discord from 'discord.js'
 import Guild from '@src/structures/Guild'
 import BaseService from '@src/abstractions/BaseService'
-import CommandsFinder from '@src/utils/CommandsFinder'
+import CommandsFinder from '@src/utils/finders/CommandsFinder'
 import CommandsHandlerLevel2 from '@src/services/handlers/commands/CommandsHandlerLevel2'
 import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 
+// base processing: detecting command, creating execution context, resolving multi-lang commands
 export default class CommandsHandlerLevel1 extends BaseService {
   private readonly msg: Discord.Message
   private readonly guild: Guild

@@ -5,12 +5,12 @@ import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import HelpCommandConfig from '@src/commands/categories/info/resources/configs/HelpCommandConfig'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
-import Constants from '@src/utils/Constants'
+import Constants from '@src/utils/other/Constants'
 import Discord, { Collection } from 'discord.js'
-import withACapital from '@src/utils/withACapital'
+import withACapital from '@src/utils/functions/withACapital'
 import CommandDetails from '@src/types/commands/CommandDetails'
-import SubCommandsFinder from '@src/utils/SubCommandsFinder'
-import CommandsFinder from '@src/utils/CommandsFinder'
+import SubCommandsFinder from '@src/utils/finders/SubCommandsFinder'
+import CommandsFinder from '@src/utils/finders/CommandsFinder'
 
 export default class HelpCommand extends BaseCommand {
   private root!: string

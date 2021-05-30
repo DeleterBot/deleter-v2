@@ -3,7 +3,7 @@ import Discord from 'discord.js'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
-import Constants from '@src/utils/Constants'
+import Constants from '@src/utils/other/Constants'
 import BotInformationCommandConfig from '@src/commands/categories/info/resources/configs/BotInformationCommandConfig'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
 

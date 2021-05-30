@@ -5,10 +5,14 @@ import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import CommandsHandlerLevel4 from '@src/services/handlers/commands/CommandsHandlerLevel4'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import commandLineArgs from 'command-line-args'
-import SubCommandsFinder from '@src/utils/SubCommandsFinder'
+import SubCommandsFinder from '@src/utils/finders/SubCommandsFinder'
 import CommandLanguage from '@src/types/commands/CommandLanguage'
 import CommandsHandlerLevel2 from '@src/services/handlers/commands/CommandsHandlerLevel2'
 
+/*
+ additional parsing: parsing flags and resolving subCommands
+ if subCommand detected - execution starting from CommandsHandlerLevel2
+ */
 export default class CommandsHandlerLevel3 extends BaseService {
   private readonly msg: DeleterCommandMessage
   private readonly guild: Guild

@@ -1,6 +1,6 @@
 import BaseEvent from '@src/abstractions/BaseEvent'
 import Discord from 'discord.js'
-import Constants from '@src/utils/Constants'
+import Constants from '@src/utils/other/Constants'
 import DeleterRawUser from '@src/structures/DeleterRawUser'
 
 export default class PresenceUpdateEvent extends BaseEvent {
@@ -19,7 +19,7 @@ export default class PresenceUpdateEvent extends BaseEvent {
     if (!user.id) return
 
     if (user.presencesEnabled) {
-      
+
       if (user.latestStatusPresence && (
         (lastPresence && lastPresence.status !== recentPresence.status) ||
         (user.latestStatusPresence.name !== recentPresence.status)

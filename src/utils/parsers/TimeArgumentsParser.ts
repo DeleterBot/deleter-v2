@@ -1,4 +1,4 @@
-import locale from '@src/utils/locale'
+import locale from '@src/utils/functions/locale'
 
 const matchers: Record<string, Array<RegExp>> = {
   seconds: [ /[\d]+s(ec(ond(s)?)?)?/, /[\d]+с(ек(унд(ы)?)?)?/ ],

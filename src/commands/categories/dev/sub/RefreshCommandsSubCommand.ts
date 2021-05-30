@@ -1,6 +1,6 @@
 import BaseSubCommand from '@src/abstractions/BaseSubCommand'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
-import GathererService from '@src/services/misc/GathererService'
+import GathererService from '@src/utils/finders/Gatherer'
 import RefreshCommandsSubCommandConfig
   from '@src/commands/categories/dev/resources/configs/RefreshCommandsSubCommandConfig'
 

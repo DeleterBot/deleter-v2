@@ -7,6 +7,7 @@ import CommandsReplier from '@src/services/handlers/commands/CommandsReplier'
 import CommandExecutionResult  from '@src/types/commands/CommandExecutionResultType'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 
+// command reply operator: catching command errors, sending command execution result to Discord
 export default class CommandsHandlerLevel5 extends BaseService {
   private readonly msg: DeleterCommandMessage
   private readonly guild: Guild
@@ -24,37 +25,33 @@ export default class CommandsHandlerLevel5 extends BaseService {
 
   public async handle() {
 
-    let commandResult: CommandExecutionResult | Error
+    let executionResult: CommandExecutionResult | Error
     try {
-      commandResult = await this.command.execute(this.msg, this.context)
+      executionResult = await this.command.execute(this.msg, this.context)
     } catch (e) {
-      commandResult = e
+      executionResult = e
     }
 
-    if (commandResult instanceof Error) {
-      this.logger.error(undefined, `${this.command.constructor.name}:`, commandResult)
+    if (executionResult instanceof Error) {
+      this.logger.error(undefined, `${this.command.constructor.name}:`, executionResult)
       return CommandsReplier.processReply(
         this.msg,
-        `Выполнение команды завершилось с ${commandResult.name}: ${commandResult.message}`
+        `Выполнение команды завершилось с ${executionResult.name}: ${executionResult.message}`
       )
-    } else if (commandResult.result) {
+    } else if (executionResult.result) {
 
-      /*if (this.command.cd && !commandResult.success) {
-        const coolDownHandler = new CoolDownHandler(this.command.cd, 'idk', 'idk')
-      }*/
+      if (executionResult.reply)
+        return CommandsReplier.processReply(this.msg, executionResult.result, executionResult.options)
 
-      if (commandResult.reply)
-        return CommandsReplier.processReply(this.msg, commandResult.result, commandResult.options)
-
-      if (commandResult.react) {
-        if (Array.isArray(commandResult.result)) {
-          return commandResult.result.forEach(emoji => {
+      if (executionResult.react) {
+        if (Array.isArray(executionResult.result)) {
+          return executionResult.result.forEach(emoji => {
             this.msg.react(emoji)
           })
-        } else return this.msg.react(commandResult.result as Discord.EmojiResolvable)
+        } else return this.msg.react(executionResult.result as Discord.EmojiResolvable)
       }
 
-      return CommandsReplier.process(this.msg, commandResult.result, commandResult.options)
+      return CommandsReplier.process(this.msg, executionResult.result, executionResult.options)
     }
 
   }
