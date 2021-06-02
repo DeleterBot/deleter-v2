@@ -1,3 +1,6 @@
+import DotEnv from 'dotenv'
+DotEnv.config()
+
 import 'module-alias/register.js'
 
 import DeleterClient from '@src/structures/DeleterClient'

@@ -10,6 +10,7 @@ import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
 import Moment from 'moment'
 import DeleterRawUserPresence from '@src/types/deleter/DeleterRawUserPresence'
 
+// TODO: rewrite shitcode
 export default class UserInfoCommand extends BaseCommand {
   private presences!: DeleterRawUserPresence[]
 
@@ -47,24 +48,23 @@ export default class UserInfoCommand extends BaseCommand {
         offline = this.findStatus('offline'),
         idle = this.findStatus('idle'),
         dnd = this.findStatus('dnd'),
-        now = Date.now(),
-        agoRegExp = / (ago|назад)/gi
+        now = Date.now()
 
       if (online) description += parser.parse(`$phrase[${root}.description.online]`, {
-        online: Moment().to(Moment(now - online.played)).replace(agoRegExp, '')
+        online: this.duration(now - online.played)
       }) + '\n'
 
       if (offline) description += parser.parse(`$phrase[${root}.description.offline]`, {
-        offline: Moment().to(Moment(now - offline.played)).replace(agoRegExp, '')
+        offline: this.duration(now - offline.played)
       }) + '\n'
 
       if (idle) description += parser.parse(`$phrase[${root}.description.idle]`, {
-        idle: Moment().to(Moment(now - idle.played)).replace(agoRegExp, ''),
+        idle: this.duration(now - idle.played),
         gendered_idle: parser.parse(`$keyword[${context.guild.lang.interface}.deleter.global.${user.gender}.idle]`)
       }) + '\n'
 
       if (dnd) description += parser.parse(`$phrase[${root}.description.dnd]`, {
-        dnd: Moment().to(Moment(now - dnd.played)).replace(agoRegExp, '')
+        dnd: this.duration(now - dnd.played)
       }) + '\n'
 
     } else description = parser.parse(`$phrase[${root}.nullishdata]`)
@@ -75,6 +75,12 @@ export default class UserInfoCommand extends BaseCommand {
       .setDescription(description)
     return new CommandExecutionResult(embed)
 
+  }
+
+  duration(num: number) {
+    const agoRegExp = / (ago|назад)/gi
+
+    return Moment().to(Moment(num)).replace(agoRegExp, '')
   }
 
   findStatus(status: string): DeleterRawUserPresence | undefined {

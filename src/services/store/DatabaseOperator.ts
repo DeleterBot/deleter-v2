@@ -1,6 +1,6 @@
 import Cassandra, { DseClientOptions, errors, types } from 'cassandra-driver'
 import BaseService from '@src/abstractions/BaseService'
-import CachingService from '@src/services/db/CachingService'
+import CachingService from '@src/services/store/CachingService'
 import DatabaseGetOptions from '@src/types/database/DatabaseGetOptions'
 import DatabaseUpdateOptions from '@src/types/database/DatabaseUpdateOptions'
 import DatabaseDeleteOptions from '@src/types/database/DatabaseDeleteOptions'

@@ -5,6 +5,7 @@ import BaseCommand from '@src/abstractions/BaseCommand'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandsHandlerLevel5 from '@src/services/handlers/commands/CommandsHandlerLevel5'
 import CommandDtoProcessor from '@src/utils/processors/CommandDtoProcessor'
+import CommandsReplier from '@src/services/handlers/commands/CommandsReplier'
 
 // dto processing and handling
 export default class CommandsHandlerLevel4 extends BaseService {
@@ -25,9 +26,13 @@ export default class CommandsHandlerLevel4 extends BaseService {
   public async handle() {
 
     if (this.command.dto) {
-      const validationErrors = await CommandDtoProcessor.validate(this.msg, this.context, this.command.dto)
-      this.logger.log(undefined, validationErrors)
-      if (validationErrors.length) return this.msg.reply(validationErrors[0].constraints!.isNumberString)
+      const { errors, dto } = await CommandDtoProcessor.validate(this.msg, this.context, this.command.dto)
+
+      if (errors.length) {
+        return CommandsReplier.processReply(this.msg, 'validation error')
+      }
+
+      this.context.dto = dto
     }
 
     const handler = new CommandsHandlerLevel5(this.msg, this.guild, this.command, this.context)

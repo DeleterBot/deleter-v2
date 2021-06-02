@@ -9,13 +9,19 @@ import Moment from 'moment'
 import Constants from '@src/utils/other/Constants'
 import StatsCommandConfig from '@src/commands/categories/info/resources/configs/StatsCommandConfig'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
+import StatsCommandDto from '@src/commands/categories/info/resources/dto/StatsCommandDto'
 
 export default class StatsCommand extends BaseCommand {
   constructor() {
     super('@deleter.commands.categories.info.StatsCommand', new StatsCommandConfig())
   }
 
-  async execute(msg: DeleterCommandMessage, context: CommandExecutionContext): Promise<CommandExecutionResult> {
+  async execute(
+    msg: DeleterCommandMessage,
+    context: CommandExecutionContext<StatsCommandDto>
+  ): Promise<CommandExecutionResult> {
+
+    this.logger.info(undefined, context.dto.a1)
 
     const parser = new StringPropertiesParser(),
       root = `${context.guild.lang.interface}.deleter.commands.categories.info.command.stats`,
@@ -63,11 +69,11 @@ export default class StatsCommand extends BaseCommand {
         ping: this.deleter.ws.ping,
         commandsExecuted: unknown,
         shard: msg.guild.shardID + 1,
-        totalShards: this.deleter.shard!.count
+        totalShards: this.deleter.shard?.count ?? 0
       }
     )
 
-    if (this.deleter.shard!.count > 1) description += '\n\n' + parser.parse(
+    if ((this.deleter.shard?.count ?? 0) > 1) description += '\n\n' + parser.parse(
       `$phrase[${root}.description.part2]`,
       {
         memUsageShardHeap: memUsageShard[0],
@@ -84,7 +90,7 @@ export default class StatsCommand extends BaseCommand {
         ping: this.deleter.ws.ping,
         commandsExecuted: unknown,
         shard: msg.guild.shardID + 1,
-        totalShards: this.deleter.shard!.count
+        totalShards: this.deleter.shard?.count ?? 0
       }
     )
 
@@ -98,7 +104,7 @@ export default class StatsCommand extends BaseCommand {
     const embed = new DeleterEmbed()
       .setColor(context.guild.color)
       .setDescription(description)
-      .setThumbnail(this.deleter.user!.displayAvatarURL({ size: 256, format: 'png' }))
+      .setThumbnail(this.deleter.user.displayAvatarURL({ size: 256, format: 'png' }))
       .setFooter(footer)
 
     return new CommandExecutionResult(embed)

@@ -1,5 +1,5 @@
 import Discord from 'discord.js'
-import DatabaseOperator from '@src/services/db/DatabaseOperator'
+import DatabaseOperator from '@src/services/store/DatabaseOperator'
 import DeleterClientOptions from '@src/types/deleter/DeleterClientOptions'
 import QiwiBillPaymentsAPI from '@qiwi/bill-payments-node-js-sdk'
 import Logger from '@src/utils/other/Logger'
