@@ -14,7 +14,7 @@ export default class CommandsController extends AbstractController {
       + ' !c.developer && !c.disabled && !c.settings '
       + ').values())'
       + '.map(c => { return { '
-      + 'name: c.name, ru: c.translations.ru, en: c.translations.en, gg: c.translations.gg, '
+      + 'name: c.name, translations: c.translations, '
       + 'memberPermissions: c.memberPermissions ?? [], isModerator: c.moderator ?? false, '
       + 'category: c.translations.en.category'
       + '} })'

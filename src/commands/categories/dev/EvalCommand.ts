@@ -6,7 +6,6 @@ import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import { types, inspect } from 'util'
 import environmentEval from '@src/utils/functions/environmentEval'
 import EvalCommandConfig from '@src/commands/categories/dev/resources/configs/EvalCommandConfig'
-import CommandExecutionForceStopped from '@src/exceptions/commands/CommandExecutionForceStopped'
 
 export default class EvalCommand extends BaseCommand {
   constructor() {
@@ -14,8 +13,6 @@ export default class EvalCommand extends BaseCommand {
   }
 
   async execute(msg: Discord.Message, context: CommandExecutionContext): Promise<CommandExecutionResult> {
-
-    this.on('stop', () => { throw new CommandExecutionForceStopped() })
 
     try {
 

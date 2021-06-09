@@ -20,7 +20,7 @@
     "@nestjs/core": "^7.6.7",
     "@nestjs/platform-fastify": "^7.6.7",
     "@nestjs/throttler": "^1.1.2",
-    "@qiwi/bill-payments-node-js-sdk": "github:Mirdukkk/bill-payments-node-js-sdk",
+    "@qiwi/bill-payments-node-js-sdk": "^3.2.1",
     "axios": "^0.21.0",
     "bufferutil": "^4.0.3",
     "cassandra-driver": "^4.6.1",

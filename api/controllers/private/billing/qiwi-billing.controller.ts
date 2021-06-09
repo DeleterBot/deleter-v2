@@ -8,7 +8,7 @@ import AuthorizedRequest from '@api/types/AuthorizedRequest'
 import CachedBill from '@api/types/CachedBill'
 import { Throttle } from '@nestjs/throttler'
 
-@Controller(Constants.PRIVATE + 'billing')
+@Controller(Constants.PRIVATE + 'billing/invoices')
 export default class QiwiBillingController extends AbstractController {
 
   @Post('create')
