@@ -1,5 +1,5 @@
-import DotEnv from 'dotenv'
-DotEnv.config()
+import { config } from 'dotenv';
+config();
 
 import 'module-alias/register.js'
 
