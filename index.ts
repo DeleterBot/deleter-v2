@@ -27,10 +27,12 @@ const logger = new Logger()
   }
 
   return shardingManager.spawn()
-    .then(s => logger.success(
-      undefined,
-      'all shards done,', s.size, s.size > 1 ? 'shards': 'shard', 'running'
-    ))
+    .then(shards => {
+      logger.success(
+        undefined,
+        'all shards done,', shards.size, shards.size > 1 ? 'shards' : 'shard', 'running'
+      )
+    })
     .catch(e => logger.error(
       undefined,
       'error when spawning shards:',

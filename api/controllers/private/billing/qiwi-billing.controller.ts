@@ -12,16 +12,16 @@ import { Throttle } from '@nestjs/throttler'
 export default class QiwiBillingController extends AbstractController {
 
   @Post('create')
-  @UseGuards(new AuthGuard())
+  //@UseGuards(new AuthGuard())
   @Throttle(1, 60)
   async create(@Body() body: QiwiBillingCreateDto, @Req() req: AuthorizedRequest) {
 
-    const cacheKey = `${Constants.billingPrefix}:${req.user.id}:${body.amount}`
+    /*const cacheKey = `${Constants.billingPrefix}:${req.user.id}:${body.amount}`
 
     const cache: CachedBill | undefined
       = await this.db.cache?.get(cacheKey)
 
-    if (cache) return cache
+    if (cache) return cache*/
 
     const params = {
       amount: body.amount,
@@ -35,8 +35,8 @@ export default class QiwiBillingController extends AbstractController {
 
     const bill = await this.qiwi.createBill(Snowflake.generate(), params)
 
-    if (bill && this.db.cache)
-      await this.db.cache.set(cacheKey, bill)
+    /*if (bill && this.db.cache)
+      await this.db.cache.set(cacheKey, bill)*/
 
     return {
       payUrl: bill.payUrl,

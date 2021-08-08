@@ -12,7 +12,7 @@ export default function makePartialGuild(guild: any, added = false) {
     id: guild.id,
     name: guild.name,
     icon: guild.icon
-      ? Constants.Endpoints.CDN(Constants.DefaultOptions.http!.cdn!).Icon(guild.id, guild.icon, 'png', 64)
+      ? Constants.Endpoints.CDN('https://cdn.discordapp.com/').Icon(guild.id, guild.icon, 'png', 64)
       : null,
     added: added
   }

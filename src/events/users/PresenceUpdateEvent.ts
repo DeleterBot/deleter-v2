@@ -12,7 +12,7 @@ export default class PresenceUpdateEvent extends BaseEvent {
 
   async execute(lastPresence: Discord.Presence, recentPresence: Discord.Presence) {
 
-    const user = await this.deleter.db.get<DeleterRawUser>(Constants.usersTable, recentPresence.userID, {
+    const user = await this.deleter.db.get<DeleterRawUser>(Constants.usersTable, recentPresence.userId, {
       transform: DeleterRawUser
     })
 

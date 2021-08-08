@@ -5,6 +5,7 @@ import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
 import DeleterGuild from '@src/structures/djs/DeleterGuild'
 import guildFirstWritableChannel from '@src/utils/functions/guildFirstWritableChannel'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
+import { getGuildLocale } from '@src/utils/functions/getGuildLocale'
 
 export default class GulagService extends BaseService {
 
@@ -27,7 +28,7 @@ export default class GulagService extends BaseService {
     const parser = new StringPropertiesParser()
 
     const description = parser.parse(
-      `$phrase[${guild.locale}.deleter.global.gulag.owner.description`,
+      `$phrase[${getGuildLocale(guild)}.deleter.global.gulag.owner.description`,
       {
         username: this.deleter.user!.username,
         reason: gulag.reason
@@ -40,7 +41,7 @@ export default class GulagService extends BaseService {
 
     const channel = guildFirstWritableChannel(guild)
 
-    return channel?.send(embed)
+    return channel?.send({ embeds: [ embed ] })
 
   }
 

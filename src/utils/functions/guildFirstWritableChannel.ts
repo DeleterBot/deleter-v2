@@ -10,7 +10,7 @@ export default function guildFirstWritableChannel(
 
     guild.channels.cache.forEach((c: any) => {
       if (c.permissionsFor(guild.me!)?.has('SEND_MESSAGES')) {
-        if (useSystemChannel && guild.systemChannelID === c.id) channel = c
+        if (useSystemChannel && guild.systemChannelId === c.id) channel = c
         else if (!channel) channel = c
       }
     })

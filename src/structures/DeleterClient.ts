@@ -15,7 +15,7 @@ class DeleterClient extends Discord.Client {
   public logger: Logger = new Logger()
   private deleter: DeleterClient = this
 
-  constructor(token: string, options?: DeleterClientOptions) {
+  constructor(token: string, options: DeleterClientOptions) {
     super(options)
     this.token = token
     this.owner = options?.owner || 'nobody'
@@ -43,7 +43,7 @@ class DeleterClient extends Discord.Client {
       this.on(e.name, e.execute)
     })
 
-    this.logger.log(undefined, 'connecting database')
+    this.logger.log(undefined, 'connecting to database')
     this.db = new DatabaseOperator()
     await this.db.connect()
 

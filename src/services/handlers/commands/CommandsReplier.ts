@@ -6,6 +6,7 @@ export default class CommandsReplier {
   static isService = true
 
   static processReply(to: Discord.Message, content: any, options?: any) {
+    global.deleter.logger.log('CommandsReplier', 'process reply')
     // @ts-ignore
     if (to.repliedTo) {
       // @ts-ignore
@@ -23,6 +24,7 @@ export default class CommandsReplier {
   }
 
   static process(to: Discord.TextChannel | Discord.Message, content: any, options?: any) {
+    global.deleter.logger.log('CommandsReplier', 'process')
     if (to instanceof Discord.Message) {
       // @ts-ignore
       if (to.repliedTo) {
@@ -47,10 +49,12 @@ export default class CommandsReplier {
     options?: any,
     reply? :boolean
   ) {
-
+    global.deleter.logger.log('CommandsReplier', 'process send')
     if (reply && to instanceof Discord.Message) {
+      const res =
+        content instanceof Discord.MessageEmbed ? { embeds: [ content ], ...options } : { content, ...options }
       // @ts-ignore
-      return to.reply(content, options)
+      return to.reply(res)
         .then(m => {
           // @ts-ignore
           to.repliedTo = m
@@ -60,8 +64,10 @@ export default class CommandsReplier {
         .catch(() => {}) // eslint-disable-line no-empty
     } else {
       const channel = to instanceof Discord.Message ? to.channel : to
+      const res =
+        content instanceof Discord.MessageEmbed ? { embeds: [ content ], ...options } : { content, ...options }
       // @ts-ignore
-      return channel.send(content, options)
+      return channel.send(res)
         .then(m => {
           if (to instanceof Discord.Message) {
             // @ts-ignore
@@ -74,6 +80,7 @@ export default class CommandsReplier {
   }
 
   static edit(to: Discord.Message, content: any, options?: any, reply?: boolean): any {
+    global.deleter.logger.log('CommandsReplier', 'process edit')
 
     // @ts-ignore
     const rTo: Discord.Message = to.repliedTo
@@ -81,8 +88,10 @@ export default class CommandsReplier {
     if (typeof content === 'string' && rTo.content.length && rTo.content !== rTo.author.toString() + ', ') {
       if (reply && parseInt(Discord.version.slice(0, 2)) < 13)
         content = to.author.toString() + ', ' + content
+      const res =
+        content instanceof Discord.MessageEmbed ? { embeds: [ content ], ...options } : { content, ...options }
       // @ts-ignore
-      return rTo.edit(content, options)
+      return rTo.edit(res)
     }
 
     rTo.delete().catch(() => {}) // eslint-disable-line no-empty

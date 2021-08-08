@@ -28,22 +28,22 @@ export default class StatsCommand extends BaseCommand {
       pckg: Record<string, any> = require('@root/package.json'),
       unknown = parser.parse(`$keyword[${context.guild.lang.interface}.deleter.global.unknown]`)
 
-    const data = await this.deleter.shard?.broadcastEval(
-      `[ 
-         ~~(process.memoryUsage().heapUsed / 1024 ** 2), 
-         ~~(process.memoryUsage().rss / 1024 ** 2), 
-         this.guilds.cache.size,
-         this.users.cache.size
-       ]`
-    ).catch(() => null)
+    const data: any = await this.deleter.shard?.broadcastEval(client => {
+      return [
+        ~~(process.memoryUsage().heapUsed / 1024 ** 2),
+        ~~(process.memoryUsage().rss / 1024 ** 2),
+        client.guilds.cache.size,
+        client.users.cache.size
+      ]
+    }).catch(() => null)
 
-    let memUsageTotal = data?.reduce((a, b) => { return [ a[0] + b[0], a[1] + b[1] ] })
+    let memUsageTotal = data?.reduce((a: any, b: any) => { return [ a[0] + b[0], a[1] + b[1] ] })
     if (!memUsageTotal) memUsageTotal = [ unknown, unknown ]
 
-    let guildsCount = data?.reduce((a, b) => (a[2] ?? a) + (b[2] ?? b), 0)
+    let guildsCount = data?.reduce((a: any, b: any) => (a[2] ?? a) + (b[2] ?? b), 0)
     if (!guildsCount) guildsCount = unknown
 
-    let usersCount = data?.reduce((a, b) => (a[3] ?? a) + (b[3] ?? b), 0)
+    let usersCount = data?.reduce((a: any, b: any) => (a[3] ?? a) + (b[3] ?? b), 0)
     if (!usersCount) usersCount = unknown
 
     const memUsageShard
@@ -68,7 +68,7 @@ export default class StatsCommand extends BaseCommand {
         usersCount: usersCount,
         ping: this.deleter.ws.ping,
         commandsExecuted: unknown,
-        shard: msg.guild.shardID + 1,
+        shard: msg.guild.shardId + 1,
         totalShards: this.deleter.shard?.count ?? 0
       }
     )
@@ -89,7 +89,7 @@ export default class StatsCommand extends BaseCommand {
         usersCount: usersCount,
         ping: this.deleter.ws.ping,
         commandsExecuted: unknown,
-        shard: msg.guild.shardID + 1,
+        shard: msg.guild.shardId + 1,
         totalShards: this.deleter.shard?.count ?? 0
       }
     )

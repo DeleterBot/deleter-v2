@@ -23,7 +23,10 @@ async function collectStatistics(manager: Discord.ShardingManager) {
   }
 
   for await (const shard of Array.from(manager.shards.values())) {
-    const data = await shard.eval(script)
+    global.ApiWorker.logger.log('debug', 'predata!!')
+    const data = await shard.eval<any>(() => [ undefined, -1, 0, 0, 0, true, true ])
+
+    global.ApiWorker.logger.log('debug', 'data!!', data)
 
     statistic.totalUsers += data[4] ?? 0
     statistic.totalGuilds += data[3] ?? 0

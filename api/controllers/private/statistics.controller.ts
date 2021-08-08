@@ -15,10 +15,9 @@ export default class PrivateStatisticsController extends AbstractController {
   @Get('statistics')
   async execute() {
 
-    const commandsScript = `this.db.get('commands', '', { array: true, everything: true })`
-
     const { shards, totalGuilds, totalUsers } = await collectStatistics(this.manager)
-    let commands: Array<Record<string, number | string>> = await this.manager.shards.first()!.eval(commandsScript)
+    let commands: Array<Record<string, number | string>> = await this.manager.shards.first()!
+      .eval((client: any) => client.db.get('commands', '', { array: true, everything: true }))
 
     commands = commands.sort((a, b) => {
       if (a.count > b.count) {

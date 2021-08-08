@@ -5,7 +5,7 @@ import CommandsExecutor from '@src/services/CommandsExecutor'
 export default class MessageReceiveEvent extends BaseEvent {
   constructor() {
     super('@deleter.events.messages.MessageReceiveEvent', {
-      name: 'message'
+      name: 'messageCreate'
     })
   }
 

@@ -60,7 +60,7 @@ export default class GuildsController extends AbstractController {
         if (!shard) {
           result.push(makePartialGuild(guild))
         } else {
-          const exists: boolean = await shard.eval(`this.guilds.cache.has('${guild.id}')`)
+          const exists: boolean = await shard.eval(c => c.guilds.cache.has(guild.id))
             .then(r => !!r)
             .catch(() => false)
 

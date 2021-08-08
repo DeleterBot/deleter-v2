@@ -58,15 +58,17 @@ export default class EvalCommand extends BaseCommand {
           })
 
       } else if (everywhere) {
-        evaled = this.deleter.shard?.broadcastEval(toEval)
+        evaled = this.deleter.shard?.broadcastEval(() => eval(toEval))
 
       } else if (shard) {
 
         if (shard !== 'any')
           evaled =
-            this.deleter.shard?.broadcastEval(`if (this.shard?.ids?.includes(${shard})) eval("${toEval}")`)
+            this.deleter.shard?.broadcastEval(client => {
+              if (client.shard?.ids?.includes(shard)) eval(toEval)
+            })
         else
-          evaled = this.deleter.shard?.broadcastEval(`eval("${toEval}")`)
+          evaled = this.deleter.shard?.broadcastEval(() => eval(toEval))
 
       } else evaled = eval(toEval)
 
@@ -141,14 +143,15 @@ export default class EvalCommand extends BaseCommand {
         .replace(wbTokenRegExp, '__wbToken.D')
 
       const code = shell ? 'xl' : 'js'
-      const result = new CommandExecutionResult(evaled).setOptions({ code: code })
+      const result = new CommandExecutionResult(evaled)//.setOptions({ code: code })
 
       if (all) {
-        return result.amendOptions({
+        /*return result.amendOptions({
           split: {
             char: '\n'
           }
-        })
+        })*/
+        return result
       } else return result
 
     } catch (e) {

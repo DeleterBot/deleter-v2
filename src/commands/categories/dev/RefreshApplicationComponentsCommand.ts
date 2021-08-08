@@ -57,7 +57,7 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
       `
 
       const before = process.hrtime.bigint()
-      const result = await this.deleter.shard.broadcastEval(script)
+      const result = await this.deleter.shard.broadcastEval(() => eval(script))
       const after = process.hrtime.bigint()
 
       const resultStr = 'Completed in '
@@ -65,7 +65,7 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
       ' nanoseconds or ' + (parseInt(String(after - before)) / 1000000).toFixed(3) + 'ms\n'
       + result.map((s, i) => `shard ${i}: ${s.result ?? s.name + ': ' + s.message}`).join('\n')
 
-      return new CommandExecutionResult(resultStr).setOptions({ code: 'js' })
+      return new CommandExecutionResult(resultStr)/*.setOptions({ code: 'js' })*/
     }
 
     const subCommandsFinder = new SubCommandsFinder(this.deleter.cache.subCommands)

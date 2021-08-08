@@ -14,7 +14,7 @@ export default class CommandsExecutor extends BaseService {
 
   async processCommand() {
     if (this.msg.author.bot) return
-    if (this.msg.channel.type === 'dm') return
+    if (this.msg.channel.type === 'DM') return
 
     const guildData = await this.deleter.db.get('guilds', this.msg.guild!.id)
     const guild = new Guild(this.msg.guild as DeleterGuild, typeof guildData !== 'string' ? guildData : undefined)
