@@ -28,7 +28,7 @@ export default class CommandsHandlerLevel5 extends BaseService {
     let executionResult: CommandExecutionResult | Error
     try {
       executionResult = await this.command.execute(this.msg, this.context)
-    } catch (e) {
+    } catch (e: any) {
       executionResult = e
     }
 

@@ -27,7 +27,7 @@ const logger = new Logger()
   }
 
   return shardingManager.spawn()
-    .then(shards => {
+    .then(async shards => {
       logger.success(
         undefined,
         'all shards done,', shards.size, shards.size > 1 ? 'shards' : 'shard', 'running'

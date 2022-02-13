@@ -67,7 +67,7 @@ export default class AuthGuard extends AbstractGuard implements CanActivate {
     if (strict) {
       try {
         await getDiscordUser(type, token)
-      } catch (e) {
+      } catch (e: any) {
         throw new HttpException({
           message: `authorization check via Discord failed with status code ${e?.response?.status || e?.statusCode}`
         }, 500)

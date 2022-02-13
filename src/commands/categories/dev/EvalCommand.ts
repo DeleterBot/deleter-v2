@@ -154,7 +154,7 @@ export default class EvalCommand extends BaseCommand {
         return result
       } else return result
 
-    } catch (e) {
+    } catch (e: any) {
       let err = `${e.name}\n${e.message}`
       if (err.length >= 1980) err = err.slice(0, 1980) + '...'
       return new CommandExecutionResult(err).setReply(true)

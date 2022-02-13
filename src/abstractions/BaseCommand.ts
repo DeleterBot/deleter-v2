@@ -9,7 +9,7 @@ export default abstract class BaseCommand extends AbstractCommand {
   public readonly path: string
   public readonly hasSubCommands: boolean | undefined
   public readonly overrideSubCommands: boolean | undefined
-  public readonly multiLang: boolean | undefined
+  declare public readonly multiLang: boolean | undefined
   public static readonly isCommand: boolean = true
 
   protected constructor(path: string, config: BaseCommandConfig) {

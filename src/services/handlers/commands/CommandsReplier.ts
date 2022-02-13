@@ -6,7 +6,6 @@ export default class CommandsReplier {
   static isService = true
 
   static processReply(to: Discord.Message, content: any, options?: any) {
-    global.deleter.logger.log('CommandsReplier', 'process reply')
     // @ts-ignore
     if (to.repliedTo) {
       // @ts-ignore
@@ -24,7 +23,6 @@ export default class CommandsReplier {
   }
 
   static process(to: Discord.TextChannel | Discord.Message, content: any, options?: any) {
-    global.deleter.logger.log('CommandsReplier', 'process')
     if (to instanceof Discord.Message) {
       // @ts-ignore
       if (to.repliedTo) {
@@ -49,7 +47,6 @@ export default class CommandsReplier {
     options?: any,
     reply? :boolean
   ) {
-    global.deleter.logger.log('CommandsReplier', 'process send')
     if (reply && to instanceof Discord.Message) {
       const res =
         content instanceof Discord.MessageEmbed ? { embeds: [ content ], ...options } : { content, ...options }
@@ -80,7 +77,6 @@ export default class CommandsReplier {
   }
 
   static edit(to: Discord.Message, content: any, options?: any, reply?: boolean): any {
-    global.deleter.logger.log('CommandsReplier', 'process edit')
 
     // @ts-ignore
     const rTo: Discord.Message = to.repliedTo

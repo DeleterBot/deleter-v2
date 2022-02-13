@@ -10,8 +10,8 @@ class DeleterClient extends Discord.Client {
   public owner: string | undefined
   public cache!: DeleterClientCache
   public db!: DatabaseOperator
-  public options!: DeleterClientOptions
-  public user!: ClientUser
+  declare public options: DeleterClientOptions
+  declare public user: ClientUser
   public logger: Logger = new Logger()
   private deleter: DeleterClient = this
 
