@@ -1,15 +1,14 @@
 import UserMentionParsingOptions from '@src/types/parsers/UserMentionParsingOptions'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
-import Discord from 'discord.js'
+import { GuildMember, Message } from 'discordoo'
 
 export default class MentionsParser {
   public static readonly isUtils = true
 
   static user(
-    msg: DeleterCommandMessage,
+    msg: Message,
     content: string | string[],
     options: UserMentionParsingOptions = { parseIdOnly: false, replaceSpaces: true, returnId: false, useRegex: false }
-  ): Discord.GuildMember | string | null {
+  ): GuildMember | string | null {
 
     if (Array.isArray(content)) content = content.join(' ')
 

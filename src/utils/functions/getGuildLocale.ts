@@ -1,6 +1,6 @@
 import DeleterGuild from '@src/structures/djs/DeleterGuild'
-import { Guild } from 'discord.js'
+import { DiscordLocale, Guild } from 'discordoo'
 
 export function getGuildLocale(guild: DeleterGuild | Guild) {
-  return guild.preferredLocale === 'ru-RU' ? 'ru' : 'en'
+  return guild.preferredLocale === DiscordLocale.Russian ? 'ru' : 'en'
 }

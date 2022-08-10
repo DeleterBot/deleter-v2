@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
-import Discord from 'discord.js'
-import { FastifyPluginCallback, FastifyRegisterOptions, FastifyServerOptions } from 'fastify'
+import Discord from 'discordoo'
+import { FastifyHttp2Options, FastifyPluginCallback, FastifyRegisterOptions } from 'fastify'
 import { ValidationPipe } from '@nestjs/common'
 import DatabaseOperator from '@src/services/store/DatabaseOperator'
 import Constants from '@api/utils/Constants'
@@ -30,7 +30,6 @@ export default class DeleterApiWorker {
   }
 
   public async start(
-    options?: FastifyServerOptions,
     ...plugins: Array<[ FastifyPluginCallback<Record<never, never>, Server>, FastifyRegisterOptions<any> ]>
   ) {
 
@@ -51,7 +50,7 @@ export default class DeleterApiWorker {
 
     this.api = await NestFactory.create<NestFastifyApplication>(
       AppModule,
-      new FastifyAdapter(options),
+      new FastifyAdapter(),
       {
         logger: [ 'error' ]
       }

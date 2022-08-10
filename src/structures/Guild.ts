@@ -1,13 +1,12 @@
 import Base from '@src/abstractions/Base'
 import GuildLanguage from '@src/types/guild/GuildLanguage'
 import DeleterGuild from '@src/structures/djs/DeleterGuild'
-import { HexColorString } from 'discord.js'
 import { getGuildLocale } from '@src/utils/functions/getGuildLocale'
 
 export default class Guild extends Base {
   public readonly prefix: string
   public readonly lang: GuildLanguage
-  public readonly color: HexColorString
+  public readonly color: string
 
   constructor(guild: DeleterGuild, data: Record<string, any> = {}) {
     super()

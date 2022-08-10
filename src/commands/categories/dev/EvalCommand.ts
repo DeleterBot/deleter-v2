@@ -1,5 +1,5 @@
 import BaseCommand from '@src/abstractions/BaseCommand'
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 import Axios from 'axios'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
@@ -58,17 +58,17 @@ export default class EvalCommand extends BaseCommand {
           })
 
       } else if (everywhere) {
-        evaled = this.deleter.shard?.broadcastEval(() => eval(toEval))
+        evaled = this.deleter.sharding.eval(() => eval(toEval))
 
       } else if (shard) {
 
         if (shard !== 'any')
           evaled =
-            this.deleter.shard?.broadcastEval(client => {
-              if (client.shard?.ids?.includes(shard)) eval(toEval)
+            this.deleter.sharding.eval(ctx => {
+              if (ctx.client.sharding.shards.includes(shard)) eval(toEval)
             })
         else
-          evaled = this.deleter.shard?.broadcastEval(() => eval(toEval))
+          evaled = this.deleter.sharding.eval(() => eval(toEval))
 
       } else evaled = eval(toEval)
 

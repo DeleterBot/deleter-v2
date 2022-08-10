@@ -13,7 +13,7 @@ import Constants from '@api/utils/Constants'
 import AuthGuard from '@api/guards/auth.guard'
 import AuthorizedRequest from '@api/types/AuthorizedRequest'
 import Axios, { AxiosError, AxiosResponse } from 'axios'
-import { BitField } from 'discord.js'
+import { BitField, ReadonlyPermissions } from 'discordoo'
 import makePartialGuild from '@api/utils/makePartialGuild'
 import getShardID from '@api/utils/getShardID'
 import GuildPerms from '@api/utils/GuildPerms'
@@ -51,7 +51,7 @@ export default class GuildsController extends AbstractController {
 
     for await (const guild of response.data) {
 
-      const perms = new BitField(guild.permissions || 0)
+      const perms = new ReadonlyPermissions(guild.permissions || 0)
 
       if (perms.has(8) || guild.owner) {
         const shardID = getShardID(guild.id, this.manager.shards.size)

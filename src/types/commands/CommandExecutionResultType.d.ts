@@ -1,11 +1,11 @@
-import Discord from 'discord.js'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
+import { EmojiResolvable, MessageCreateOptions } from 'discordoo'
 
 interface CommandExecutionResultType {
-  result: DeleterEmbed | string | Discord.EmojiResolvable | Discord.EmojiResolvable[] | undefined | null
+  result: DeleterEmbed | string | undefined | null
   reply?: boolean
-  react?: boolean
-  options?: Discord.MessageOptions
+  react?: EmojiResolvable | EmojiResolvable[]
+  options?: MessageCreateOptions
   success?: boolean
 }
 

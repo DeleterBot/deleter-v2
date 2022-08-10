@@ -1,11 +1,13 @@
-import Discord from 'discord.js'
+import Discord, { EventNames } from 'discordoo'
 import BaseEvent from '@src/abstractions/BaseEvent'
 import CommandsExecutor from '@src/services/CommandsExecutor'
 
+/*
 export default class MessageUpdateEvent extends BaseEvent {
+
   constructor() {
     super('@deleter.events.messages.MessageUpdateEvent', {
-      name: 'messageUpdate'
+      name: 'messa',
     })
   }
 
@@ -20,3 +22,6 @@ export default class MessageUpdateEvent extends BaseEvent {
     return commandsExecutor.processCommand()
   }
 }
+
+
+*/

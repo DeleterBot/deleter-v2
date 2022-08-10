@@ -1,5 +1,5 @@
 import Base from '@src/abstractions/Base'
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 
 const parsingRegExps: Record<string, RegExp> = {
   keys: /\$key\[[\w.'"`]+]/g,

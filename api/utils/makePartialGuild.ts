@@ -1,4 +1,4 @@
-import { Constants } from 'discord.js'
+import { makeImageUrl } from 'discordoo'
 
 export default function makePartialGuild(guild: any, added = false) {
   if (guild.name === null || guild.name === undefined) return {
@@ -12,8 +12,7 @@ export default function makePartialGuild(guild: any, added = false) {
     id: guild.id,
     name: guild.name,
     icon: guild.icon
-      ? Constants.Endpoints.CDN('https://cdn.discordapp.com/')
-        .Icon(guild.id, guild.icon, 'png', 64, false)
+      ? 'https://cdn.discordapp.com/' + makeImageUrl(guild.icon, 'png', { size: 128 })
       : null,
     added: added
   }

@@ -1,13 +1,13 @@
 import AbstractCommandDto from '@src/abstractions/AbstractCommandDto'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import { validate, ValidationError, ValidatorOptions } from 'class-validator'
+import { Message } from 'discordoo'
 
 export default class CommandDtoProcessor {
   public static readonly isUtils = true
 
   public static async validate(
-    msg: DeleterCommandMessage,
+    msg: Message,
     context: CommandExecutionContext,
     Dto: typeof AbstractCommandDto,
     options?: ValidatorOptions

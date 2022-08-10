@@ -1,22 +1,24 @@
 import Base from '@src/abstractions/Base'
 import CommandExecutionResultType from '@src/types/commands/CommandExecutionResultType'
-import Discord from 'discord.js'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
+import { EmojiResolvable, MessageCreateOptions } from 'discordoo'
 
 export default class CommandExecutionResult extends Base implements CommandExecutionResultType {
-  public result: DeleterEmbed | string |
-    Discord.EmojiResolvable | Discord.EmojiResolvable[] | undefined | null
-  public options: Discord.MessageOptions | undefined
-  public react: boolean | undefined
+  public result: DeleterEmbed | string | undefined | null
+  public options: MessageCreateOptions | undefined
+  public react?: EmojiResolvable | EmojiResolvable[]
   public reply: boolean | undefined
   public success: boolean
 
   constructor(
-    result: DeleterEmbed | string | Discord.EmojiResolvable | Discord.EmojiResolvable[] | undefined | null
+    result: DeleterEmbed | string | EmojiResolvable | EmojiResolvable[] | undefined | null
   ) {
     super()
 
-    this.result = result
+    if (result instanceof DeleterEmbed || [ 'string', 'undefined', 'null' ].includes(typeof result))
+      this.result = result as DeleterEmbed | string | undefined | null
+    else this.react = result as EmojiResolvable | EmojiResolvable[]
+
     this.success = true
 
     return this
@@ -27,8 +29,7 @@ export default class CommandExecutionResult extends Base implements CommandExecu
     return this
   }
 
-  public setReact(condition = true) {
-    this.react = condition
+  public setReact(condition = true) { // TODO: deprecated
     return this
   }
 
@@ -42,12 +43,12 @@ export default class CommandExecutionResult extends Base implements CommandExecu
     return this
   }
 
-  public setOptions(options: Discord.MessageOptions) {
+  public setOptions(options: MessageCreateOptions) {
     this.options = options
     return this
   }
 
-  public amendOptions(options: Discord.MessageOptions) {
+  public amendOptions(options: MessageCreateOptions) {
 
     if (this.options) Object.assign(this.options, options)
     else this.options = options

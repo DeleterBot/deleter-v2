@@ -1,4 +1,4 @@
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 
 export default interface GuildIgnore {
   roles: Array<Discord.Snowflake>

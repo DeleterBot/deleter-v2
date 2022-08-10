@@ -1,5 +1,5 @@
 import BaseCommand from '@src/abstractions/BaseCommand'
-import Discord from 'discord.js'
+import Discord, { version } from 'discordoo'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
@@ -20,7 +20,7 @@ export default class BotInformationCommand extends BaseCommand {
 
       root = `${context.guild.lang.interface}.deleter.commands.categories.info.command.info`,
       dev: Discord.User | Record<any, any>
-        = await this.deleter.users.fetch(this.deleter.owner!).catch(() => { return {} }),
+        = await this.deleter.users.fetch(this.deleter.owner!).then(u => u ? u : {}).catch(() => { return {} }),
 
       { site, docs, supportServer } = Constants
 
@@ -42,7 +42,7 @@ export default class BotInformationCommand extends BaseCommand {
         `$phrase[${root}.versions.value]`,
         {
           nodejs: process.version.replace('v', ''),
-          lib: Discord.version,
+          lib: version,
           deleter: pckg.version,
           username: this.deleter.user.username.toLowerCase(),
           ts: pckg.devDependencies.typescript.replace('^', ''),
@@ -71,10 +71,10 @@ export default class BotInformationCommand extends BaseCommand {
     const embed = new DeleterEmbed()
       .setColor(context.guild.color)
       .setDescription(description)
-      .setThumbnail(this.deleter.user!.displayAvatarURL({ size: 256, format: 'png' }))
-      .addField(linksTitle, linksValue, true)
-      .addField(versionsTitle, versionsValue, true)
-      .setFooter(footerValue, dev.displayAvatarURL?.({ dynamic: true }))
+      .setThumbnail(this.deleter.user.displayAvatarUrl({ size: 256, format: 'png' }))
+      .addField({ name: linksTitle, value: linksValue, inline: true })
+      .addField({ name: versionsTitle, value: versionsValue, inline: true })
+      .setFooter(footerValue, dev.displayAvatarUrl?.({ dynamic: true }))
 
     return new CommandExecutionResult(embed)
 

@@ -1,5 +1,5 @@
 import BaseService from '@src/abstractions/BaseService'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import { Message } from 'discordoo'
 import Guild from '@src/structures/Guild'
 import BaseCommand from '@src/abstractions/BaseCommand'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
@@ -9,12 +9,12 @@ import CommandsReplier from '@src/services/handlers/commands/CommandsReplier'
 
 // dto processing and handling
 export default class CommandsHandlerLevel4 extends BaseService {
-  private readonly msg: DeleterCommandMessage
+  private readonly msg: Message
   private readonly guild: Guild
   private readonly command: BaseCommand
   private readonly context: CommandExecutionContext
 
-  constructor(msg: DeleterCommandMessage, guild: Guild, command: BaseCommand, context: CommandExecutionContext) {
+  constructor(msg: Message, guild: Guild, command: BaseCommand, context: CommandExecutionContext) {
     super()
 
     this.msg = msg
@@ -25,7 +25,7 @@ export default class CommandsHandlerLevel4 extends BaseService {
 
   public async handle() {
 
-    if (this.command.dto) {
+    /*if (this.command.dto) {
       const { errors, dto } = await CommandDtoProcessor.validate(this.msg, this.context, this.command.dto)
 
       if (errors.length) {
@@ -33,7 +33,7 @@ export default class CommandsHandlerLevel4 extends BaseService {
       }
 
       this.context.dto = dto
-    }
+    }*/
 
     const handler = new CommandsHandlerLevel5(this.msg, this.guild, this.command, this.context)
     return handler.handle()

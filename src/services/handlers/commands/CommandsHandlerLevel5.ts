@@ -1,20 +1,19 @@
 import BaseService from '@src/abstractions/BaseService'
-import Discord from 'discord.js'
+import { Message } from 'discordoo'
 import Guild from '@src/structures/Guild'
 import BaseCommand from '@src/abstractions/BaseCommand'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import CommandsReplier from '@src/services/handlers/commands/CommandsReplier'
-import CommandExecutionResult  from '@src/types/commands/CommandExecutionResultType'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
+import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 
 // command reply operator: catching command errors, sending command execution result to Discord
 export default class CommandsHandlerLevel5 extends BaseService {
-  private readonly msg: DeleterCommandMessage
+  private readonly msg: Message
   private readonly guild: Guild
   private command: BaseCommand
   private readonly context: CommandExecutionContext
 
-  constructor(msg: DeleterCommandMessage, guild: Guild, command: BaseCommand, context: CommandExecutionContext) {
+  constructor(msg: Message, guild: Guild, command: BaseCommand, context: CommandExecutionContext) {
     super()
 
     this.msg = msg
@@ -44,11 +43,11 @@ export default class CommandsHandlerLevel5 extends BaseService {
         return CommandsReplier.processReply(this.msg, executionResult.result, executionResult.options)
 
       if (executionResult.react) {
-        if (Array.isArray(executionResult.result)) {
-          return executionResult.result.forEach(emoji => {
-            this.msg.react(emoji)
+        if (Array.isArray(executionResult.react)) {
+          return executionResult.react.forEach(emoji => {
+            this.msg.reactions.add(emoji)
           })
-        } else return this.msg.react(executionResult.result as Discord.EmojiResolvable)
+        } else return this.msg.reactions.add(executionResult.react)
       }
 
       return CommandsReplier.process(this.msg, executionResult.result, executionResult.options)

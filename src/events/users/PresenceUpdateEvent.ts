@@ -1,5 +1,5 @@
 import BaseEvent from '@src/abstractions/BaseEvent'
-import Discord from 'discord.js'
+import { PresenceUpdateEventContext } from 'discordoo'
 import Constants from '@src/utils/other/Constants'
 import DeleterRawUser from '@src/structures/DeleterRawUser'
 
@@ -10,7 +10,8 @@ export default class PresenceUpdateEvent extends BaseEvent {
     })
   }
 
-  async execute(lastPresence: Discord.Presence, recentPresence: Discord.Presence) {
+  async execute(ctx: PresenceUpdateEventContext) {
+    const recentPresence = ctx.updated, lastPresence = ctx.stored
 
     const user = await this.deleter.db.get<DeleterRawUser>(Constants.usersTable, recentPresence.userId, {
       transform: DeleterRawUser

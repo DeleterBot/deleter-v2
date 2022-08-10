@@ -1,9 +1,9 @@
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import AbstractSubCommand from '@src/abstractions/AbstractSubCommand'
 import SubCommandConfig from '@src/types/commands/SubCommandConfig'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import { Message } from 'discordoo'
 
 export default abstract class BaseSubCommand extends AbstractSubCommand {
   public readonly path: string
@@ -14,6 +14,6 @@ export default abstract class BaseSubCommand extends AbstractSubCommand {
     this.path = path
   }
 
-  abstract execute(msg: Discord.Message | DeleterCommandMessage, context: CommandExecutionContext):
+  abstract execute(msg: Discord.Message | Message, context: CommandExecutionContext):
     CommandExecutionResult | Promise<CommandExecutionResult>
 }

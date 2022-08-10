@@ -1,6 +1,5 @@
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import { Message, version } from 'discordoo'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
-import Discord from 'discord.js'
 import BaseCommand from '@src/abstractions/BaseCommand'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
@@ -17,23 +16,21 @@ export default class StatsCommand extends BaseCommand {
   }
 
   async execute(
-    msg: DeleterCommandMessage,
+    msg: Message,
     context: CommandExecutionContext<StatsCommandDto>
   ): Promise<CommandExecutionResult> {
-
-    this.logger.info(undefined, context.dto.a1)
 
     const parser = new StringPropertiesParser(),
       root = `${context.guild.lang.interface}.deleter.commands.categories.info.command.stats`,
       pckg: Record<string, any> = require('@root/package.json'),
       unknown = parser.parse(`$keyword[${context.guild.lang.interface}.deleter.global.unknown]`)
 
-    const data: any = await this.deleter.shard?.broadcastEval(client => {
+    const data: any = await this.deleter.sharding.eval(async ({ client }) => {
       return [
         ~~(process.memoryUsage().heapUsed / 1024 ** 2),
         ~~(process.memoryUsage().rss / 1024 ** 2),
-        client.guilds.cache.size,
-        client.users.cache.size
+        await client.guilds.cache.size(),
+        await client.users.cache.size()
       ]
     }).catch(() => null)
 
@@ -58,7 +55,7 @@ export default class StatsCommand extends BaseCommand {
       `$phrase[${root}.description.part1]`,
       {
         version: pckg.version,
-        lib: `discord.js ${Discord.version}`,
+        lib: `discordoo ${version}`,
         memUsageTotalHeap: memUsageTotal[0],
         memUsageTotalRss: memUsageTotal[1],
         memUsageShardHeap: memUsageShard[0],
@@ -66,14 +63,14 @@ export default class StatsCommand extends BaseCommand {
         uptime: uptime,
         guildsCount: guildsCount,
         usersCount: usersCount,
-        ping: this.deleter.ws.ping,
+        ping: this.deleter.gateway.ping,
         commandsExecuted: unknown,
-        shard: msg.guild.shardId + 1,
-        totalShards: this.deleter.shard?.count ?? 0
+        shard: this.deleter.sharding.instance + 1,
+        totalShards: this.deleter.sharding.totalShards
       }
     )
 
-    if ((this.deleter.shard?.count ?? 0) > 1) description += '\n\n' + parser.parse(
+    if ((this.deleter.sharding.totalShards ?? 0) > 1) description += '\n\n' + parser.parse(
       `$phrase[${root}.description.part2]`,
       {
         memUsageShardHeap: memUsageShard[0],
@@ -87,10 +84,10 @@ export default class StatsCommand extends BaseCommand {
         uptime: uptime,
         guildsCount: guildsCount,
         usersCount: usersCount,
-        ping: this.deleter.ws.ping,
+        ping: this.deleter.gateway.ping,
         commandsExecuted: unknown,
-        shard: msg.guild.shardId + 1,
-        totalShards: this.deleter.shard?.count ?? 0
+        shard: this.deleter.sharding.instance + 1,
+        totalShards: this.deleter.sharding.totalShards
       }
     )
 
@@ -104,7 +101,7 @@ export default class StatsCommand extends BaseCommand {
     const embed = new DeleterEmbed()
       .setColor(context.guild.color)
       .setDescription(description)
-      .setThumbnail(this.deleter.user.displayAvatarURL({ size: 256, format: 'png' }))
+      .setThumbnail(this.deleter.user.displayAvatarUrl({ size: 256, format: 'png' }))
       .setFooter(footer)
 
     return new CommandExecutionResult(embed)

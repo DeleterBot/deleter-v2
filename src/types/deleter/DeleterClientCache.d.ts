@@ -1,4 +1,4 @@
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 import BaseEvent from '@src/abstractions/BaseEvent'
 import DeleterPropertiesCache from '@src/types/deleter/DeleterPropertiesCache'
 

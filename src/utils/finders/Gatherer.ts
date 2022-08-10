@@ -1,4 +1,4 @@
-import Discord from 'discord.js'
+import { Collection } from 'discordoo'
 import fs from 'fs'
 import { parse } from 'dot-properties'
 import BaseEvent from '../../abstractions/BaseEvent'
@@ -15,7 +15,7 @@ class Gatherer {
   }
 
   static loadFiles(fn: any, savingType?: string, isProperties?: boolean) {
-    const result: any = savingType === 'collection' ? new Discord.Collection() : []
+    const result: any = savingType === 'collection' ? new Collection() : []
     loadFiles()
 
     function loadFiles(dir = resolve(isProperties ? './src' : './dist/src') + '/') {
@@ -61,7 +61,7 @@ class Gatherer {
 
   }
 
-  static loadCommands(): Discord.Collection<string, BaseCommand> {
+  static loadCommands(): Collection<string, BaseCommand> {
     return this.loadFiles((file: string, dir: string) => {
 
       const commandPath = `${dir}${file}`
@@ -87,7 +87,7 @@ class Gatherer {
     }, 'collection')
   }
 
-  static loadSubCommands(): Discord.Collection<string, any> {
+  static loadSubCommands(): Collection<string, any> {
     return this.loadFiles((file: string, dir: string) => {
 
       const subCommandPath = `${dir}${file}`
@@ -114,7 +114,7 @@ class Gatherer {
     }, 'collection')
   }
 
-  static loadProps(mode: 'keywords' | 'phrases'): Discord.Collection<string, any> {
+  static loadProps(mode: 'keywords' | 'phrases'): Collection<string, any> {
     return this.loadFiles((file: string, dir: string) => {
 
       const propertyPath = `${dir}${file}`

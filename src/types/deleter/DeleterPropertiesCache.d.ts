@@ -1,4 +1,4 @@
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 
 export default interface DeleterPropertiesCache {
   keywords: Discord.Collection<string, string>

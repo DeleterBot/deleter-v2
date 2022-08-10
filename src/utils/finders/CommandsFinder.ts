@@ -1,4 +1,4 @@
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 import BaseCommand from '@src/abstractions/BaseCommand'
 
 const req = require

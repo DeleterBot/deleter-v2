@@ -1,6 +1,6 @@
 import BaseCommand from '@src/abstractions/BaseCommand'
 import UserInfoCommandConfig from '@src/commands/categories/info/resources/configs/UserInfoCommandConfig'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import { Message } from 'discordoo'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import DeleterRawUser from '@src/structures/DeleterRawUser'
@@ -18,13 +18,14 @@ export default class UserInfoCommand extends BaseCommand {
     super('@deleter.commands.categories.info.UserInfoCommand', new UserInfoCommandConfig())
   }
 
-  async execute(msg: DeleterCommandMessage, context: CommandExecutionContext): Promise<CommandExecutionResult> {
+  async execute(msg: Message, context: CommandExecutionContext): Promise<CommandExecutionResult> {
 
-    const user = await this.deleter.db.get<DeleterRawUser>(Constants.usersTable, msg.author.id, {
+    const user = await this.deleter.db.get<DeleterRawUser>(Constants.usersTable, msg.authorId, {
       transform: DeleterRawUser
     })
+    const author = await msg.author()
 
-    if (!user.id) return new CommandExecutionResult('you don\'t exist...')
+    if (!user.id || !author) return new CommandExecutionResult('you don\'t exist...')
 
     const parser = new StringPropertiesParser(),
       root = `${context.guild.lang.interface}.deleter.commands.categories.info.command.user`
@@ -40,7 +41,7 @@ export default class UserInfoCommand extends BaseCommand {
       title += parser.parse(`$phrase[${root}.title]`, {
         start: Moment(user.presencesStartedTimestamp)
           .format(Constants.getMomentFormat('calendar', context.guild.lang.interface)),
-        nick: msg.author.username,
+        nick: author.username,
         gendered_was: parser.parse(`$keyword[${context.guild.lang.interface}.deleter.global.${user.gender}.was]`)
       })
 

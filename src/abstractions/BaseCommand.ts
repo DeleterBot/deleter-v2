@@ -1,9 +1,9 @@
 import AbstractCommand from './AbstractCommand'
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import BaseCommandConfig from '@src/types/commands/BaseCommandConfig'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import { Message } from 'discordoo'
 
 export default abstract class BaseCommand extends AbstractCommand {
   public readonly path: string
@@ -20,6 +20,6 @@ export default abstract class BaseCommand extends AbstractCommand {
     this.overrideSubCommands = config?.overrideSubCommands
   }
 
-  abstract execute(msg: Discord.Message | DeleterCommandMessage, context: CommandExecutionContext):
+  abstract execute(msg: Discord.Message | Message, context: CommandExecutionContext):
     CommandExecutionResult | Promise<CommandExecutionResult>
 }

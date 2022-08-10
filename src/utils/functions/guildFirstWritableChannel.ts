@@ -1,22 +1,26 @@
-import Discord from 'discord.js'
+import { AnyGuildChannel, AnyGuildWritableChannel, Guild, PermissionFlags } from 'discordoo'
 
-export default function guildFirstWritableChannel(
-  guild: Discord.Guild, useSystemChannel = true
-): Discord.TextChannel | undefined {
+export default async function guildFirstWritableChannel(
+  guild: Guild, useSystemChannel = true
+): Promise<AnyGuildWritableChannel | undefined> {
 
-  let channel: Discord.TextChannel
+  let channel: AnyGuildWritableChannel | undefined
 
-  if (guild.available) {
+  if (!guild.unavailable) {
 
-    guild.channels.cache.forEach((c: any) => {
-      if (c.permissionsFor(guild.me!)?.has('SEND_MESSAGES')) {
-        if (useSystemChannel && guild.systemChannelId === c.id) channel = c
-        else if (!channel) channel = c
+    if (useSystemChannel) {
+      channel = await guild.systemChannel()
+    }
+
+    await guild.client.channels.cache.forEach(async (c: AnyGuildChannel) => {
+      const perms = await c.memberPermissions(guild.client.user.id)
+      if (perms && perms.has(PermissionFlags.SEND_MESSAGES)) {
+        channel = c as AnyGuildWritableChannel
       }
-    })
+    }, { storage: guild.id })
 
   }
 
-  return channel!
+  return channel
 
 }

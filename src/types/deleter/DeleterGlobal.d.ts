@@ -1,6 +1,7 @@
 import DeleterClient from '@src/structures/DeleterClient'
-import Discord from 'discord.js'
+import Discord, { MessageData, MessageResolvable, RawMessageData } from 'discordoo'
 import DeleterApiWorker from '@api/structures/DeleterApiWorker'
+import { EntityInitOptions } from 'discordoo/types/src/api/entities/EntityInitOptions'
 
 declare global {
   namespace NodeJS {
@@ -33,6 +34,19 @@ declare global {
       API_PORT: number
       API_HOST: string
     }
+  }
+}
+
+declare module 'discordoo' {
+  class Message {
+    public repliedToId?: string
+
+    init(
+      data: (MessageData | RawMessageData) & { repliedToId?: string },
+      options?: EntityInitOptions
+    ): Promise<this>
+
+    setRepliedTo(msg: MessageResolvable): this
   }
 }
 

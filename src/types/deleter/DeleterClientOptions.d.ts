@@ -1,7 +1,7 @@
-import Discord, { HexColorString } from 'discord.js'
+import { ClientOptions } from 'discordoo'
 
-export default interface DeleterClientOptions extends Discord.ClientOptions {
+export default interface DeleterClientOptions extends ClientOptions {
   owner: string
   prefix: string
-  color: HexColorString
+  color: string
 }

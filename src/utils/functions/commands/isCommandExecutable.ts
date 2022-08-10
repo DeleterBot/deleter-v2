@@ -1,14 +1,18 @@
 import DeleterClient from '@src/structures/DeleterClient'
 import BaseCommand from '@src/abstractions/BaseCommand'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import Guild from '@src/structures/Guild'
+import {
+  AnyGuildWritableChannel,
+  DirectMessagesChannel,
+  Message,
+} from 'discordoo'
 
-export default function isCommandExecutable(
+export default async function isCommandExecutable(
   deleter: DeleterClient,
   command: BaseCommand,
   guild: Guild,
-  msg: DeleterCommandMessage
-): ({ executable: boolean, why?: any, missing?: string[] }) {
+  msg: Message
+): Promise<({ executable: boolean, why?: any, missing?: string[] })> {
 
   if (command.disabled) return {
     executable: false
@@ -16,7 +20,7 @@ export default function isCommandExecutable(
 
   if (command.customPermissions) {
     if (command.customPermissions.includes('OWNER')) {
-      if (!deleter.owner?.includes(msg.author.id)) return {
+      if (!deleter.owner?.includes(msg.authorId)) return {
         executable: false,
         why: `$phrase[${guild.lang.interface}.deleter.global.errors.missingPermissions]`,
         missing: [ 'OWNER' ]
@@ -24,8 +28,29 @@ export default function isCommandExecutable(
     }
   }
 
+  return {
+    executable: true
+  }
+
+  // TODO
+  /*const channel: Exclude<AnyGuildWritableChannel, DirectMessagesChannel> | undefined = await msg.channel() as any
+  if (!channel) return {
+    executable: false,
+    why: `$phrase[${guild.lang.interface}.deleter.global.errors.missingCache]`,
+  }
+
+
   if (command.memberPermissions) {
-    const isPermitted = msg.channel.permissionsFor(msg.author)?.has(command.memberPermissions)
+    const perms = await channel.memberPermissions(msg.authorId)
+
+    if (!perms) {
+      return {
+        executable: false,
+        why: `$phrase[${guild.lang.interface}.deleter.global.errors.missingCache]`,
+      }
+    }
+
+    const isPermitted = perms.has(command.memberPermissions)
     if (!isPermitted) return {
       executable: false,
       why: `$phrase[${guild.lang.interface}.deleter.global.errors.missingPermissions]`,
@@ -33,15 +58,25 @@ export default function isCommandExecutable(
   }
 
   if (command.clientPermissions) {
-    const isPermitted = msg.channel.permissionsFor(msg.guild.me!)?.has(command.clientPermissions)
+    const perms = await channel.memberPermissions(msg.client.user.id)
+
+    if (!perms) {
+      return {
+        executable: false,
+        why: `$phrase[${guild.lang.interface}.deleter.global.errors.missingCache]`,
+      }
+    }
+
+    console.log('client perms', perms, command.clientPermissions, perms.has(command.clientPermissions))
+
+    const isPermitted = perms.has(command.clientPermissions)
     if (!isPermitted) return {
       executable: false,
-      why: `$phrase[${guild.lang.interface}.deleter.global.errors.missingClientPermissions]`,
+      why: `$phrase[${guild.lang.interface}.deleter.global.errors.clientMissingPermissions]`,
     }
   }
 
   return {
     executable: true
-  }
-
+  }*/
 }

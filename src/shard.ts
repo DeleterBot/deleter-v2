@@ -6,7 +6,7 @@ import 'module-alias/register.js'
 import DeleterClient from '@src/structures/DeleterClient'
 import DeleterClientOptions from '@src/types/deleter/DeleterClientOptions'
 // import DeleterGuild from '@src/structures/djs/DeleterGuild'
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 import Logger from '@src/utils/other/Logger'
 
 // Discord.Structures.extend('Guild', () => DeleterGuild)
@@ -18,6 +18,7 @@ let options: DeleterClientOptions
 
 try {
   options = require('@src/options').default
+  if (!options) throw new Error('options is not defined')
 } catch (e) {
   new Logger().warn('shard.ts', 'cannot found client options. this may cause errors.')
 }

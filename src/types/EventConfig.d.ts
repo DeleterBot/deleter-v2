@@ -1,3 +1,5 @@
+import { ClientEventsHandlers } from 'discordoo'
+
 export default interface EventConfig {
-  name: string
+  name: keyof ClientEventsHandlers
 }

@@ -1,5 +1,6 @@
-import Discord from 'discord.js'
+import { Guild } from 'discordoo'
 
-export default class DeleterGuild extends Discord.Guild {
+
+export default class DeleterGuild extends Guild {
   public static readonly isExtendedClass = true
 }

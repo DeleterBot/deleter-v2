@@ -1,6 +1,6 @@
 {
   "name": "deleter-v2",
-  "version": "0.5.3",
+  "version": "0.7.0",
   "main": "./dist/index.js",
   "type": "commonjs",
   "scripts": {
@@ -22,17 +22,14 @@
     "@nestjs/throttler": "^1.1.2",
     "@qiwi/bill-payments-node-js-sdk": "^3.2.1",
     "axios": "^0.21.0",
-    "bufferutil": "^4.0.3",
     "cassandra-driver": "^4.6.1",
     "class-transformer": "^0.3.2",
     "class-validator": "^0.13.1",
     "colors": "^1.4.0",
     "command-line-args": "^5.1.1",
-    "discord.js": "^13.1.0",
-    "discordoo": "^0.7.3-b",
+    "discordoo": "^0.11.3",
     "dot-properties": "^1.0.1",
     "dotenv": "^8.2.0",
-    "erlpack": "github:discord/erlpack",
     "fastify": "^3.11.0",
     "fastify-cors": "^5.2.0",
     "module-alias": "^2.2.2",
@@ -40,9 +37,7 @@
     "moment-timezone": "^0.5.32",
     "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.6.3",
-    "utf-8-validate": "^5.0.4",
-    "zlib-sync": "^0.1.7"
+    "rxjs": "^6.6.3"
   },
   "devDependencies": {
     "@types/command-line-args": "^5.0.0",

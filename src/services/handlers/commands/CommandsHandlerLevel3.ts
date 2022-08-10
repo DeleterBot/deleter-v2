@@ -1,7 +1,7 @@
 import BaseService from '@src/abstractions/BaseService'
 import Guild from '@src/structures/Guild'
 import BaseCommand from '@src/abstractions/BaseCommand'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import { Message } from 'discordoo'
 import CommandsHandlerLevel4 from '@src/services/handlers/commands/CommandsHandlerLevel4'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import commandLineArgs from 'command-line-args'
@@ -14,12 +14,12 @@ import CommandsHandlerLevel2 from '@src/services/handlers/commands/CommandsHandl
  if subCommand detected - execution starting from CommandsHandlerLevel2
  */
 export default class CommandsHandlerLevel3 extends BaseService {
-  private readonly msg: DeleterCommandMessage
+  private readonly msg: Message
   private readonly guild: Guild
   public command: BaseCommand
   public context: CommandExecutionContext
 
-  constructor(msg: DeleterCommandMessage, guild: Guild, command: BaseCommand, context: CommandExecutionContext) {
+  constructor(msg: Message, guild: Guild, command: BaseCommand, context: CommandExecutionContext) {
     super()
 
     this.msg = msg

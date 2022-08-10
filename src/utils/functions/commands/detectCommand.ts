@@ -1,12 +1,12 @@
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
 import DeleterClient from '@src/structures/DeleterClient'
 import Guild from '@src/structures/Guild'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandsFinder from '@src/utils/finders/CommandsFinder'
+import { Message } from 'discordoo'
 
 export default function detectCommand(
   deleter: DeleterClient,
-  msg: DeleterCommandMessage,
+  msg: Message,
   guild: Guild,
   context: CommandExecutionContext = {} as CommandExecutionContext
 ) {

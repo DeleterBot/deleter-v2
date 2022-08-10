@@ -1,18 +1,17 @@
-import Discord from 'discord.js'
 import Guild from '@src/structures/Guild'
 import BaseService from '@src/abstractions/BaseService'
 import CommandsFinder from '@src/utils/finders/CommandsFinder'
 import CommandsHandlerLevel2 from '@src/services/handlers/commands/CommandsHandlerLevel2'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import { Message } from 'discordoo'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 
 // base processing: detecting command, creating execution context, resolving multi-lang commands
 export default class CommandsHandlerLevel1 extends BaseService {
-  private readonly msg: Discord.Message
+  private readonly msg: Message
   private readonly guild: Guild
   private readonly context: CommandExecutionContext
 
-  constructor(msg: Discord.Message, guild: Guild) {
+  constructor(msg: Message, guild: Guild) {
     super()
     this.msg = msg
     this.guild = guild
@@ -67,7 +66,7 @@ export default class CommandsHandlerLevel1 extends BaseService {
       this.context.flags = {}
 
       const commandsHandler = new CommandsHandlerLevel2(
-        this.msg as DeleterCommandMessage,
+        this.msg,
         this.guild,
         command,
         this.context

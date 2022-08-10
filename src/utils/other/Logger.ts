@@ -16,7 +16,7 @@ export default class Logger {
   }
 
   private get defaultDepartment() {
-    return global.deleter?.shard?.ids ? 'shard ' + global.deleter.shard.ids : 'manager'
+    return global.deleter?.sharding.shards ? 'shard ' + global.deleter.sharding.shards : 'manager'
   }
 
   private prependDepartment(department: string) {

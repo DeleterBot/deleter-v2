@@ -1,6 +1,7 @@
 import BaseEvent from '@src/abstractions/BaseEvent'
 // import GulagService from '@src/services/misc/GulagService'
-import DeleterGuild from '@src/structures/djs/DeleterGuild'
+
+import { GuildCreateEventContext } from 'discordoo/types/src/events/guild/ctx'
 
 export default class GuildCreateEvent extends BaseEvent {
   constructor() {
@@ -9,9 +10,9 @@ export default class GuildCreateEvent extends BaseEvent {
     })
   }
 
-  async execute(guild: DeleterGuild) {
+  async execute(ctx: GuildCreateEventContext) {
 
-    return guild
+    return ctx.guild
 
     /*const gulagService = new GulagService()
 

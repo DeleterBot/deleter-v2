@@ -1,6 +1,6 @@
 /**
-* @note this part of the project code was taken from the open source library "discord.js" and has been modified.
-* @see https://github.com/discordjs/discord.js
+* @note this part of the project code was taken from the open source library "discordoo" and has been modified.
+* @see https://github.com/discordjs/discordoo
 * */
 
 

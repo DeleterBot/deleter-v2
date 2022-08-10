@@ -1,5 +1,5 @@
 import BaseCommand from '@src/abstractions/BaseCommand'
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import SubCommandsFinder from '@src/utils/finders/SubCommandsFinder'
@@ -23,12 +23,12 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
     }
 
     if (context.flags.compile) {
-      await msg.react('10:637956323958587392')
+      await msg.reactions.add('10:637956323958587392')
       await environmentEval('npm run build')
-      await msg.reactions.cache.get('637956323958587392')?.users.remove(this.deleter.user.id)
+      await msg.reactions.remove('10:637956323958587392')
     }
 
-    if (context.flags.everywhere && this.deleter.shard) {
+    if (context.flags.everywhere && this.deleter.sharding.active) {
       delete context.flags.complile
       delete context.flags.pull
       delete context.flags.everywhere
@@ -57,7 +57,7 @@ export default class RefreshApplicationComponentsCommand extends BaseCommand {
       `
 
       const before = process.hrtime.bigint()
-      const result = await this.deleter.shard.broadcastEval(() => eval(script))
+      const result = await this.deleter.sharding.eval(script)
       const after = process.hrtime.bigint()
 
       const resultStr = 'Completed in '

@@ -1,5 +1,5 @@
 import CoolDownConfig from '@src/types/commands/CoolDownConfig'
-import Discord from 'discord.js'
+import Discord from 'discordoo'
 import DeleterCustomPermissions from '@src/types/deleter/DeleterCustomPermissions'
 import FlagsDetails from '@src/types/commands/FlagsDetails'
 import CommandTranslations from '@src/types/commands/CommandTranslations'

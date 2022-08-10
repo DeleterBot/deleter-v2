@@ -1,12 +1,12 @@
 import BaseCommand from '@src/abstractions/BaseCommand'
 import CommandExecutionResult from '@src/structures/CommandExecutionResult'
 import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
-import DeleterCommandMessage from '@src/types/deleter/DeleterCommandMessage'
+import { Message } from 'discordoo'
 import CommandExecutionContext from '@src/types/commands/CommandExecutionContext'
 import HelpCommandConfig from '@src/commands/categories/info/resources/configs/HelpCommandConfig'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
 import Constants from '@src/utils/other/Constants'
-import Discord, { Collection } from 'discord.js'
+import Discord, { Collection } from 'discordoo'
 import withACapital from '@src/utils/functions/withACapital'
 import CommandDetails from '@src/types/commands/CommandDetails'
 import SubCommandsFinder from '@src/utils/finders/SubCommandsFinder'
@@ -25,7 +25,7 @@ export default class HelpCommand extends BaseCommand {
     super('@deleter.commands.categories.info.HelpCommand', new HelpCommandConfig())
   }
 
-  async execute(msg: DeleterCommandMessage, context: CommandExecutionContext): Promise<CommandExecutionResult> {
+  async execute(msg: Message, context: CommandExecutionContext): Promise<CommandExecutionResult> {
 
     this.root = `${context.guild.lang.interface}.deleter.commands.categories.info.command.help`
     this.globalRoot = `${context.guild.lang.interface}.deleter.global`
@@ -37,10 +37,10 @@ export default class HelpCommand extends BaseCommand {
     this.nullish = this.parser.parse(`$phrase[${this.globalRoot}.nullish.description]`)
 
     const dev: Discord.User | Record<string, any>
-      = await this.deleter.users.fetch(this.deleter.owner!).catch(() => { return {} })
+      = await this.deleter.users.fetch(this.deleter.owner!).then(u => u ? u : {}).catch(() => { return {} })
 
     this.dev.tag = dev.tag ?? Constants.nobody
-    this.dev.avatar = dev.displayAvatarURL?.({ dynamic: true })
+    this.dev.avatar = dev.displayAvatarUrl?.({ dynamic: true })
 
     let embed: DeleterEmbed
 
@@ -50,7 +50,7 @@ export default class HelpCommand extends BaseCommand {
         c.translations[this.lang].category === context.args[0].toLowerCase()
       ))
 
-      if (commands.size) embed = this.category(context, commands)
+      if (commands.length) embed = this.category(context, commands)
 
       const commandsFinder = new CommandsFinder(this.deleter.cache.commands)
 
@@ -63,7 +63,7 @@ export default class HelpCommand extends BaseCommand {
 
     embed
       .setColor(context.guild.color)
-      .setThumbnail(this.deleter.user.displayAvatarURL({ size: 256, format: 'png' }))
+      .setThumbnail(this.deleter.user.displayAvatarUrl({ size: 256, format: 'png' }))
       .setFooter(
         this.parser.parse(`$phrase[${this.root}.footer.value]`, {
           dev: this.dev.tag
@@ -114,8 +114,8 @@ export default class HelpCommand extends BaseCommand {
 
   }
 
-  private category(context: CommandExecutionContext, commands: Collection<string, any>) {
-    const category = commands.first()!.translations[context.guild.lang.interface].category
+  private category(context: CommandExecutionContext, commands: Array<[ string, any ]>) {
+    const category = commands[0][1].translations[context.guild.lang.interface].category
 
     const embed = new DeleterEmbed()
       .setTitle(
@@ -132,7 +132,7 @@ export default class HelpCommand extends BaseCommand {
     let description = ''
 
     commands.forEach(c => {
-      const command = c.translations[context.guild.lang.commands]
+      const command = c[1].translations[context.guild.lang.commands]
 
       description += `\`${context.guild.prefix}${command.name}\``
 
@@ -142,7 +142,7 @@ export default class HelpCommand extends BaseCommand {
           .join(' **|** ') + '\n'
       else description += '\n'
 
-      description += c.translations[context.guild.lang.interface].description ||
+      description += c[1].translations[context.guild.lang.interface].description ||
         this.parser.parse(`$phrase[${this.globalRoot}.nullish.description]`)
 
       description += '\n\n'
@@ -161,8 +161,9 @@ export default class HelpCommand extends BaseCommand {
     let subCommands = ''
 
     subCommandsList.forEach(subCommand => {
-      const commandsLanguageSubCommand: CommandDetails = (subCommand.translations as any)[context.guild.lang.commands],
-        interfaceLanguageSubCommand: CommandDetails = (subCommand.translations as any)[context.guild.lang.interface]
+      const
+        commandsLanguageSubCommand: CommandDetails = (subCommand[1].translations as any)[context.guild.lang.commands],
+        interfaceLanguageSubCommand: CommandDetails = (subCommand[1].translations as any)[context.guild.lang.interface]
 
       subCommands += `\`${commandsLanguageSubCommand.name}\``
 

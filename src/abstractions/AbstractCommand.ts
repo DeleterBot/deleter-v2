@@ -1,6 +1,6 @@
 import CoolDownConfig from '@src/types/commands/CoolDownConfig'
 import CommandConfig from '@src/types/commands/CommandConfig'
-import Discord, { PermissionResolvable } from 'discord.js'
+import { BigBitFieldResolvable } from 'discordoo'
 import DeleterCustomPermissions from '@src/types/deleter/DeleterCustomPermissions'
 import FlagsDetails from '@src/types/commands/FlagsDetails'
 import CommandTranslations from '@src/types/commands/CommandTranslations'
@@ -15,8 +15,8 @@ export default abstract class AbstractCommand extends Base implements CommandCon
   public multiLang?: boolean
   public dto?: typeof AbstractCommandDto
 
-  public clientPermissions?: PermissionResolvable
-  public memberPermissions?: PermissionResolvable
+  public clientPermissions?: BigBitFieldResolvable
+  public memberPermissions?: BigBitFieldResolvable
   public customPermissions?: DeleterCustomPermissions
 
   public translations: CommandTranslations

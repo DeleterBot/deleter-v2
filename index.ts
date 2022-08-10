@@ -3,15 +3,21 @@ import 'module-alias/register.js'
 import DotEnv from 'dotenv'
 DotEnv.config()
 
-import Discord from 'discord.js'
+
 import api from '@api/api'
 import Logger from '@src/utils/other/Logger'
+import { ShardingManager, ShardingModes } from 'discordoo'
+import { resolve } from 'path'
+import process from 'process'
 
 const logger = new Logger()
 
 !async function _() {
-  const shardingManager = new Discord.ShardingManager('./dist/src/shard.js', {
-    totalShards: parseInt(process.env.TOTAL_SHARDS) || 'auto'
+  const shardingManager = new ShardingManager({
+    mode: ShardingModes.PROCESSES,
+    shards: 1,
+    file: resolve(process.cwd(), 'dist', 'src', 'shard.js'),
+    shardsPerInstance: 1
   })
 
   if (process.env.API_ENABLED === 'true') {
@@ -26,11 +32,11 @@ const logger = new Logger()
     logger.clear = false
   }
 
-  return shardingManager.spawn()
-    .then(async shards => {
+  return shardingManager.start()
+    .then(async manager => {
       logger.success(
         undefined,
-        'all shards done,', shards.size, shards.size > 1 ? 'shards' : 'shard', 'running'
+        'all shards done,', manager.shards.size, manager.shards.size > 1 ? 'shards' : 'shard', 'running'
       )
     })
     .catch(e => logger.error(

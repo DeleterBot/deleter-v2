@@ -1,5 +1,4 @@
 import BaseService from '@src/abstractions/BaseService'
-import Discord from 'discord.js'
 import Constants from '@src/utils/other/Constants'
 import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
 import DeleterGuild from '@src/structures/djs/DeleterGuild'
@@ -9,13 +8,13 @@ import { getGuildLocale } from '@src/utils/functions/getGuildLocale'
 
 export default class GulagService extends BaseService {
 
-  isGulaged(id: Discord.Snowflake) {
+  isGulaged(id: string) {
 
     return this.deleter.db.get(Constants.gulagsTable, id)
 
   }
 
-  async goGulag(id: Discord.Snowflake, reason: string) {
+  async goGulag(id: string, reason: string) {
 
     if (!reason.endsWith('.') && !reason.endsWith('>')) reason += '.'
 
@@ -23,7 +22,7 @@ export default class GulagService extends BaseService {
 
   }
 
-  sendGulagedMessage(guild: DeleterGuild, gulag: any) {
+  async sendGulagedMessage(guild: DeleterGuild, gulag: any) {
 
     const parser = new StringPropertiesParser()
 
@@ -39,8 +38,9 @@ export default class GulagService extends BaseService {
       .setColor(this.deleter.options.color)
       .setDescription(description)
 
-    const channel = guildFirstWritableChannel(guild)
+    const channel = await guildFirstWritableChannel(guild)
 
+    // @ts-ignore TODO
     return channel?.send({ embeds: [ embed ] })
 
   }
