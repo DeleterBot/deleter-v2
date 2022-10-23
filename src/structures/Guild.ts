@@ -1,6 +1,6 @@
 import Base from '@src/abstractions/Base'
 import GuildLanguage from '@src/types/guild/GuildLanguage'
-import DeleterGuild from '@src/structures/djs/DeleterGuild'
+import DeleterGuild from '@src/structures/ddoo/DeleterGuild'
 import { getGuildLocale } from '@src/utils/functions/getGuildLocale'
 
 export default class Guild extends Base {

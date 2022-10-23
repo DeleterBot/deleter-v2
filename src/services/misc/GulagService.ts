@@ -1,7 +1,7 @@
 import BaseService from '@src/abstractions/BaseService'
 import Constants from '@src/utils/other/Constants'
 import StringPropertiesParser from '@src/utils/parsers/StringPropertiesParser'
-import DeleterGuild from '@src/structures/djs/DeleterGuild'
+import DeleterGuild from '@src/structures/ddoo/DeleterGuild'
 import guildFirstWritableChannel from '@src/utils/functions/guildFirstWritableChannel'
 import DeleterEmbed from '@src/structures/DeleterEmbed'
 import { getGuildLocale } from '@src/utils/functions/getGuildLocale'

@@ -2,7 +2,7 @@ import BaseService from '@src/abstractions/BaseService'
 import { Message } from 'discordoo'
 import Guild from '@src/structures/Guild'
 import CommandsHandlerLevel1 from '@src/services/handlers/commands/CommandsHandlerLevel1'
-import DeleterGuild from '@src/structures/djs/DeleterGuild'
+import DeleterGuild from '@src/structures/ddoo/DeleterGuild'
 
 export default class CommandsExecutor extends BaseService {
   public readonly msg: Message

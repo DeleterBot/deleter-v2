@@ -143,7 +143,8 @@ export default class EvalCommand extends BaseCommand {
         .replace(wbTokenRegExp, '__wbToken.D')
 
       const code = shell ? 'xl' : 'js'
-      const result = new CommandExecutionResult(evaled)//.setOptions({ code: code })
+      const result = new CommandExecutionResult('```' + code + '\n' + evaled + '\n```')
+      //.setOptions({ code: code })
 
       if (all) {
         /*return result.amendOptions({

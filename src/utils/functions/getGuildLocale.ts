@@ -1,4 +1,4 @@
-import DeleterGuild from '@src/structures/djs/DeleterGuild'
+import DeleterGuild from '@src/structures/ddoo/DeleterGuild'
 import { DiscordLocale, Guild } from 'discordoo'
 
 export function getGuildLocale(guild: DeleterGuild | Guild) {

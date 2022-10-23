@@ -27,7 +27,7 @@
     "class-validator": "^0.13.1",
     "colors": "^1.4.0",
     "command-line-args": "^5.1.1",
-    "discordoo": "^0.11.3",
+    "discordoo": "^0.11.10",
     "dot-properties": "^1.0.1",
     "dotenv": "^8.2.0",
     "fastify": "^3.11.0",
@@ -37,7 +37,9 @@
     "moment-timezone": "^0.5.32",
     "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "shoukaku": "github:mirdukkk/shoukaku#install",
+    "tiny-typed-emitter": "^2.1.0"
   },
   "devDependencies": {
     "@types/command-line-args": "^5.0.0",

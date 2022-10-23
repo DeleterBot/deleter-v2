@@ -1,4 +1,4 @@
-import DeleterGuild from '@src/structures/djs/DeleterGuild'
+import DeleterGuild from '@src/structures/ddoo/DeleterGuild'
 import WhereCommandMayBeDisabled from '@src/types/WhereCommandMayBeDisabled'
 import Base from '@src/abstractions/Base'
 
